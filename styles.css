@@ -1537,7 +1537,7 @@ html[dir="rtl"] .about-image::before {
 .products-hero {
     padding: 3rem 0 3rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color) 100%);
-    color: white;
+    color: var(--primary-dark);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -14321,6 +14321,7 @@ html[dir="rtl"] .stars-display {
         font-size: 2rem;
     }
 }
+
 /* Force fix for checkout steps contrast */
 .checkout-progress .progress-step.active .step-number {
     color: #000000 !important;

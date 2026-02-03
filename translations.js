@@ -310,9 +310,9 @@ window.translations = {
             zoomHint: "Pinch to zoom or tap to close"
         },
         products: {
-            title: "Our Collection",
+            title: "Elevate Your Game",
             variations: "Variations",
-            subtitle: "Premium Moroccan Fez Product Caps",
+            subtitle: "Professional Equipment for Padel Addicts",
             filter: {
                 all: "All Products",
                 classic: "Rackets",
@@ -329,11 +329,10 @@ window.translations = {
             unavailable: "This product is currently unavailable",
             viewDetails: "View Details",
             addToCart: "Add to Cart",
-            addToCart: "Add to Cart",
             cta: {
-                title: "Ready to Embrace Moroccan Excellence?",
-                subtitle: "Join the {brandName} community and experience premium quality",
-                button: "Contact Us"
+                title: "Ready to Win?",
+                subtitle: "Join the {brandName} elite community.",
+                button: "Shop Bestsellers"
             }
         },
         legal: {
@@ -744,9 +743,9 @@ window.translations = {
             zoomHint: "Pincez pour zoomer ou appuyez pour fermer"
         },
         products: {
-            title: "Notre Collection",
+            title: "Élevez Votre Jeu",
             variations: "Variations",
-            subtitle: "Produits de Qualité Premium",
+            subtitle: "Équipement Professionnel pour les Passionnés de Padel",
             filter: {
                 all: "Tous les Produits",
                 classic: "Raquettes",
@@ -763,11 +762,10 @@ window.translations = {
             unavailable: "Ce produit n'est actuellement pas disponible",
             viewDetails: "Voir les Détails",
             addToCart: "Ajouter au Panier",
-            addToCart: "Ajouter au Panier",
             cta: {
-                title: "Prêt à Embrasser l'Excellence?",
-                subtitle: "Rejoignez la communauté {brandName} et découvrez une qualité premium",
-                button: "Contactez-Nous"
+                title: "Prêt à Gagner ?",
+                subtitle: "Rejoignez l'élite {brandName}.",
+                button: "Voir les Best-sellers"
             }
         },
         legal: {
@@ -1183,14 +1181,14 @@ window.translations = {
             zoomHint: "اسحب للتكبير أو اضغط للإغلاق"
         },
         products: {
-            title: "مجموعتنا",
-            subtitle: "قبعات بجودة فاخرة",
+            title: "ارفع مستوى لعبك",
+            subtitle: "معدات احترافية لعشاق الباديل",
             variations: "النسخ",
             filter: {
-                all: "[كل المنتجات]",
-                classic: "[فئة 1]",
-                heritage: "[فئة 2]",
-                modern: "[فئة 3]"
+                all: "كل المنتجات",
+                classic: "مضارب",
+                heritage: "إكسسوارات",
+                modern: "معدات"
             },
             badge: {
                 bestseller: "الأكثر مبيعاً",
@@ -1199,14 +1197,13 @@ window.translations = {
                 comingSoon: "قريباً"
             },
             comingSoon: "قريباً",
-            unavailable: "هذا المنتج غير متاح حالياً",
+            unavailable: "هذا المنتج غير متوفر حالياً",
             viewDetails: "عرض التفاصيل",
             addToCart: "أضف إلى السلة",
-            addToCart: "أضف إلى السلة",
             cta: {
-                title: "هل أنت مستعد لاحتضان التميز؟",
-                subtitle: "انضم إلى مجتمع {brandName} واختبر الجودة الفاخرة",
-                button: "اتصل بنا"
+                title: "مستعد للفوز؟",
+                subtitle: "انضم إلى نخبة {brandName}.",
+                button: "تسوق الأكثر مبيعاً"
             }
         },
         legal: {
