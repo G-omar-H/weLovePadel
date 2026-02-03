@@ -386,19 +386,11 @@
                 }
 
                 // Ensure image path is valid - support both JPEG and PNG, with WebP
-                let imagePath = '';
-                let imageWebP = '';
-                if (product.image) {
-                    if (product.image.startsWith('http')) {
-                        imagePath = product.image;
-                        imageWebP = product.image; // No WebP fallback for external URLs usually
-                    } else {
-                        // Check if product has specific image extension (for PNG files in subfolders)
-                        const extension = product.imageExtension || 'jpeg';
-                        imagePath = `/products/${product.image}.${extension}`;
-                        imageWebP = `/products/${product.image}.webp`;
-                    }
-                }
+                // Use global helpers from script.js
+                const mainImage = getProductMainImage(product);
+                const formatted = formatProductImageUrl(mainImage.path, mainImage.extension);
+                const imagePath = formatted.src;
+                const imageWebP = formatted.webp;
 
                 html += `
                     <div class="product-item ${isComingSoon ? 'coming-soon-product' : ''}" data-category="${product.category}">
