@@ -17,8 +17,8 @@ const products = {
         },
         price: '999',
         category: 'rackets',
-        image: 'https://placehold.co/600x600/008f39/FFFFFF/png?text=Vairo+9.1',
-        imageExtension: 'png',
+        image: '/assets/home/coach-choice.webp',
+        imageExtension: 'webp',
         featured: true, // Appears on homepage
         badge: 'bestseller'
     },
