@@ -17,8 +17,30 @@ const products = {
         },
         price: '999',
         category: 'rackets',
-        image: '/assets/home/coach-choice.webp',
-        imageExtension: 'webp',
+        // image: '/assets/home/coach-choice.webp', // Deprecated in favor of gallery
+        // imageExtension: 'webp',
+        images: [
+            {
+                path: 'products/vairo_9.1/vairo_9.1_front',
+                extension: 'png',
+                alt: { en: 'Vairo 9.1 Front View', fr: 'Vairo 9.1 Vue de Face', ar: 'فيرو 9.1 واجهة أمامية' }
+            },
+            {
+                path: 'products/vairo_9.1/vairo_9.1_side',
+                extension: 'png',
+                alt: { en: 'Vairo 9.1 Side Profile', fr: 'Vairo 9.1 Profil Latéral', ar: 'فيرو 9.1 جانبية' }
+            },
+            {
+                path: 'products/vairo_9.1/vairo_9.1_bottom',
+                extension: 'png',
+                alt: { en: 'Vairo 9.1 Bottom View', fr: 'Vairo 9.1 Vue du Bas', ar: 'فيرو 9.1 عرض السفلي' }
+            },
+            {
+                path: 'products/vairo_9.1/vairo_9.1_inplay',
+                extension: 'png',
+                alt: { en: 'Vairo 9.1 In Action', fr: 'Vairo 9.1 En Action', ar: 'فيرو 9.1 في الملعب' }
+            }
+        ],
         featured: true, // Appears on homepage
         badge: 'bestseller'
     },
