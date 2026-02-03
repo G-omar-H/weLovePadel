@@ -271,7 +271,7 @@
     <script>
         // Helper function to get image URL with WebP support and fallback
         function getProductImageUrl(path, extension) {
-            if (path && path.startsWith('http')) {
+            if (path && (path.startsWith('http') || path.startsWith('/'))) {
                 return { webp: path, fallback: path };
             }
             // Try WebP first, fallback to original extension
@@ -499,8 +499,8 @@
                     <div class="product-image-gallery" id="productImageGallery">
                         <div class="product-main-image" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
                             <picture>
-                                <source srcset="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
-                                <img id="mainProductImage" src="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
+                                <img id="mainProductImage" src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             </picture>
                             <div class="product-zoom-indicator">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -536,8 +536,8 @@
                 imageGalleryHTML = `
                     <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
                         <picture>
-                            <source srcset="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
-                            <img src="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
+                            <img src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         </picture>
                         <div class="product-zoom-indicator">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -556,8 +556,8 @@
                 imageGalleryHTML = `
                     <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${product.image}.${product.imageExtension || 'jpeg'}', '/products/${product.image}.webp')">
                         <picture>
-                            <source srcset="${product.image.startsWith('http') ? product.image : `/products/${product.image}.webp`}" type="image/webp">
-                            <img src="${product.image.startsWith('http') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <source srcset="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.webp`}" type="image/webp">
+                            <img src="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         </picture>
                         <div class="product-zoom-indicator">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
