@@ -14321,3 +14321,10 @@ html[dir="rtl"] .stars-display {
         font-size: 2rem;
     }
 }
+/* Force fix for checkout steps contrast */
+.checkout-progress .progress-step.active .step-number {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    background-clip: border-box !important;
+    -webkit-background-clip: border-box !important;
+}
