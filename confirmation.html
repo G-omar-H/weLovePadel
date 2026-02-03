@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Order Confirmation - StoreName Premium Quality Products">
+    <title>Order Confirmed - StoreName</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            // Detect browser language OR use stored preference
+            function detectBrowserLanguage() {
+                // Check if user has already set a language preference
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) {
+                    return storedLang; // Use stored preference
+                }
+
+                // Detect browser language (try multiple methods for best compatibility)
+                let browserLang = 'en'; // Default fallback
+
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                // Get base language code (e.g., 'fr' from 'fr-FR', 'fr-CA', etc.)
+                const langCode = browserLang.toLowerCase().split('-')[0];
+
+                // Map to supported languages
+                const supportedLanguages = {
+                    'en': 'en', // English (en, en-US, en-GB, etc.)
+                    'fr': 'fr', // French (fr, fr-FR, fr-CA, etc.)
+                    'ar': 'ar'  // Arabic (ar, ar-MA, ar-SA, etc.)
+                };
+
+                // Return mapped language or default to English
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            // Get language (from storage or detect)
+            const detectedLang = detectBrowserLanguage();
+
+            // Save detected language if it's the first visit (no stored preference)
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            // Set HTML lang and dir attributes IMMEDIATELY (before page renders)
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Confirmation Section -->
+    <section class="confirmation-section">
+        <div class="container">
+            <div class="confirmation-content">
+                <div class="confirmation-header">
+                    <div class="confirmation-icon" id="confirmationIcon">✓</div>
+                    <h1 id="confirmationTitle">Payment Successful!</h1>
+                    <p class="confirmation-thankyou" id="confirmationThankYou">Thank you for your purchase!</p>
+                </div>
+
+                <div class="confirmation-order-info">
+                    <div class="confirmation-row">
+                        <span data-i18n="confirmation.orderNumber">Order Number</span>
+                        <strong id="orderNumber">-</strong>
+                    </div>
+                    <div class="confirmation-row" id="trackingRow" style="display: none;">
+                        <span data-i18n="confirmation.trackingCode">Tracking Code</span>
+                        <strong id="trackingCode">-</strong>
+                        <a href="#" id="trackOrderLink" class="btn btn-outline btn-sm"
+                            data-i18n="confirmation.trackOrder" style="margin-left: 1rem;" target="_blank">Track My
+                            Order</a>
+                    </div>
+                    <p class="confirmation-message" id="confirmationMessage">
+                        Your payment has been successfully processed. We'll prepare your order and ship it to
+                        you within 1-2 business days.
+                    </p>
+                </div>
+
+                <div class="confirmation-details">
+                    <!-- Delivery Information -->
+                    <div class="confirmation-delivery-info">
+                        <h3 data-i18n="confirmation.deliveryInfo.title">Delivery Information</h3>
+                        <div class="delivery-info-grid">
+                            <div class="delivery-info-item">
+                                <span class="delivery-icon">🚚</span>
+                                <div class="delivery-info-content">
+                                    <strong data-i18n="confirmation.deliveryInfo.shipping">Free Shipping</strong>
+                                    <span data-i18n="confirmation.deliveryInfo.location">Morocco</span>
+                                </div>
+                            </div>
+                            <div class="delivery-info-item">
+                                <span class="delivery-icon">⏱️</span>
+                                <div class="delivery-info-content">
+                                    <strong data-i18n="confirmation.deliveryInfo.processing">Processing Time</strong>
+                                    <span id="shippingProcessingTime"
+                                        data-i18n="confirmation.deliveryInfo.processingTime">1-2 business days</span>
+                                </div>
+                            </div>
+                            <div class="delivery-info-item">
+                                <span class="delivery-icon">📦</span>
+                                <div class="delivery-info-content">
+                                    <strong data-i18n="confirmation.deliveryInfo.delivery">Delivery Time</strong>
+                                    <span id="shippingDeliveryTime"
+                                        data-i18n="confirmation.deliveryInfo.deliveryTime">3-5 business days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="delivery-total">
+                            <span id="shippingTotalTime" data-i18n="confirmation.deliveryInfo.totalTime">Total: 4-7
+                                business days</span>
+                        </div>
+                    </div>
+
+                    <!-- Next Steps -->
+                    <div class="confirmation-next-steps">
+                        <h3 data-i18n="confirmation.nextSteps.title">What Happens Next?</h3>
+                        <div class="next-steps-list" id="nextStepsList">
+                            <div class="next-step-item">
+                                <span class="step-number">1</span>
+                                <div class="step-content">
+                                    <strong id="step1Title">Order Confirmed</strong>
+                                    <p id="step1Desc">Your order has been confirmed and a delivery has been created</p>
+                                </div>
+                            </div>
+                            <div class="next-step-item">
+                                <span class="step-number">2</span>
+                                <div class="step-content">
+                                    <strong id="step2Title">Confirmation Call</strong>
+                                    <p id="step2Desc">We'll call you to confirm your delivery details</p>
+                                </div>
+                            </div>
+                            <div class="next-step-item">
+                                <span class="step-number">3</span>
+                                <div class="step-content">
+                                    <strong id="step3Title">Order Preparation</strong>
+                                    <p id="step3Desc">Your order will be carefully prepared and packaged</p>
+                                </div>
+                            </div>
+                            <div class="next-step-item">
+                                <span class="step-number">4</span>
+                                <div class="step-content">
+                                    <strong id="step4Title">Delivery</strong>
+                                    <p id="step4Desc">Your order will be delivered to your address</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="confirmation-contact">
+                    <span data-i18n="confirmation.contact">If you have any questions, please contact us at</span>
+                    <a href="mailto:info@storename.com">info@storename.com</a>
+                    <span> or </span>
+                    <a href="tel:+212602432539">+212 667-951100</a>
+                </p>
+
+                <div class="confirmation-actions">
+                    <a href="products.html" class="btn btn-primary" data-i18n="confirmation.continueShopping">Continue
+                        Shopping</a>
+                    <a href="index.html" class="btn btn-outline" data-i18n="nav.home">Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img" loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Quality, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Collection</a></li>
+                        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.1 6.1 0 0 0-1-.05A6.34 6.34 0 0 0 4.83 15.5a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+    <script src="/meta-pixel.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+    <!-- Sendit Integration -->
+    <!-- Load local config first (if exists, gitignored) -->
+    <script>
+        // Initialize Sendit local config object (will be populated if file exists)
+        if (typeof window.SENDIT_LOCAL_CONFIG === 'undefined') {
+            window.SENDIT_LOCAL_CONFIG = {};
+        }
+        // Try to load Sendit local config dynamically (only if file exists)
+        fetch('sendit-config.local.js')
+            .then(response => {
+                if (response.ok) {
+                    const script = document.createElement('script');
+                    script.src = 'sendit-config.local.js';
+                    document.head.appendChild(script);
+                }
+            })
+            .catch(() => {
+                // File doesn't exist (normal in production), use defaults
+            });
+    </script>
+    <script src="sendit-config.js"></script>
+    <script>
+        // Load Sendit config from API (for Vercel environment variables)
+        // This must run before sendit-integration.js loads
+        (async function () {
+            if (typeof loadSenditConfigFromAPI === 'function') {
+                try {
+                    const apiConfig = await loadSenditConfigFromAPI();
+                    if (apiConfig && typeof SENDIT_CONFIG !== 'undefined') {
+                        // Update SENDIT_CONFIG with API values
+                        Object.keys(apiConfig).forEach(key => {
+                            if (apiConfig[key] !== 'YOUR_PUBLIC_KEY_HERE' &&
+                                apiConfig[key] !== 'YOUR_SECRET_KEY_HERE') {
+                                SENDIT_CONFIG[key] = apiConfig[key];
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Could not load Sendit config from API, using defaults');
+                }
+            }
+        })();
+    </script>
+    <script src="sendit-integration.js"></script>
+
+    <script>
+        // Get order number, tracking code, and payment method from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderNumber = urlParams.get('order');
+        const trackingCode = urlParams.get('tracking');
+        const paymentMethodParam = urlParams.get('payment');
+
+        // Payment method translations
+        const paymentTranslations = {
+            en: {
+                cod: {
+                    title: 'Order Confirmed!',
+                    thankYou: 'Thank you for your order!',
+                    message: 'Your order has been confirmed. We\'ll prepare your product and call you to confirm delivery details.',
+                    step1: 'Order Confirmed',
+                    step1Desc: 'Your order has been received and is being processed',
+                    step2: 'Confirmation Call',
+                    step2Desc: 'We\'ll call you to confirm your delivery details and timing',
+                    step3: 'Order Preparation',
+                    step3Desc: 'Your product will be carefully prepared and packaged',
+                    step4: 'Pay on Delivery',
+                    step4Desc: 'Pay cash to our delivery partner when you receive your order'
+                },
+                paypal: {
+                    title: 'Payment Successful!',
+                    thankYou: 'Thank you for your purchase!',
+                    message: 'Your payment has been successfully processed. We\'ll prepare your product and ship it to you within 1-2 business days.',
+                    step1: 'Payment Confirmed',
+                    step1Desc: 'Your payment has been securely processed',
+                    step2: 'Order Preparation',
+                    step2Desc: 'Your product will be carefully prepared and packaged with premium quality',
+                    step3: 'Shipping',
+                    step3Desc: 'Your order will be shipped within 1-2 business days with tracking information',
+                    step4: 'Delivery',
+                    step4Desc: 'You\'ll receive your product at your address within 3-5 business days'
+                }
+            },
+            fr: {
+                cod: {
+                    title: 'Commande Confirmée !',
+                    thankYou: 'Merci pour votre commande !',
+                    message: 'Votre commande a été confirmée. Nous préparerons votre produit et vous appellerons pour confirmer les détails de livraison.',
+                    step1: 'Commande Confirmée',
+                    step1Desc: 'Votre commande a été reçue et est en cours de traitement',
+                    step2: 'Appel de Confirmation',
+                    step2Desc: 'Nous vous appellerons pour confirmer les détails et le moment de la livraison',
+                    step3: 'Préparation de la Commande',
+                    step3Desc: 'Votre produit sera soigneusement préparé et emballé',
+                    step4: 'Paiement à la Livraison',
+                    step4Desc: 'Payez en espèces à notre livreur lors de la réception de votre commande'
+                },
+                paypal: {
+                    title: 'Paiement Réussi !',
+                    thankYou: 'Merci pour votre achat !',
+                    message: 'Votre paiement a été traité avec succès. Nous préparerons votre produit et vous l\'expédierons sous 1-2 jours ouvrables.',
+                    step1: 'Paiement Confirmé',
+                    step1Desc: 'Votre paiement a été traité en toute sécurité',
+                    step2: 'Préparation de la Commande',
+                    step2Desc: 'Votre produit sera soigneusement préparé et emballé',
+                    step3: 'Expédition',
+                    step3Desc: 'Votre commande sera expédiée sous 1-2 jours ouvrables avec suivi',
+                    step4: 'Livraison',
+                    step4Desc: 'Vous recevrez votre produit sous 3-5 jours ouvrables'
+                }
+            },
+            ar: {
+                cod: {
+                    title: 'تم تأكيد الطلب!',
+                    thankYou: 'شكراً لطلبك!',
+                    message: 'تم تأكيد طلبك. سنقوم بتجهيز منتجك والاتصال بك لتأكيد تفاصيل التوصيل.',
+                    step1: 'تم تأكيد الطلب',
+                    step1Desc: 'تم استلام طلبك وجاري معالجته',
+                    step2: 'مكالمة التأكيد',
+                    step2Desc: 'سنتصل بك لتأكيد تفاصيل وموعد التوصيل',
+                    step3: 'تجهيز الطلب',
+                    step3Desc: 'سيتم تجهيز منتجك وتغليفه بعناية',
+                    step4: 'الدفع عند الاستلام',
+                    step4Desc: 'ادفع نقداً لمندوب التوصيل عند استلام طلبك'
+                },
+                paypal: {
+                    title: 'تم الدفع بنجاح!',
+                    thankYou: 'شكراً لشرائك!',
+                    message: 'تمت معالجة دفعتك بنجاح. سنقوم بتجهيز منتجك وشحنه خلال 1-2 أيام عمل.',
+                    step1: 'تم تأكيد الدفع',
+                    step1Desc: 'تمت معالجة دفعتك بشكل آمن',
+                    step2: 'تجهيز الطلب',
+                    step2Desc: 'سيتم تجهيز منتجك وتغليفه بجودة عالية',
+                    step3: 'الشحن',
+                    step3Desc: 'سيتم شحن طلبك خلال 1-2 أيام عمل مع معلومات التتبع',
+                    step4: 'التوصيل',
+                    step4Desc: 'ستستلم منتجك خلال 3-5 أيام عمل'
+                }
+            }
+        };
+
+        // Determine payment method
+        function getPaymentMethod() {
+            // First check URL param
+            if (paymentMethodParam) {
+                const method = paymentMethodParam.toLowerCase();
+                if (method === 'cod' || method === 'cash_on_delivery' || method === 'cash on delivery') {
+                    return 'cod';
+                }
+                return 'paypal';
+            }
+
+            // Then check localStorage for order data
+            const orders = JSON.parse(localStorage.getItem('storename_orders') || '[]');
+            const order = orders.find(o => o.orderNumber === orderNumber);
+            if (order && order.payment && order.payment.method) {
+                const method = order.payment.method.toLowerCase();
+                if (method === 'cod' || method === 'cash_on_delivery' || method === 'cash on delivery') {
+                    return 'cod';
+                }
+            }
+
+            // Default to paypal (prepaid)
+            return 'paypal';
+        }
+
+        // Update page content based on payment method
+        function updatePageForPaymentMethod() {
+            const paymentMethod = getPaymentMethod();
+            const currentLang = localStorage.getItem('language') || 'en';
+            const t = paymentTranslations[currentLang]?.[paymentMethod] || paymentTranslations.en[paymentMethod];
+
+            // Update header using IDs
+            const iconEl = document.getElementById('confirmationIcon');
+            const titleEl = document.getElementById('confirmationTitle');
+            const thankYouEl = document.getElementById('confirmationThankYou');
+            const messageEl = document.getElementById('confirmationMessage');
+
+            if (iconEl) iconEl.textContent = paymentMethod === 'cod' ? '📦' : '✓';
+            if (titleEl) titleEl.textContent = t.title;
+            if (thankYouEl) thankYouEl.textContent = t.thankYou;
+            if (messageEl) messageEl.textContent = t.message;
+
+            // Update next steps using IDs
+            const step1Title = document.getElementById('step1Title');
+            const step1Desc = document.getElementById('step1Desc');
+            const step2Title = document.getElementById('step2Title');
+            const step2Desc = document.getElementById('step2Desc');
+            const step3Title = document.getElementById('step3Title');
+            const step3Desc = document.getElementById('step3Desc');
+            const step4Title = document.getElementById('step4Title');
+            const step4Desc = document.getElementById('step4Desc');
+
+            if (step1Title) step1Title.textContent = t.step1;
+            if (step1Desc) step1Desc.textContent = t.step1Desc;
+            if (step2Title) step2Title.textContent = t.step2;
+            if (step2Desc) step2Desc.textContent = t.step2Desc;
+            if (step3Title) step3Title.textContent = t.step3;
+            if (step3Desc) step3Desc.textContent = t.step3Desc;
+            if (step4Title) step4Title.textContent = t.step4;
+            if (step4Desc) step4Desc.textContent = t.step4Desc;
+        }
+
+        if (orderNumber) {
+            document.getElementById('orderNumber').textContent = orderNumber;
+
+            // Try to get order data from localStorage
+            const orders = JSON.parse(localStorage.getItem('storename_orders') || '[]');
+            const order = orders.find(o => o.orderNumber === orderNumber);
+
+            // Show tracking code if available
+            if (trackingCode || (order && order.sendit && order.sendit.trackingCode)) {
+                const trackingCodeValue = trackingCode || (order.sendit ? order.sendit.trackingCode : null);
+                if (trackingCodeValue) {
+                    // Show in order info row below order number
+                    const trackingCodeElement = document.getElementById('trackingCode');
+                    const trackingRow = document.getElementById('trackingRow');
+                    const trackOrderLink = document.getElementById('trackOrderLink');
+
+                    if (trackingCodeElement) {
+                        trackingCodeElement.textContent = trackingCodeValue;
+                    }
+                    if (trackingRow) {
+                        trackingRow.style.display = 'flex';
+                    }
+
+                    // Set tracking link to track-order page
+                    if (trackOrderLink) {
+                        trackOrderLink.href = `track-order.html?code=${encodeURIComponent(trackingCodeValue)}`;
+                    }
+                }
+            }
+        } else {
+            // Try to get from localStorage
+            const orders = JSON.parse(localStorage.getItem('storename_orders') || '[]');
+            if (orders.length > 0) {
+                const lastOrder = orders[orders.length - 1];
+                document.getElementById('orderNumber').textContent = lastOrder.orderNumber;
+
+                // Show tracking if available
+                if (lastOrder.sendit && lastOrder.sendit.trackingCode) {
+                    const trackingCodeValue = lastOrder.sendit.trackingCode;
+                    document.getElementById('trackingCode').textContent = trackingCodeValue;
+                    document.getElementById('trackingRow').style.display = 'flex';
+                    const trackOrderLink = document.getElementById('trackOrderLink');
+                    if (trackOrderLink) {
+                        trackOrderLink.href = `track-order.html?code=${encodeURIComponent(trackingCodeValue)}`;
+                    }
+                }
+            }
+        }
+
+        // Update page content based on payment method
+        // Wait for DOM and translations to be ready
+        function initPaymentMethodContent() {
+            // Small delay to ensure translations.js has run first
+            setTimeout(updatePageForPaymentMethod, 100);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPaymentMethodContent);
+        } else {
+            initPaymentMethodContent();
+        }
+
+        // Also update when language changes
+        document.addEventListener('languageChanged', () => {
+            setTimeout(updatePageForPaymentMethod, 50);
+        });
+
+        // Check for Atlas Star and update delivery info
+        function checkAtlasStarDelivery() {
+            try {
+                // Get order data
+                const orders = JSON.parse(localStorage.getItem('storename_orders') || '[]');
+                let order = null;
+
+                if (orderNumber) {
+                    order = orders.find(o => o.orderNumber === orderNumber);
+                } else if (orders.length > 0) {
+                    order = orders[orders.length - 1]; // Fallback to last order
+                }
+
+                if (!order || !order.items) return;
+
+                // Check if any item is Atlas Star
+                const isAtlasStar = order.items.some(item => {
+                    const id = (item.id || item.originalId || '').toLowerCase();
+                    const name = (item.name || '').toLowerCase();
+                    return id.includes('atlas-star') || name.includes('atlas star');
+                });
+
+                if (isAtlasStar) {
+                    console.log('🌟 Express Product detected! Switching to Express Delivery info.');
+                    const currentLang = localStorage.getItem('language') || 'en';
+
+                    // Translations for Express Delivery
+                    const expressInfo = {
+                        en: {
+                            processing: 'Immediate (Priority)',
+                            delivery: 'Express 24h',
+                            total: 'Total: ~24 Hours'
+                        },
+                        fr: {
+                            processing: 'Immédiat (Prioritaire)',
+                            delivery: 'Express 24h',
+                            total: 'Total: ~24 Heures'
+                        },
+                        ar: {
+                            processing: 'فوري (أولوية)',
+                            delivery: 'سريع 24 ساعة',
+                            total: 'الإجمالي: ~24 ساعة'
+                        }
+                    };
+
+                    const info = expressInfo[currentLang] || expressInfo.en;
+
+                    // Update DOM elements
+                    const processingEl = document.getElementById('shippingProcessingTime');
+                    const deliveryEl = document.getElementById('shippingDeliveryTime');
+                    const totalEl = document.getElementById('shippingTotalTime');
+
+                    if (processingEl) processingEl.textContent = info.processing;
+                    if (deliveryEl) deliveryEl.textContent = info.delivery;
+                    if (totalEl) totalEl.textContent = info.total;
+                }
+            } catch (err) {
+                console.error('Error checking Atlas Star delivery:', err);
+            }
+        }
+
+        // Track Purchase Event (Meta Pixel & CAPI)
+        function trackPurchaseEvent() {
+            try {
+                // Get order data
+                const orders = JSON.parse(localStorage.getItem('storename_orders') || '[]');
+                let order = null;
+
+                if (orderNumber) {
+                    order = orders.find(o => o.orderNumber === orderNumber);
+                } else if (orders.length > 0) {
+                    // Fallback to last order if no ID in URL
+                    order = orders[orders.length - 1];
+                }
+
+                if (!order) {
+                    console.warn('Metadata Purchase Tracking: No order found to track');
+                    return;
+                }
+
+                // Check if already tracked to avoid duplicates on refresh
+                const trackedKey = `meta_tracked_purchase_${order.orderNumber}`;
+                if (localStorage.getItem(trackedKey)) {
+                    console.log('Meta Purchase Tracking: Already tracked for order', order.orderNumber);
+                    return;
+                }
+
+                // Track Purchase
+                console.log('Meta Purchase Tracking: Sending event for order', order.orderNumber);
+
+                if (typeof window.trackMetaPurchase === 'function') {
+                    // Create items array for the tracker
+                    const items = order.items.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price
+                    }));
+
+                    window.trackMetaPurchase({
+                        transactionId: order.orderNumber,
+                        value: order.total,
+                        currency: 'MAD',
+                        items: items,
+                        userInfo: {
+                            email: order.customerEmail,
+                            phone: order.customerPhone,
+                            firstName: order.customerName ? order.customerName.split(' ')[0] : '',
+                            lastName: order.customerName ? order.customerName.split(' ').slice(1).join(' ') : '',
+                            city: order.shippingAddress ? order.shippingAddress.split(',').pop().trim() : ''
+                        }
+                    });
+
+                    // Mark as tracked
+                    localStorage.setItem(trackedKey, 'true');
+                } else {
+                    console.error('Meta Purchase Tracking: trackMetaPurchase function not found');
+                }
+            } catch (err) {
+                console.error('Meta Purchase Tracking Error:', err);
+            }
+        }
+
+        // Run logic on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                checkAtlasStarDelivery();
+                setTimeout(trackPurchaseEvent, 1000);
+            });
+        } else {
+            checkAtlasStarDelivery();
+            setTimeout(trackPurchaseEvent, 1000);
+        }
+    </script>
+</body>
+
+</html>

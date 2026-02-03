@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Product Details - Quality Collection">
+    <title>Product Details - StoreName</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css?v=7">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            // Detect browser language OR use stored preference
+            function detectBrowserLanguage() {
+                // Check if user has already set a language preference
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) {
+                    return storedLang; // Use stored preference
+                }
+
+                // Detect browser language (try multiple methods for best compatibility)
+                let browserLang = 'en'; // Default fallback
+
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                // Get base language code (e.g., 'fr' from 'fr-FR', 'fr-CA', etc.)
+                const langCode = browserLang.toLowerCase().split('-')[0];
+
+                // Map to supported languages
+                const supportedLanguages = {
+                    'en': 'en', // English (en, en-US, en-GB, etc.)
+                    'fr': 'fr', // French (fr, fr-FR, fr-CA, etc.)
+                    'ar': 'ar'  // Arabic (ar, ar-MA, ar-SA, etc.)
+                };
+
+                // Return mapped language or default to English
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            // Get language (from storage or detect)
+            const detectedLang = detectBrowserLanguage();
+
+            // Save detected language if it's the first visit (no stored preference)
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            // Set HTML lang and dir attributes IMMEDIATELY (before page renders)
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+        <div class="container">
+            <div class="breadcrumbs-container" id="productBreadcrumbs">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <span class="breadcrumbs-separator">▸</span>
+                <a href="products.html" data-i18n="nav.products">Collection</a>
+                <span class="breadcrumbs-separator">▸</span>
+                <span class="breadcrumbs-current" id="breadcrumbProductName">Heritage Icon</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div id="productDetailContent">
+                <!-- Product details will be dynamically inserted here -->
+                <div class="loading" data-i18n="productDetail.loading">Loading product...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section class="reviews-section mosaic-accent" id="customer-reviews" style="display: none;">
+        <!-- Hidden by default until loaded -->
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="reviews.title">Customer Experiences</h2>
+                <p data-i18n="reviews.subtitle">Trusted by customers worldwide</p>
+            </div>
+
+            <!-- Summary moved inside grid for Ribbon Layout -->
+
+            <div class="reviews-grid" id="reviewsGrid">
+                <!-- Reviews injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Zoom Modal -->
+    <div class="product-zoom-modal" id="productZoomModal" onclick="closeImageZoom(event)">
+        <div class="product-zoom-modal-content" onclick="event.stopPropagation()">
+            <button class="product-zoom-close" onclick="closeImageZoom(event)" aria-label="Close zoom">×</button>
+            <picture id="zoomModalPicture">
+                <source id="zoomModalSource" srcset="" type="image/webp">
+                <img id="zoomModalImage" src="" alt="Product zoom view">
+            </picture>
+            <div class="product-zoom-hint" id="zoomHint">
+                <span data-i18n="productDetail.zoomHint">Pinch to zoom or tap to close</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img" loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Quality, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0ZM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.138-.866c-.846-.935-1.224-2.013-1.293-2.438h.032c-.021-.12-.033-.244-.039-.371h-3.972v11.16c0 .188 0 .373-.008.557a2.952 2.952 0 0 1-2.946 2.752 2.956 2.956 0 0 1-2.132-.884 2.945 2.945 0 0 1-.549-3.085 2.955 2.955 0 0 1 2.681-1.762c.306 0 .6.047.877.134v-4.007a7.047 7.047 0 0 0-.88-.056 6.934 6.934 0 0 0-4.93 2.055A6.937 6.937 0 0 0 2.6 12.556a6.995 6.995 0 0 0 .857 4.443 6.928 6.928 0 0 0 3.026 2.717 6.904 6.904 0 0 0 2.05.63c.334.046.672.07 1.01.07a6.952 6.952 0 0 0 5.537-2.748 6.95 6.95 0 0 0 1.387-4.182v-5.45a9.161 9.161 0 0 0 2.31 1.417 9.134 9.134 0 0 0 2.844.772V6.208c-.48-.033-.96-.13-1.422-.29a5.263 5.263 0 0 1-.878-.356Z" />
+                            </svg>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+    <script src="/meta-pixel.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js?v=2"></script>
+    <script src="script.js"></script>
+    <script>
+        // Helper function to get image URL with WebP support and fallback
+        function getProductImageUrl(path, extension) {
+            if (path && path.startsWith('http')) {
+                return { webp: path, fallback: path };
+            }
+            // Try WebP first, fallback to original extension
+            const webpUrl = `/products/${path}.webp`;
+            const fallbackUrl = `/products/${path}.${extension}`;
+
+            // Create image element to test WebP support
+            const img = new Image();
+            img.onerror = function () {
+                // WebP not supported or file doesn't exist, use fallback
+                return fallbackUrl;
+            };
+
+            // For now, return both in picture element format
+            // The browser will automatically choose WebP if supported
+            return { webp: webpUrl, fallback: fallbackUrl };
+        }
+
+        // Store productId globally so it can be accessed when language changes
+        let currentProductId = null;
+
+        // --- GLOBAL HELPER FUNCTIONS (Moved to top for safety) ---
+        window.updateQuantity = function (change) {
+            console.log('updateQuantity called', change);
+            const input = document.getElementById('productQuantity');
+            if (input) {
+                let currentValue = parseInt(input.value) || 1;
+                let newValue = currentValue + change;
+                if (newValue < 1) newValue = 1;
+                input.value = newValue;
+            }
+        };
+
+        window.validateQuantity = function (input) {
+            let value = parseInt(input.value);
+            if (isNaN(value) || value < 1) {
+                input.value = 1;
+            }
+        };
+
+        window.resetSelection = function () {
+            // Get current product ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentProductId = urlParams.get('id');
+
+            if (currentProductId && typeof cart !== 'undefined') {
+                // Find all items in cart belonging to this product
+                // We use a safe copy of the array to avoid issues while modifying it during iteration
+                const itemsToRemove = cart.items.filter(item => item.originalId === currentProductId);
+
+                if (itemsToRemove.length > 0) {
+                    itemsToRemove.forEach(item => {
+                        cart.removeItem(item.id);
+                    });
+
+                    // Show confirmation
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    let msg = "All items for this product removed";
+                    if (currentLang === 'fr') msg = "Tous les articles de ce produit ont été retirés";
+                    if (currentLang === 'ar') msg = "تمت إزالة جميع العناصر لهذا المنتج";
+
+                    // Use existing notification system if available, or alert
+                    if (typeof showSizeAddedNotification === 'function') {
+                        showSizeAddedNotification(msg);
+                    }
+                }
+            }
+
+            // Reset Size Selection (Visual)
+            const sizeInput = document.getElementById('selectedSize');
+            if (sizeInput) sizeInput.value = '';
+
+            document.querySelectorAll('.size-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+
+            // Reset Quantity to 1
+            const qtyInput = document.getElementById('productQuantity');
+            if (qtyInput) qtyInput.value = 1;
+
+            // Trigger Badge Update to clear numbers
+            if (typeof updateBadgeCounts === 'function') {
+                updateBadgeCounts();
+            }
+
+            // Spin Animation
+            const btn = document.querySelector('.btn-reset-selection .reset-icon');
+            if (btn) {
+                btn.animate([
+                    { transform: 'rotate(0deg)' },
+                    { transform: 'rotate(-360deg)' }
+                ], {
+                    duration: 500,
+                    easing: 'ease-out'
+                });
+            }
+        };
+
+
+        // Add structured data for product
+        function addProductStructuredData(productId) {
+            const product = products[productId];
+            if (!product) return;
+
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": product.name.en,
+                "description": product.description.en,
+                "image": `https://storename.com/products/${product.image}.${product.imageExtension || 'jpeg'}`,
+                "sku": product.id,
+                "brand": {
+                    "@type": "Brand",
+                    "name": "StoreName"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": product.price,
+                    "priceCurrency": "MAD",
+                    "availability": "https://schema.org/InStock",
+                    "url": `https://storename.com/product-detail.html?id=${product.id}`
+                },
+                "category": product.category
+            };
+
+            // Add or update structured data script
+            let sdScript = document.getElementById('product-structured-data');
+            if (!sdScript) {
+                sdScript = document.createElement('script');
+                sdScript.type = 'application/ld+json';
+                sdScript.id = 'product-structured-data';
+                document.head.appendChild(sdScript);
+            }
+            sdScript.textContent = JSON.stringify(structuredData, null, 2);
+        }
+
+        // Product detail page functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentProductId = urlParams.get('id');
+            const urlVariation = urlParams.get('variation');
+
+            if (currentProductId && products[currentProductId]) {
+                renderProductDetail(currentProductId, urlVariation);
+
+                // Set active color for initially selected variation
+                setTimeout(() => {
+                    const activeOption = document.querySelector('.variation-option.active');
+                    if (activeOption) {
+                        const activeColor = activeOption.getAttribute('data-active-color');
+                        if (activeColor) {
+                            activeOption.style.setProperty('--active-variation-color', activeColor);
+                        }
+                    }
+                }, 100);
+
+                // Add structured data for SEO
+                addProductStructuredData(currentProductId);
+
+                // Track product view
+                if (typeof trackProductView === 'function') {
+                    const product = products[currentProductId];
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    const name = product.name[currentLang] || product.name.en;
+                    trackProductView(currentProductId, name, product.price, product.category || 'Unknown');
+                }
+            } else {
+                document.getElementById('productDetailContent').innerHTML =
+                    '<div class="error-message" data-i18n="productDetail.notFound">Product not found</div>';
+            }
+        });
+
+        // Listen for language changes and re-render product details
+        document.addEventListener('languageChanged', (e) => {
+            if (currentProductId && products[currentProductId]) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlVariation = urlParams.get('variation');
+                renderProductDetail(currentProductId, urlVariation);
+            }
+        });
+
+        // Also listen for storage events (when language changes in another tab/window)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'language' && currentProductId && products[currentProductId]) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlVariation = urlParams.get('variation');
+                renderProductDetail(currentProductId, urlVariation);
+            }
+        });
+
+        function renderProductDetail(productId, urlVariation = null) {
+            const product = products[productId];
+            const currentLang = localStorage.getItem('language') || 'en';
+            const name = product.name[currentLang] || product.name.en;
+            const description = product.description[currentLang] || product.description.en;
+
+            // Handle variations - get selected variation from URL, or default
+            let selectedVariationId = null;
+            if (urlVariation && product.variations && product.variations[urlVariation]) {
+                // Variation from URL parameter
+                selectedVariationId = urlVariation;
+            } else {
+                // Default variation
+                selectedVariationId = product.defaultVariation || (product.variations ? Object.keys(product.variations)[0] : null);
+            }
+            const selectedVariation = selectedVariationId && product.variations ? product.variations[selectedVariationId] : null;
+
+            // Get images from variation or product
+            const productImages = selectedVariation ? selectedVariation.images : (product.images || []);
+
+            // Update breadcrumb with product name
+            const breadcrumbName = document.getElementById('breadcrumbProductName');
+            if (breadcrumbName) {
+                breadcrumbName.textContent = name;
+            }
+
+            // Build image gallery HTML if multiple images exist
+            let imageGalleryHTML = '';
+            if (productImages && productImages.length > 1) {
+                // Main image display
+                const mainImage = productImages[0];
+                const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || name) : name;
+
+                imageGalleryHTML = `
+                    <div class="product-image-gallery" id="productImageGallery">
+                        <div class="product-main-image" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
+                            <picture>
+                                <source srcset="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
+                                <img id="mainProductImage" src="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            </picture>
+                            <div class="product-zoom-indicator">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                                <span data-i18n="productDetail.zoom">Zoom</span>
+                            </div>
+                            <div class="product-placeholder-large" style="display: none;"></div>
+                        </div>
+                        <div class="product-image-thumbnails">
+                            ${productImages.map((img, index) => {
+                    const imgAlt = img.alt ? (img.alt[currentLang] || img.alt.en || name) : name;
+                    const escapedAlt = imgAlt.replace(/'/g, "\\'");
+                    return `
+                                    <div class="thumbnail-item ${index === 0 ? 'active' : ''}" data-image-index="${index}" onclick="switchProductImage(${index}, '${img.path}', '${img.extension}', '${escapedAlt}')">
+                                        <picture>
+                                            <source srcset="/products/${img.path}.webp" type="image/webp">
+                                            <img src="/products/${img.path}.${img.extension}" alt="${imgAlt}" loading="lazy">
+                                        </picture>
+                                    </div>
+                                `;
+                }).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (productImages && productImages.length === 1) {
+                // Single image from variation
+                const mainImage = productImages[0];
+                const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || name) : name;
+                imageGalleryHTML = `
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
+                        <picture>
+                            <source srcset="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
+                            <img src="${mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        </picture>
+                        <div class="product-zoom-indicator">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                            <span data-i18n="productDetail.zoom">Zoom</span>
+                        </div>
+                        <div class="product-placeholder-large" style="display: none;"></div>
+                    </div>
+                `;
+            } else {
+                // Single image fallback
+                imageGalleryHTML = `
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${product.image}.${product.imageExtension || 'jpeg'}', '/products/${product.image}.webp')">
+                        <picture>
+                            <source srcset="${product.image.startsWith('http') ? product.image : `/products/${product.image}.webp`}" type="image/webp">
+                            <img src="${product.image.startsWith('http') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        </picture>
+                        <div class="product-zoom-indicator">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                            <span data-i18n="productDetail.zoom">Zoom</span>
+                        </div>
+                        <div class="product-placeholder-large" style="display: none;"></div>
+                    </div>
+                `;
+            }
+
+            const html = `
+                <div class="product-detail">
+                    ${imageGalleryHTML}
+                    <div class="product-detail-info">
+                        <h1>${name}</h1>
+                        <p class="product-detail-price price-highlight">${product.price} MAD</p>
+                        <!-- Shipping Information -->
+                        <div class="product-shipping-info">
+                            <span class="shipping-icon">🚚</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.free">Free Shipping</span>
+                            <span class="shipping-separator">•</span>
+                            <span class="shipping-icon">⏱️</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.deliveryTime">1-2 Days (7/7)</span>
+                        </div>
+                        <p class="product-detail-description">${description}</p>
+                        <div class="product-detail-features">
+                            <h3 data-i18n="productDetail.features">Features</h3>
+                            <ul>
+                                ${productId === 'atlas-star-cap' ? `
+                                <li data-i18n="productDetail.atlasFeature1">Quality Materials & Construction</li>
+                                <li data-i18n="productDetail.atlasFeature2">Traditional Craftsmanship</li>
+                                <li data-i18n="productDetail.atlasFeature3">Modern Design</li>
+                                <li data-i18n="productDetail.atlasFeature4">Thoughtful Heritage Design</li>
+                                ` : `
+                                <li data-i18n="productDetail.feature1">Premium Quality Materials</li>
+                                <li data-i18n="productDetail.feature2">Traditional Craftsmanship</li>
+                                <li data-i18n="productDetail.feature3">Modern Design</li>
+                                <li data-i18n="productDetail.feature4">Authentic Heritage Collection</li>
+                                `}
+                            </ul>
+                        </div>
+                        ${product.variations && Object.keys(product.variations).length > 0 ? `
+                        <div class="product-variation-selector">
+                            <label class="variation-selector-label" data-i18n="productDetail.selectVariation">Select Variation</label>
+                            <div class="variation-options">
+                                ${Object.keys(product.variations).map((variationId, index) => {
+                const variation = product.variations[variationId];
+                const variationName = variation.name[currentLang] || variation.name.en;
+                const isDefault = index === 0 || variationId === product.defaultVariation;
+                const escapedId = variationId.replace(/'/g, "\\'");
+                const escapedName = variationName.replace(/'/g, "\\'");
+
+                // Define colors for each variation
+                const variationColors = {
+                    'signature-rouge': '#C8102E', // Deep red
+                    'patriot-edition': '#006233'  // Green (patriotic)
+                };
+                // Define active colors (opposite/complementary)
+                const activeColors = {
+                    'signature-rouge': '#006233', // Green when Signature Rouge is active
+                    'patriot-edition': '#C8102E'  // Red when Patriot Edition is active
+                };
+                const color = variationColors[variationId] || '#666';
+                const activeColor = activeColors[variationId] || '#666';
+
+                return `
+                                    <button type="button" class="variation-option ${isDefault ? 'active' : ''}" data-variation-id="${variationId}" data-variation-color="${color}" data-active-color="${activeColor}" onclick="selectVariation('${escapedId}', '${productId}')" ${isDefault ? `style="--active-variation-color: ${activeColor};"` : ''}>
+                                        <span class="variation-color-indicator" style="background-color: ${color};"></span>
+                                        <span class="variation-name">${variationName}</span>
+                                    </button>
+                                `;
+            }).join('')}
+                            </div>
+                            <input type="hidden" id="selectedVariation" value="${selectedVariationId || ''}">
+                        </div>
+                        ` : ''}
+                        ${product.sizes && product.sizes.length > 0 ? `
+                        <div class="product-size-selector">
+                            <label class="size-selector-label" data-i18n="productDetail.selectSize">Select Size</label>
+                            <div class="size-options size-options-simple">
+                                ${product.sizes.map(size => {
+                const codeEscaped = size.code.replace(/'/g, "\\'");
+                const cmEscaped = size.cm.replace(/'/g, "\\'");
+                return `
+                                    <button type="button" class="size-option size-option-simple" data-size-code="${size.code}" data-size-cm="${size.cm}" onclick="selectSize('${codeEscaped}', '${cmEscaped}')">
+                                        <span class="size-code">${size.code}</span>
+                                        <span class="size-cm">${size.cm}</span>
+                                    </button>
+                                `;
+            }).join('')}
+                            </div>
+                            <input type="hidden" id="selectedSize" value="">
+                        </div>
+                        ` : ''}
+                        <div class="product-detail-actions">
+                            ${product.comingSoon ? `
+                            <div class="coming-soon-message">
+                                <span class="coming-soon-badge" data-i18n="products.comingSoon">Coming Soon</span>
+                            </div>
+                            ` : `
+                            <div class="quantity-wrapper">
+                                <span class="quantity-label" data-i18n="productDetail.quantity">Quantity</span>
+                                <div class="quantity-selector">
+                                    <button class="btn-quantity" onclick="updateQuantity(-1)">-</button>
+                                    <input type="number" id="productQuantity" class="quantity-input" value="1" min="1" onchange="validateQuantity(this)">
+                                    <button class="btn-quantity" onclick="window.updateQuantity(1)">+</button>
+                                </div>
+                                <button type="button" id="btnResetSelection" class="btn-reset-selection" title="Reset Selection" aria-label="Reset Selection">
+                                    <span class="reset-icon">↺</span>
+                                    <span class="reset-text" data-i18n="productDetail.reset" style="display:none">Reset</span>
+                                </button>
+                            </div>
+                            <div class="buy-now-wrapper">
+                                <button class="btn btn-cta btn-buy-now" onclick="buyNowFromDetail('${productId}')" data-i18n="productDetail.buyNow">
+                                     Order Now
+                                </button>
+                                <span class="cod-badge" data-i18n="productDetail.cashOnDelivery">💵 Pay on Delivery</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="addToCartFromDetail('${productId}')" data-i18n="products.addToCart">
+                                Add to Cart
+                            </button>
+                            `}
+                            <a href="products.html" class="btn btn-outline" data-i18n="productDetail.back">Back to Products</a>
+                            
+                            <!-- Shipping Information (Standard - for non-Atlas Star products) -->
+                            ${productId !== 'atlas-star-cap' ? `
+                            <div class="product-shipping-info">
+                                <span class="shipping-icon">🚚</span>
+                                <span class="shipping-text" data-i18n="productDetail.shippingInfo.free">Free Shipping</span>
+                                <span class="shipping-separator">•</span>
+                                <span class="shipping-icon">⏱️</span>
+                                <span class="shipping-text" data-i18n="productDetail.shippingInfo.deliveryTime">3-5 business days</span>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Payment Partners Icons -->
+                            <div class="payment-security-icons">
+                                <p class="payment-security-label" data-i18n="productDetail.paymentPartners">Trusted Payment Partners</p>
+                                <div class="payment-icons-container">
+                                    <img src="assets/payment_authoritary_icons/visa_icon.png" alt="Visa" class="payment-icon" loading="lazy">
+                                    <img src="assets/payment_authoritary_icons/mastercard_icon.png" alt="Mastercard" class="payment-icon" loading="lazy">
+                                    <img src="assets/payment_authoritary_icons/american_express_icon.png" alt="American Express" class="payment-icon" loading="lazy">
+                                    <img src="assets/payment_authoritary_icons/paypal_icon.webp" alt="PayPal" class="payment-icon" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productDetailContent').innerHTML = html;
+
+            // Update translations for data-i18n attributes
+            // Use setTimeout to ensure DOM is ready and translations are available
+            setTimeout(() => {
+                const lang = localStorage.getItem('language') || 'en';
+
+                // Update all data-i18n elements in the product detail content
+                const productContent = document.getElementById('productDetailContent');
+                if (productContent && typeof getTranslation === 'function') {
+                    productContent.querySelectorAll('[data-i18n]').forEach(element => {
+                        const key = element.getAttribute('data-i18n');
+                        const translation = getTranslation(key, lang);
+                        if (translation) {
+                            if (translation.includes('<span') || translation.includes('<')) {
+                                element.innerHTML = translation;
+                            } else {
+                                element.textContent = translation;
+                            }
+
+                            // Also update title for tooltips if present
+                            if (element.parentElement.classList.contains('btn-reset-selection')) {
+                                element.parentElement.title = translation;
+                            }
+                        }
+                    });
+                }
+
+                // Attach Reset Listener explicitly
+                const resetBtn = document.getElementById('btnResetSelection');
+                if (resetBtn && window.resetSelection) {
+                    resetBtn.onclick = function (e) {
+                        e.preventDefault();
+                        window.resetSelection();
+                    };
+                }
+
+                // Auto-select variation from URL if provided
+                if (urlVariation && product.variations && product.variations[urlVariation]) {
+                    selectVariation(urlVariation, productId);
+                }
+
+                // Initial badge update
+                updateBadgeCounts();
+            }, 0);
+        }
+
+        // Select variation
+        function selectVariation(variationId, productId) {
+            const product = products[productId];
+            if (!product || !product.variations || !product.variations[variationId]) return;
+
+            const variation = product.variations[variationId];
+            const currentLang = localStorage.getItem('language') || 'en';
+
+            // Update hidden input
+            const hiddenInput = document.getElementById('selectedVariation');
+            if (hiddenInput) {
+                hiddenInput.value = variationId;
+            }
+
+            // Remove active class from all variation options
+            document.querySelectorAll('.variation-option').forEach(option => {
+                option.classList.remove('active');
+                option.style.removeProperty('--active-variation-color');
+            });
+
+            // Add active class to selected variation option
+            const selectedOption = document.querySelector(`[data-variation-id="${variationId}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('active');
+                // Set CSS custom property for active color
+                const activeColor = selectedOption.getAttribute('data-active-color');
+                if (activeColor) {
+                    selectedOption.style.setProperty('--active-variation-color', activeColor);
+                }
+            }
+
+            // Update image gallery with variation images
+            if (variation.images && variation.images.length > 0) {
+                const mainImage = variation.images[0];
+                const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || product.name[currentLang]) : product.name[currentLang];
+
+                // Update main image with WebP support
+                const mainImageEl = document.getElementById('mainProductImage');
+                const mainImageContainer = mainImageEl ? mainImageEl.closest('.product-main-image') : null;
+                if (mainImageEl) {
+                    // Check if it's inside a picture element
+                    const pictureEl = mainImageEl.closest('picture');
+                    if (pictureEl) {
+                        if (sourceEl) {
+                            sourceEl.srcset = mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.webp`;
+                        }
+                        mainImageEl.src = mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`;
+                    } else {
+                        mainImageEl.src = mainImage.path.startsWith('http') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`;
+                    }
+                    mainImageEl.alt = mainImageAlt;
+
+                    // Update zoom onclick handler
+                    if (mainImageContainer) {
+                        mainImageContainer.setAttribute('onclick', `openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')`);
+                    }
+                }
+
+                // Update thumbnails
+                const thumbnailsContainer = document.querySelector('.product-image-thumbnails');
+                if (thumbnailsContainer && variation.images.length > 1) {
+                    thumbnailsContainer.innerHTML = variation.images.map((img, index) => {
+                        const imgAlt = img.alt ? (img.alt[currentLang] || img.alt.en || product.name[currentLang]) : product.name[currentLang];
+                        const escapedAlt = imgAlt.replace(/'/g, "\\'");
+                        return `
+                            <div class="thumbnail-item ${index === 0 ? 'active' : ''}" data-image-index="${index}" onclick="switchProductImage(${index}, '${img.path}', '${img.extension}', '${escapedAlt}')">
+                                <picture>
+                                    <source srcset="/products/${img.path}.webp" type="image/webp">
+                                    <img src="/products/${img.path}.${img.extension}" alt="${imgAlt}" loading="lazy">
+                                </picture>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Scroll to top of page on smaller screens when variation changes
+                if (window.innerWidth <= 968) {
+                    // Small delay to ensure image has started loading
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }
+
+            // Update badges to reflect new variation context
+            updateBadgeCounts();
+        }
+
+
+
+
+        function addToCartFromDetail(productId) {
+            const product = products[productId];
+            if (product && product.comingSoon) {
+                const currentLang = localStorage.getItem('language') || 'en';
+                const messages = {
+                    en: 'This product is coming soon and is not available for purchase yet.',
+                    fr: 'Ce produit arrive bientôt et n\'est pas encore disponible à l\'achat.',
+                    ar: 'هذا المنتج قريباً وغير متاح للشراء بعد.'
+                };
+                alert(messages[currentLang] || messages.en);
+                return;
+            }
+            if (product) {
+                // Get selected variation
+                const selectedVariationId = document.getElementById('selectedVariation')?.value || product.defaultVariation || null;
+                const selectedVariation = selectedVariationId && product.variations ? product.variations[selectedVariationId] : null;
+
+                // Build product name with variation
+                const currentLang = localStorage.getItem('language') || 'en';
+                let productName = product.name[currentLang] || product.name.en;
+                if (selectedVariation) {
+                    const variationName = selectedVariation.name[currentLang] || selectedVariation.name.en;
+                    productName = `${productName} - ${variationName}`;
+                }
+
+                // Get image from variation or product
+                let productImage = product.image;
+                if (selectedVariation && selectedVariation.images && selectedVariation.images.length > 0) {
+                    productImage = selectedVariation.images[0].path;
+                }
+
+                // Get Quantity
+                const quantityInput = document.getElementById('productQuantity');
+                let quantity = 1;
+                if (quantityInput) {
+                    quantity = parseInt(quantityInput.value) || 1;
+                }
+
+                // Check if size is required and selected
+                if (product.sizes && product.sizes.length > 0) {
+                    const selectedSize = document.getElementById('selectedSize')?.value || '';
+                    if (!selectedSize) {
+                        // SMART CHECKOUT: Check if any item with this originalId and variation is already in cart
+                        // If so, redirect to checkout instead of showing error
+                        const itemInCart = cart.items.find(item =>
+                            item.originalId === product.id &&
+                            (!selectedVariationId || item.variation === selectedVariationId)
+                        );
+
+                        if (itemInCart) {
+                            window.location.href = 'checkout.html';
+                            return;
+                        }
+
+                        const errorLang = localStorage.getItem('language') || 'en';
+                        if (typeof showSizeRequiredError === 'function') {
+                            showSizeRequiredError(errorLang, 'cart');
+                        } else {
+                            // Fallback if function not available
+                            alert(errorLang === 'fr' ? 'Veuillez sélectionner une taille avant d\'ajouter au panier.' :
+                                errorLang === 'ar' ? 'يرجى اختيار المقاس قبل الإضافة إلى السلة.' :
+                                    'Please select a size before adding to cart.');
+                        }
+                        return;
+                    }
+
+                    const sizeInfo = ` - ${selectedSize}`;
+                    const uniqueId = product.id + (selectedVariationId ? '_' + selectedVariationId : '') + '_' + selectedSize.replace(/[^a-zA-Z0-9]/g, '_');
+                    cart.addItem({
+                        id: uniqueId,
+                        name: productName + sizeInfo,
+                        price: product.price + ' MAD',
+                        category: product.category,
+                        image: productImage,
+                        size: selectedSize,
+                        variation: selectedVariationId,
+                        originalId: product.id
+                    }, quantity);
+
+                    // UX DECISION (User Request): Auto-Deselect Size after adding to cart
+                    document.getElementById('selectedSize').value = '';
+                    document.querySelectorAll('.size-option').forEach(option => {
+                        option.classList.remove('active');
+                    });
+
+                    // NEW UX DECISION (User Request): Reset Quantity to 1 after adding to cart
+                    if (quantityInput) quantityInput.value = 1;
+
+                    // Show notification with translation
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    let notificationMessage = '';
+                    if (typeof getTranslation === 'function') {
+                        // We might need a plural key, but for now reuse sizeAdded
+                        const translation = getTranslation('productDetail.sizeAdded', currentLang);
+                        notificationMessage = translation ? translation.replace('{size}', selectedSize) : `${quantity}x Size ${selectedSize} added to cart!`;
+                    } else {
+                        // Fallback
+                        notificationMessage = `${quantity}x Added to cart!`;
+                    }
+
+                    showSizeAddedNotification(notificationMessage);
+                } else {
+                    // No size required, but may have variation
+                    const uniqueId = product.id + (selectedVariationId ? '_' + selectedVariationId : '');
+                    cart.addItem({
+                        id: uniqueId,
+                        name: productName,
+                        price: product.price + ' MAD',
+                        category: product.category,
+                        image: productImage,
+                        variation: selectedVariationId,
+                        originalId: product.id
+                    }, quantity);
+
+                    // NEW UX DECISION (User Request): Reset Quantity to 1 after adding to cart
+                    if (quantityInput) quantityInput.value = 1;
+
+                    showSizeAddedNotification(`${quantity}x Added to cart!`);
+                }
+
+                // Update Badges IMMEDIATELY
+                updateBadgeCounts();
+            }
+        }
+
+        // Quantity & Badge Helpers
+        window.updateQuantity = function (change) {
+            const input = document.getElementById('productQuantity');
+            if (input) {
+                let currentValue = parseInt(input.value) || 1;
+                let newValue = currentValue + change;
+                if (newValue < 1) newValue = 1;
+                input.value = newValue;
+            }
+        };
+
+        window.validateQuantity = function (input) {
+            let value = parseInt(input.value);
+            if (isNaN(value) || value < 1) {
+                input.value = 1;
+            }
+        };
+
+        function updateBadgeCounts() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentProductId = urlParams.get('id');
+            if (!currentProductId) return;
+
+            const variationCounts = {};
+            const sizeCounts = {};
+            const currentVariationId = document.getElementById('selectedVariation')?.value;
+
+            // map to track which elements SHOULD have badges
+            const activeElements = new Set();
+
+            cart.items.forEach(item => {
+                if (item.originalId !== currentProductId) return;
+
+                // Variation Badge Logic
+                if (item.variation) {
+                    variationCounts[item.variation] = (variationCounts[item.variation] || 0) + item.quantity;
+                }
+
+                // Size Badge Logic
+                if ((item.variation || '') === (currentVariationId || '')) {
+                    if (item.size) {
+                        const sizeCode = item.size.split(' ')[0];
+                        sizeCounts[sizeCode] = (sizeCounts[sizeCode] || 0) + item.quantity;
+                    }
+                }
+            });
+
+            // Update Variation Badges
+            for (const [varId, count] of Object.entries(variationCounts)) {
+                const btn = document.querySelector(`.variation-option[data-variation-id="${varId}"]`);
+                if (btn) {
+                    addBadge(btn, count);
+                    activeElements.add(btn);
+                }
+            }
+
+            // Update Size Badges
+            for (const [sizeCode, count] of Object.entries(sizeCounts)) {
+                const btn = document.querySelector(`.size-option[data-size-code="${sizeCode}"]`);
+                if (btn) {
+                    addBadge(btn, count);
+                    activeElements.add(btn);
+                }
+            }
+
+            // Cleanup: Remove badges from elements that no longer have counts
+            document.querySelectorAll('.variation-option, .size-option').forEach(el => {
+                if (!activeElements.has(el)) {
+                    const badge = el.querySelector('.count-badge');
+                    if (badge) badge.remove();
+                }
+            });
+        }
+
+        function addBadge(element, count) {
+            if (count > 0) {
+                let badge = element.querySelector('.count-badge');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'count-badge';
+                    element.appendChild(badge);
+                    // Force a reflow for animation if needed, but CSS animation 'popIn' handles entry
+                } else {
+                    // Update existing - prevent animation restart if we want, or re-trigger
+                    // badge.classList.remove('pop-in');
+                    // void badge.offsetWidth; 
+                    // badge.classList.add('pop-in');
+                    // For now, just update text to avoid distraction
+                }
+                badge.textContent = count;
+            }
+        }
+
+        // Listen for storage events (multi-tab sync)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'cart') {
+                updateBadgeCounts();
+            }
+        });
+
+
+        // Show notification for size added
+        function showSizeAddedNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'size-added-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">✓</span>
+                    <span class="notification-message">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        // Show error notification for missing size selection
+        function showSizeRequiredError(currentLang, context = 'cart') {
+            let message = '';
+            if (typeof getTranslation === 'function') {
+                const translationKey = context === 'checkout' ? 'productDetail.sizeRequiredCheckout' : 'productDetail.sizeRequired';
+                message = getTranslation(translationKey, currentLang);
+            }
+
+            // Fallback messages
+            if (!message) {
+                const fallbackMessages = {
+                    cart: {
+                        en: 'Please select a size before adding to cart.',
+                        fr: 'Veuillez sélectionner une taille avant d\'ajouter au panier.',
+                        ar: 'يرجى اختيار المقاس قبل الإضافة إلى السلة.'
+                    },
+                    checkout: {
+                        en: 'Please select a size before proceeding to checkout.',
+                        fr: 'Veuillez sélectionner une taille avant de procéder au paiement.',
+                        ar: 'يرجى اختيار المقاس قبل المتابعة إلى الدفع.'
+                    }
+                };
+                message = fallbackMessages[context][currentLang] || fallbackMessages[context].en;
+            }
+
+            // Create error notification
+            const notification = document.createElement('div');
+            notification.className = 'size-required-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">⚠</span>
+                    <span class="notification-message">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            // Highlight size selector
+            const sizeSelector = document.querySelector('.product-size-selector');
+            if (sizeSelector) {
+                sizeSelector.classList.add('error-highlight');
+
+                // Scroll to size selector on mobile
+                if (window.innerWidth <= 968) {
+                    setTimeout(() => {
+                        sizeSelector.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                            inline: 'nearest'
+                        });
+                    }, 100);
+                }
+
+                // Remove highlight after animation
+                setTimeout(() => {
+                    sizeSelector.classList.remove('error-highlight');
+                }, 3000);
+            }
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide notification
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        function buyNowFromDetail(productId) {
+            const product = products[productId];
+            if (product && product.comingSoon) {
+                const currentLang = localStorage.getItem('language') || 'en';
+                const messages = {
+                    en: 'This product is coming soon and is not available for purchase yet.',
+                    fr: 'Ce produit arrive bientôt et n\'est pas encore disponible à l\'achat.',
+                    ar: 'هذا المنتج قريباً وغير متاح للشراء بعد.'
+                };
+                alert(messages[currentLang] || messages.en);
+                return;
+            }
+            if (product) {
+                // Get selected variation
+                const selectedVariationId = document.getElementById('selectedVariation')?.value || product.defaultVariation || null;
+                const selectedVariation = selectedVariationId && product.variations ? product.variations[selectedVariationId] : null;
+
+                // Build product name with variation
+                const currentLang = localStorage.getItem('language') || 'en';
+                let productName = product.name[currentLang] || product.name.en;
+                if (selectedVariation) {
+                    const variationName = selectedVariation.name[currentLang] || selectedVariation.name.en;
+                    productName = `${productName} - ${variationName}`;
+                }
+
+                // Get image from variation or product
+                let productImage = product.image;
+                if (selectedVariation && selectedVariation.images && selectedVariation.images.length > 0) {
+                    productImage = selectedVariation.images[0].path;
+                }
+
+                // Check if size is required and selected
+                if (product.sizes && product.sizes.length > 0) {
+                    const selectedSize = document.getElementById('selectedSize')?.value || '';
+                    if (!selectedSize) {
+                        // SMART CHECKOUT: Check if any item with this originalId and variation is already in cart
+                        // If so, redirect to checkout instead of showing error
+                        const itemInCart = cart.items.find(item =>
+                            item.originalId === product.id &&
+                            (!selectedVariationId || item.variation === selectedVariationId)
+                        );
+
+                        if (itemInCart) {
+                            window.location.href = 'checkout.html';
+                            return;
+                        }
+
+                        showSizeRequiredError(currentLang, 'checkout');
+                        return;
+                    }
+
+                    const sizeInfo = ` - ${selectedSize}`;
+                    const uniqueId = product.id + (selectedVariationId ? '_' + selectedVariationId : '') + '_' + selectedSize.replace(/[^a-zA-Z0-9]/g, '_');
+                    // Add item to cart
+                    cart.addItem({
+                        id: uniqueId,
+                        name: productName + sizeInfo,
+                        price: product.price + ' MAD',
+                        category: product.category,
+                        image: productImage,
+                        size: selectedSize,
+                        variation: selectedVariationId,
+                        originalId: product.id
+                    });
+                } else {
+                    // No size required, but may have variation
+                    const uniqueId = product.id + (selectedVariationId ? '_' + selectedVariationId : '');
+                    cart.addItem({
+                        id: uniqueId,
+                        name: productName,
+                        price: product.price + ' MAD',
+                        category: product.category,
+                        image: productImage,
+                        variation: selectedVariationId,
+                        originalId: product.id
+                    });
+                }
+
+                // Track begin checkout event
+                if (typeof trackBeginCheckout === 'function') {
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    const name = product.name[currentLang] || product.name.en;
+                    trackBeginCheckout([{
+                        id: product.id,
+                        name: name,
+                        price: product.price,
+                        category: product.category || 'Unknown',
+                        quantity: 1
+                    }], product.price);
+                }
+
+                // Redirect to checkout
+                window.location.href = 'checkout.html';
+            }
+        }
+
+        // Switch product image in gallery
+        function switchProductImage(index, imagePath, extension, altText) {
+            const mainImage = document.getElementById('mainProductImage');
+            if (mainImage) {
+                // Update WebP source if picture element exists
+                const pictureEl = mainImage.closest('picture');
+                if (pictureEl) {
+                    const sourceEl = pictureEl.querySelector('source');
+                    if (sourceEl) {
+                        sourceEl.srcset = `/products/${imagePath}.webp`;
+                    }
+                }
+                mainImage.src = `/products/${imagePath}.${extension}`;
+                mainImage.alt = altText;
+
+                // Update the zoom onclick handler with the new image
+                const mainImageContainer = mainImage.closest('.product-main-image');
+                if (mainImageContainer) {
+                    mainImageContainer.setAttribute('onclick', `openImageZoom('/products/${imagePath}.${extension}', '/products/${imagePath}.webp')`);
+                }
+
+                // Update active thumbnail
+                document.querySelectorAll('.thumbnail-item').forEach((thumb, idx) => {
+                    if (idx === index) {
+                        thumb.classList.add('active');
+                    } else {
+                        thumb.classList.remove('active');
+                    }
+                });
+
+                // Scroll to top of page on smaller screens when thumbnail is clicked
+                // This helps users see the main image after scrolling down
+                if (window.innerWidth <= 968) {
+                    // Small delay to ensure image has started loading
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }
+        }
+
+        // Select size
+        function selectSize(code, cm) {
+            // Update hidden input
+            const hiddenInput = document.getElementById('selectedSize');
+            if (hiddenInput) {
+                hiddenInput.value = `${code} (${cm})`;
+            }
+
+            // Remove active class from all size options
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Add active class to selected size option
+            const selectedOption = document.querySelector(`[data-size-code="${code}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('active');
+            }
+        }
+
+        // Toggle size guide
+        function toggleSizeGuide() {
+            const content = document.getElementById('sizeGuideContent');
+            const toggle = document.querySelector('.size-guide-toggle');
+            if (content && toggle) {
+                const isHidden = content.style.display === 'none' || !content.style.display;
+                content.style.display = isHidden ? 'block' : 'none';
+                toggle.classList.toggle('active', isHidden);
+
+                // Smooth scroll to guide if opening
+                if (isHidden) {
+                    setTimeout(() => {
+                        content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                }
+            }
+        }
+
+        // Image Zoom Functionality
+        function openImageZoom(imageUrl, webpUrl) {
+            const modal = document.getElementById('productZoomModal');
+            const modalImage = document.getElementById('zoomModalImage');
+            const modalSource = document.getElementById('zoomModalSource');
+
+            if (!modal || !modalImage) return;
+
+            // Set image sources
+            if (webpUrl && modalSource) {
+                modalSource.srcset = webpUrl;
+            }
+            modalImage.src = imageUrl;
+            modalImage.alt = 'Product zoom view';
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.classList.add('zoom-modal-open');
+
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+
+            // Update zoom hint translation
+            setTimeout(() => {
+                const hint = document.getElementById('zoomHint');
+                if (hint) {
+                    const lang = localStorage.getItem('language') || 'en';
+                    if (typeof getTranslation === 'function') {
+                        const translation = getTranslation('productDetail.zoomHint', lang);
+                        if (translation) {
+                            hint.querySelector('span').textContent = translation;
+                        }
+                    }
+                }
+            }, 100);
+        }
+
+        function closeImageZoom(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+
+            const modal = document.getElementById('productZoomModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('zoom-modal-open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('productZoomModal');
+                if (modal && modal.classList.contains('active')) {
+                    closeImageZoom();
+                }
+            }
+        });
+
+        // Touch/pinch zoom support for mobile
+        let initialDistance = 0;
+        let currentScale = 1;
+        let minScale = 1;
+        let maxScale = 3;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalImage = document.getElementById('zoomModalImage');
+            if (!modalImage) return;
+
+            // Touch events for pinch zoom
+            modalImage.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    initialDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                }
+            });
+
+            modalImage.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    const currentDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+
+                    const scale = currentDistance / initialDistance;
+                    currentScale = Math.max(minScale, Math.min(maxScale, scale));
+
+                    modalImage.style.transform = `scale(${currentScale})`;
+                    modalImage.style.transition = 'none';
+                }
+            });
+
+            modalImage.addEventListener('touchend', () => {
+                if (currentScale < 1.1) {
+                    currentScale = 1;
+                    modalImage.style.transform = 'scale(1)';
+                    modalImage.style.transition = 'transform 0.3s ease';
+                } else {
+                    modalImage.style.transition = 'transform 0.1s ease';
+                }
+            });
+
+            // Double tap to zoom on mobile
+            let lastTap = 0;
+            modalImage.addEventListener('touchend', (e) => {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+
+                if (tapLength < 300 && tapLength > 0 && e.touches.length === 0) {
+                    e.preventDefault();
+                    if (currentScale === 1) {
+                        currentScale = 2;
+                    } else {
+                        currentScale = 1;
+                    }
+                    modalImage.style.transform = `scale(${currentScale})`;
+                    modalImage.style.transition = 'transform 0.3s ease';
+                }
+                lastTap = currentTime;
+            });
+        });
+
+        // ==========================================
+        // Customer Reviews Logic
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', loadProductReviews);
+
+        async function loadProductReviews() {
+            const reviewsSection = document.getElementById('customer-reviews');
+            const grid = document.getElementById('reviewsGrid');
+
+            if (!reviewsSection || !grid) return;
+
+            try {
+                // Fetch reviews from the server
+                // Note: The endpoint returns ALL approved reviews.
+                // In a future update, we might want to filter by product ID.
+                const response = await fetch('/api/reviews');
+                if (!response.ok) throw new Error('Failed to fetch reviews');
+
+                const data = await response.json();
+                const reviews = data.reviews || [];
+
+                // Removed unconditional display block
+
+                // Update Stats
+                const avg = data.average || 0;
+                const total = data.total || 0;
+
+                const summaryRating = document.getElementById('summaryRating');
+                const summaryStars = document.getElementById('summaryStars');
+                const summaryCount = document.getElementById('summaryCount');
+
+                // Format average safely
+                const avgDisplay = typeof avg === 'number' ? avg.toFixed(1) : avg;
+
+                if (summaryRating) summaryRating.textContent = avgDisplay;
+                if (summaryCount) summaryCount.textContent = `(${total} ${total === 1 ? 'review' : 'reviews'})`;
+                if (summaryStars) summaryStars.innerHTML = renderStarsHTML(avg);
+
+                // Render Summary Card (Ribbon Layout)
+                const summaryHtml = `
+                    <div class="review-card summary-card-ribbon">
+                        <div class="review-stats centered-stats">
+                            <div class="big-rating">${avgDisplay}</div>
+                            <div class="review-stars-wrapper">
+                                <div class="stars-display">${renderStarsHTML(avg)}</div>
+                                <span class="review-count-label">(${total} ${total === 1 ? 'review' : 'reviews'})</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Render Reviews
+                if (reviews.length === 0) {
+                    // Requirement: Don't show section if no approved reviews
+                    reviewsSection.style.display = 'none';
+                    return;
+                }
+
+                // Show the section only if we have reviews
+                reviewsSection.style.display = 'block';
+
+                grid.innerHTML = summaryHtml + reviews.map(review => createReviewCard(review)).join('');
+
+                // Translate badge if needed
+                const currentLang = localStorage.getItem('language') || 'en';
+                if (typeof getTranslation === 'function') {
+                    document.querySelectorAll('.verified-text').forEach(el => {
+                        const trans = getTranslation('reviews.verified', currentLang);
+                        if (trans) el.textContent = trans;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                // Optionally hide the section if it fails completely
+                // reviewsSection.style.display = 'none';
+            }
+        }
+
+        function createReviewCard(review) {
+            const name = escapeHtml(review.reviewerName || 'Anonymous');
+            const text = escapeHtml(review.reviewText || '');
+            const date = new Date(review.submittedAt).toLocaleDateString();
+            const rating = review.rating || 5;
+            const cardId = 'review-' + (review.id || Math.random().toString(36).substr(2, 9));
+
+            // Logic for photo toggle
+            let toggleBtnHtml = '';
+            let photoContainerHtml = '';
+
+            if (review.photo) {
+                toggleBtnHtml = `
+                    <button class="photo-toggle-btn" onclick="togglePhoto('${cardId}')">
+                        <span class="photo-toggle-icon">📷</span> <span data-i18n="reviews.showPhoto">Show Photo</span>
+                    </button>`;
+
+                photoContainerHtml = `
+                    <div id="${cardId}-photo" class="review-photo-container">
+                        <img src="${review.photo}" class="review-photo" alt="Customer Photo" onclick="openImageZoom(this.src)" loading="lazy">
+                    </div>`;
+            }
+
+            return `
+                <div class="review-card" id="${cardId}">
+                    <div class="review-card-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">${name.charAt(0).toUpperCase()}</div>
+                            <div class="reviewer-meta">
+                                <h4>${name}</h4>
+                                ${review.verified ? `
+                                <span class="verified-badge">
+                                    ✓ <span class="verified-text" data-i18n="reviews.verified">Verified Buyer</span>
+                                </span>` : ''}
+                            </div>
+                        </div>
+                        <div class="review-card-stars">
+                            ${renderStarsHTML(rating)}
+                        </div>
+                    </div>
+                    
+                    ${text ? `<div class="review-text" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">"${text}"</div>` : '<div style="flex-grow:1"></div>'}
+                    
+                    ${photoContainerHtml}
+                    
+                    <div class="review-card-footer">
+                        <div class="footer-left">
+                            ${toggleBtnHtml}
+                        </div>
+                        <div class="footer-right">
+                            <div class="review-date">${date}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Global functions for toggles
+        window.togglePhoto = function (cardId) {
+            const container = document.getElementById(cardId + '-photo');
+            const btn = document.querySelector(`#${cardId} .photo-toggle-btn`);
+            if (container) {
+                const isExpanded = container.classList.toggle('expanded');
+                // Update button text
+                if (btn) {
+                    const textSpan = btn.querySelector('[data-i18n]');
+                    if (textSpan) {
+                        const showText = getTranslation('reviews.showPhoto', localStorage.getItem('language') || 'en') || 'Show Photo';
+                        const hideText = getTranslation('reviews.hidePhoto', localStorage.getItem('language') || 'en') || 'Hide Photo';
+                        textSpan.textContent = isExpanded ? hideText : showText;
+                    }
+                }
+            }
+        };
+
+        function renderStarsHTML(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            // Ensure we don't exceed 5 stars total
+            const emptyStars = Math.max(0, 5 - fullStars - (hasHalf ? 1 : 0));
+            return '★'.repeat(fullStars) + (hasHalf ? '½' : '') + '☆'.repeat(emptyStars);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+
+</html>

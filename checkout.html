@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Checkout - Complete Your Order">
+    <title>Checkout</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            // Detect browser language OR use stored preference
+            function detectBrowserLanguage() {
+                // Check if user has already set a language preference
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) {
+                    return storedLang; // Use stored preference
+                }
+
+                // Detect browser language (try multiple methods for best compatibility)
+                let browserLang = 'en'; // Default fallback
+
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                // Get base language code (e.g., 'fr' from 'fr-FR', 'fr-CA', etc.)
+                const langCode = browserLang.toLowerCase().split('-')[0];
+
+                // Map to supported languages
+                const supportedLanguages = {
+                    'en': 'en', // English (en, en-US, en-GB, etc.)
+                    'fr': 'fr', // French (fr, fr-FR, fr-CA, etc.)
+                    'ar': 'ar'  // Arabic (ar, ar-MA, ar-SA, etc.)
+                };
+
+                // Return mapped language or default to English
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            // Get language (from storage or detect)
+            const detectedLang = detectBrowserLanguage();
+
+            // Save detected language if it's the first visit (no stored preference)
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            // Set HTML lang and dir attributes IMMEDIATELY (before page renders)
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
+
+
+    <!-- PayPal Local Configuration (if exists) - Load first -->
+    <script>
+        // Initialize PayPal local config object (will be populated if file exists)
+        if (typeof window.PAYPAL_LOCAL_CONFIG === 'undefined') {
+            window.PAYPAL_LOCAL_CONFIG = {};
+        }
+        // Try to load PayPal local config dynamically (only if file exists)
+        fetch('paypal-config.local.js')
+            .then(response => {
+                if (response.ok) {
+                    const script = document.createElement('script');
+                    script.src = 'paypal-config.local.js';
+                    document.head.appendChild(script);
+                }
+            })
+            .catch(() => {
+                // File doesn't exist (normal in production), use defaults
+            });
+    </script>
+    <!-- PayPal Configuration - Load after local config -->
+    <script src="paypal-config.js"></script>
+    <!-- PayPal SDK - Will be loaded dynamically after config -->
+    <script id="paypal-sdk-loader"></script>
+    <script>
+        // Global state for PayPal SDK loading
+        window.PAYPAL_SDK_LOADING = window.PAYPAL_SDK_LOADING || false;
+        window.PAYPAL_SDK_LOADED = window.PAYPAL_SDK_LOADED || false;
+        window.PAYPAL_SDK_LOAD_ATTEMPTED = window.PAYPAL_SDK_LOAD_ATTEMPTED || false;
+
+        // Prevent duplicate PayPal SDK loading
+        if (window.PAYPAL_SDK_LOADING || window.PAYPAL_SDK_LOADED || window.PAYPAL_SDK_LOAD_ATTEMPTED) {
+            console.warn('PayPal SDK: Skipping duplicate load attempt (loading:', window.PAYPAL_SDK_LOADING, ', loaded:', window.PAYPAL_SDK_LOADED, ', attempted:', window.PAYPAL_SDK_LOAD_ATTEMPTED, ')');
+        } else {
+            window.PAYPAL_SDK_LOAD_ATTEMPTED = true;
+            window.PAYPAL_SDK_LOADING = true;
+
+            // Load PayPal SDK after config is ready with current language's locale
+            (async function loadPayPalInHead() {
+                if (typeof PAYPAL_CONFIG === 'undefined') {
+                    setTimeout(loadPayPalInHead, 50);
+                    return;
+                }
+
+                // Check if SDK is already loaded
+                if (typeof paypal !== 'undefined' || typeof window.paypal !== 'undefined') {
+                    console.log('PayPal SDK already loaded, skipping');
+                    window.PAYPAL_SDK_LOADING = false;
+                    window.PAYPAL_SDK_LOADED = true;
+                    return;
+                }
+
+                // Check if there's already a PayPal script in the DOM
+                const existingPayPalScripts = document.querySelectorAll('script[src*="paypal.com/sdk"]');
+                if (existingPayPalScripts.length > 0) {
+                    console.log('PayPal SDK script already exists in DOM, skipping duplicate');
+                    window.PAYPAL_SDK_LOADING = false;
+                    return;
+                }
+
+                // Check if script loader already has src
+                const existingScript = document.getElementById('paypal-sdk-loader');
+                if (existingScript && existingScript.src && existingScript.src !== '' && existingScript.src !== window.location.href) {
+                    console.log('PayPal SDK script already has src, skipping duplicate load');
+                    window.PAYPAL_SDK_LOADING = false;
+                    return;
+                }
+
+                // Try to load config from API (Vercel env vars)
+                if (typeof window.loadPayPalConfigFromAPI === 'function') {
+                    const apiConfig = await window.loadPayPalConfigFromAPI();
+                    // Update config with API values if available (now async to load real-time exchange rate)
+                    if (apiConfig && typeof PAYPAL_CONFIG.updateFromAPI === 'function') {
+                        await PAYPAL_CONFIG.updateFromAPI(apiConfig);
+                    }
+                }
+
+                const clientId = PAYPAL_CONFIG.USE_SANDBOX
+                    ? PAYPAL_CONFIG.CLIENT_ID_SANDBOX
+                    : PAYPAL_CONFIG.CLIENT_ID_LIVE;
+
+                if (!clientId || clientId.includes('YOUR_')) {
+                    console.error('PayPal Client ID not configured');
+                    console.error('Please configure PayPal Client ID in paypal-config.local.js or environment variables');
+                    console.error('For development, set USE_SANDBOX: true and CLIENT_ID_SANDBOX');
+                    console.error('For production, set CLIENT_ID_LIVE in environment variables');
+
+                    // Show user-friendly error message
+                    const loadingIndicator = document.getElementById('paypal-loading');
+                    if (loadingIndicator) {
+                        loadingIndicator.innerHTML = '<p style="color: var(--primary-color); padding: 1rem; background: rgba(200, 16, 46, 0.1); border-radius: 8px;">⚠️ PayPal payment is not configured. Please contact support or use an alternative payment method.</p>';
+                    }
+                    window.PAYPAL_SDK_LOADING = false;
+                    return;
+                }
+
+                // Get current language and locale
+                const currentLang = localStorage.getItem('language') || 'en';
+                const locale = PAYPAL_CONFIG.getLocale(currentLang);
+
+                console.log('Loading PayPal SDK with Client ID:', clientId.substring(0, 15) + '...', 'Locale:', locale);
+                console.log('SDK URL:', PAYPAL_CONFIG.getSDK_URL(locale));
+
+                // Load PayPal SDK with current locale
+                const script = document.getElementById('paypal-sdk-loader');
+                if (!script) {
+                    console.error('PayPal SDK loader script element not found');
+                    window.PAYPAL_SDK_LOADING = false;
+                    return;
+                }
+
+                // Set src only if not already set
+                if (!script.src || script.src === '' || script.src === window.location.href) {
+                    script.src = PAYPAL_CONFIG.getSDK_URL(locale);
+
+                    script.onload = function () {
+                        window.PAYPAL_SDK_LOADING = false;
+                        window.PAYPAL_SDK_LOADED = true;
+                        console.log('✅ PayPal SDK loaded successfully');
+                        // The SDK will be detected by the monitoring script
+                    };
+
+                    script.onerror = function () {
+                        console.error('❌ Failed to load PayPal SDK script');
+                        console.error('Possible causes:');
+                        console.error('1. Invalid Client ID');
+                        console.error('2. Network connectivity issues');
+                        console.error('3. PayPal service unavailable');
+                        console.error('4. CORS or security policy blocking the script');
+                        window.PAYPAL_SDK_LOADING = false;
+
+                        const loadingIndicator = document.getElementById('paypal-loading');
+                        if (loadingIndicator) {
+                            loadingIndicator.innerHTML = '<p style="color: var(--primary-color); padding: 1rem; background: rgba(200, 16, 46, 0.1); border-radius: 8px;">⚠️ Failed to load payment options. Please check your internet connection and try again.</p>';
+                        }
+                    };
+                } else {
+                    console.log('PayPal SDK script src already set, skipping');
+                    window.PAYPAL_SDK_LOADING = false;
+                }
+            })();
+        }
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Collection</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+        <div class="container">
+            <div class="breadcrumbs-container">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <span class="breadcrumbs-separator">▸</span>
+                <a href="cart.html" data-i18n="cart.title">Shopping Cart</a>
+                <span class="breadcrumbs-separator">▸</span>
+                <span class="breadcrumbs-current" data-i18n="checkout.title">Checkout</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h1 class="page-title" data-i18n="checkout.title">Checkout</h1>
+            <p class="checkout-subtitle" data-i18n="checkout.subtitle">Complete your order in 3 simple steps</p>
+
+            <!-- Progress Steps -->
+            <div class="checkout-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label" data-i18n="checkout.step1">Step 1: Your Information</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label" data-i18n="checkout.step2">Step 2: Delivery Address</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label" data-i18n="checkout.step3">Step 3: Secure Payment</div>
+                </div>
+            </div>
+
+            <div id="checkoutEmpty" style="display: none;">
+                <div class="cart-empty">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h2 data-i18n="cart.empty.title">Your cart is empty</h2>
+                    <p data-i18n="cart.empty.desc">Add some products to get started!</p>
+                    <a href="products.html" class="btn btn-primary" data-i18n="cart.empty.shop">Shop Now</a>
+                </div>
+            </div>
+
+            <div class="checkout-content" id="checkoutContent">
+                <div class="checkout-form-wrapper">
+                    <!-- Help Text -->
+                    <div class="checkout-help-banner">
+                        <p>💡 <span data-i18n="checkout.helpText">Need help? Contact us at </span><span
+                                class="phone-number">+212 667-951100</span></p>
+                    </div>
+
+                    <form id="checkoutForm" class="checkout-form">
+                        <!-- Customer Information -->
+                        <div class="checkout-section-block">
+                            <h2 data-i18n="checkout.customerInfo">Customer Information</h2>
+                            <p class="section-help-text" data-i18n="checkout.customerInfoHelp">We need your contact
+                                details to process your order and send you updates.</p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName" data-i18n="checkout.form.firstName">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" required
+                                        data-i18n-placeholder="checkout.form.placeholder.firstName" placeholder="John">
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" data-i18n="checkout.form.lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" required
+                                        data-i18n-placeholder="checkout.form.placeholder.lastName" placeholder="Doe">
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" data-i18n="checkout.form.email">Email Address</label>
+                                    <input type="email" id="email" name="email" required
+                                        data-i18n-placeholder="checkout.form.placeholder.email"
+                                        placeholder="your.email@example.com">
+                                    <span class="field-help" data-i18n="checkout.form.emailHelp">We'll send your order
+                                        confirmation here</span>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" data-i18n="checkout.form.phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" required
+                                        data-i18n-placeholder="checkout.form.placeholder.phone"
+                                        placeholder="+212 6XX-XXXXXX">
+                                    <span class="field-help" data-i18n="checkout.form.phoneHelp">We'll call you if we
+                                        need to confirm anything</span>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="checkout-section-block">
+                            <h2 data-i18n="checkout.shippingInfo">Shipping Information</h2>
+                            <p class="section-help-text" data-i18n="checkout.shippingInfoHelp">Enter your complete
+                                delivery address. All fields marked with * are required for accurate delivery.</p>
+
+                            <!-- City Input with Autocomplete -->
+                            <div class="form-group city-autocomplete-wrapper">
+                                <label for="city" data-i18n="checkout.form.city">
+                                    <span class="label-text">City</span>
+                                    <span class="label-required">*</span>
+                                </label>
+                                <div class="city-input-container">
+                                    <input type="text" id="city" name="city" autocomplete="off"
+                                        data-i18n-placeholder="checkout.form.placeholder.city"
+                                        placeholder="Casablanca, Rabat, Marrakech..." required dir="auto" />
+                                    <div id="cityAutocompleteList" class="city-autocomplete-list"></div>
+                                </div>
+                                <input type="hidden" id="districtIdValue" name="districtId" />
+                                <span class="field-help" data-i18n="checkout.form.cityHelp">Enter your city name. We'll
+                                    automatically match it with our delivery network.</span>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <!-- Complete Address -->
+                            <div class="form-group">
+                                <label for="address" data-i18n="checkout.form.address">
+                                    <span class="label-text">Complete Delivery Address</span>
+                                    <span class="label-required">*</span>
+                                </label>
+                                <input type="text" id="address" name="address" required
+                                    data-i18n-placeholder="checkout.form.placeholder.address"
+                                    placeholder="Street name, building number, floor, apartment">
+                                <span class="field-help" data-i18n="checkout.form.addressHelp">Include street name,
+                                    building number, floor, and apartment if applicable. Be as specific as possible for
+                                    accurate delivery.</span>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <!-- Landmark/Nearby Location (Common in Morocco) -->
+                            <div class="form-group">
+                                <label for="landmark" data-i18n="checkout.form.landmark">Landmark / Nearby Location
+                                    (Optional)</label>
+                                <input type="text" id="landmark" name="landmark"
+                                    data-i18n-placeholder="checkout.form.placeholder.landmark"
+                                    placeholder="e.g., Near Hassan II Mosque, Next to Bank ABC">
+                                <span class="field-help" data-i18n="checkout.form.landmarkHelp">Helpful landmarks or
+                                    nearby locations to help the delivery driver find your address more easily.</span>
+                            </div>
+
+                            <!-- Postal Code -->
+                            <div class="form-group">
+                                <label for="postalCode" data-i18n="checkout.form.postalCode">Postal Code
+                                    (Optional)</label>
+                                <input type="text" id="postalCode" name="postalCode" pattern="[0-9]{5}" maxlength="5"
+                                    data-i18n-placeholder="checkout.form.placeholder.postalCode" placeholder="20000">
+                                <span class="field-help" data-i18n="checkout.form.postalCodeHelp">5-digit postal code
+                                    (optional but recommended)</span>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <!-- Country (Fixed to Morocco) -->
+                            <div class="form-group">
+                                <label for="country" data-i18n="checkout.form.country">Country</label>
+                                <select id="country" name="country" required>
+                                    <option value="Morocco" selected data-i18n="checkout.form.countryMorocco">🇲🇦
+                                        Morocco</option>
+                                </select>
+                                <span class="field-help" data-i18n="checkout.form.countryHelp">Currently shipping to
+                                    Morocco only. International shipping coming soon.</span>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <!-- Delivery Instructions -->
+                            <div class="form-group">
+                                <label for="notes" data-i18n="checkout.form.notes">Delivery Instructions
+                                    (Optional)</label>
+                                <textarea id="notes" name="notes" rows="3"
+                                    data-i18n-placeholder="checkout.form.placeholder.notes"
+                                    placeholder="e.g., Ring doorbell, Leave at reception, Call before delivery"></textarea>
+                                <span class="field-help" data-i18n="checkout.form.notesHelp">Any special instructions
+                                    for the delivery driver? (e.g., building access code, preferred delivery time,
+                                    etc.)</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="checkout-section-block">
+                            <h2 data-i18n="checkout.paymentMethod">Payment Method</h2>
+                            <p class="section-help-text" data-i18n="checkout.paymentInfoHelp">Choose how you'd like to
+                                pay. All payments are secure and encrypted.</p>
+
+                            <!-- Security Badge -->
+                            <div class="security-badge">
+                                <span class="security-icon">🔒</span>
+                                <span data-i18n="checkout.payment.secure">Your payment is 100% secure and
+                                    encrypted</span>
+                            </div>
+
+                            <div class="payment-methods">
+                                <!-- Cash on Delivery Option (Preferred in Morocco) -->
+                                <label class="payment-option payment-option-cod">
+                                    <input type="radio" name="paymentMethod" value="cash_on_delivery" id="paymentCOD">
+                                    <picture class="payment-icon-cod">
+                                        <source srcset="assets/icons/cod_icon.webp" type="image/webp">
+                                        <img src="assets/icons/cod_icon.png" alt="Cash on Delivery" loading="lazy"
+                                            width="48" height="48">
+                                    </picture>
+                                    <span class="payment-label">
+                                        <strong data-i18n="checkout.payment.cashOnDelivery">Cash on Delivery</strong>
+                                        <small data-i18n="checkout.payment.cashOnDeliveryDesc">Pay cash when you receive
+                                            your order. No card needed!</small>
+                                    </span>
+                                    <span class="payment-badge payment-badge-popular"
+                                        data-i18n="checkout.payment.mostPopular">Most Popular</span>
+                                </label>
+
+                                <!-- PayPal/Credit Card Option -->
+                                <label class="payment-option payment-option-paypal">
+                                    <input type="radio" name="paymentMethod" value="paypal" id="paymentPayPal">
+                                    <picture class="payment-icon-paypal">
+                                        <source srcset="assets/icons/credit_card_icon.webp" type="image/webp">
+                                        <img src="assets/icons/credit_card_icon.png" alt="PayPal or Credit Card"
+                                            loading="lazy" width="48" height="48">
+                                    </picture>
+                                    <span class="payment-label">
+                                        <strong data-i18n="checkout.payment.paypal">PayPal or Credit Card</strong>
+                                        <small data-i18n="checkout.payment.paypalDesc">Pay securely with PayPal or your
+                                            credit/debit card. No PayPal account needed!</small>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- PayPal Button Container (shown only when PayPal is selected) -->
+                            <div id="paypal-button-container" class="paypal-button-container" style="display: none;">
+                                <div class="paypal-loading" id="paypal-loading">
+                                    <p data-i18n="checkout.payment.loading">Loading secure payment options...</p>
+                                </div>
+                            </div>
+
+                            <!-- Cash on Delivery Info (shown only when COD is selected) -->
+                            <div id="cod-info-section" class="cod-info-section" style="display: none;">
+                                <div class="cod-info-card">
+                                    <div class="cod-info-header">
+                                        <picture class="cod-icon">
+                                            <source srcset="/assets/icons/cod_icon.webp" type="image/webp">
+                                            <img src="/assets/icons/cod_icon.png" alt="Cash on Delivery" loading="lazy"
+                                                width="64" height="64">
+                                        </picture>
+                                        <h3 data-i18n="checkout.payment.codTitle">Pay When You Receive</h3>
+                                    </div>
+                                    <div class="cod-info-content">
+                                        <p data-i18n="checkout.payment.codDescription">Simply pay cash to the delivery
+                                            driver when you receive your order. No upfront payment required!</p>
+                                        <ul class="cod-benefits">
+                                            <li data-i18n="checkout.payment.codBenefit1">✓ No card information needed
+                                            </li>
+                                            <li data-i18n="checkout.payment.codBenefit2">✓ Pay only when you receive
+                                                your order</li>
+                                            <li data-i18n="checkout.payment.codBenefit3">✓ Safe and secure delivery</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Instructions -->
+                            <div class="payment-instructions">
+                                <p class="instruction-title">📝 <strong
+                                        data-i18n="checkout.payment.instructionTitle">How to Pay:</strong></p>
+                                <ol class="instruction-steps">
+                                    <li data-i18n="checkout.payment.instruction1">Fill in all your information above
+                                    </li>
+                                    <li data-i18n="checkout.payment.instruction2">Enter your credit/debit card details
+                                        or choose PayPal</li>
+                                    <li data-i18n="checkout.payment.instruction3">Complete payment - it's that simple!
+                                    </li>
+                                </ol>
+                                <div class="instruction-result">
+                                    <span class="result-icon">✨</span>
+                                    <p class="result-text" data-i18n="checkout.payment.instructionResult">Receive your
+                                        premium product with excellence - delivered with the quality and heritage that
+                                        defines StoreName</p>
+                                </div>
+                                <p class="instruction-note" data-i18n="checkout.payment.trusted">Trusted by millions
+                                    worldwide</p>
+                            </div>
+
+                            <!-- Alternative: Manual Order Button (hidden when PayPal is selected) -->
+                            <div id="manual-order-section" class="manual-order-section" style="display: none;">
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-cta btn-place-order" id="submitOrder"
+                                        data-i18n="checkout.placeOrder">Place Order</button>
+                                    <a href="cart.html" class="btn btn-outline" data-i18n="checkout.backToCart">Back to
+                                        Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="checkout-summary">
+                    <div class="summary-content">
+                        <h3 data-i18n="checkout.orderReview">Order Review</h3>
+                        <div id="checkoutItems" class="checkout-items"></div>
+                        <div class="summary-row">
+                            <span data-i18n="cart.summary.subtotal">Subtotal</span>
+                            <span id="checkoutSubtotal">0 MAD</span>
+                        </div>
+                        <div class="summary-row">
+                            <span data-i18n="cart.summary.shipping">Shipping</span>
+                            <span id="shippingCost" data-i18n="cart.summary.shippingFree">Free</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span data-i18n="cart.summary.total">Total</span>
+                            <span id="checkoutTotal" class="price-highlight">0 MAD</span>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="checkout-shipping-info">
+                            <span class="shipping-icon">🚚</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.free">Free Shipping</span>
+                            <span class="shipping-separator">•</span>
+                            <span class="shipping-icon">⏱️</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.deliveryTime">1-2 Days
+                                (7/7)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img" loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Quality, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Collection</a></li>
+                        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0ZM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.138-.866c-.846-.935-1.224-2.013-1.293-2.438h.032c-.021-.12-.033-.244-.039-.371h-3.972v11.16c0 .188 0 .373-.008.557a2.952 2.952 0 0 1-2.946 2.752 2.956 2.956 0 0 1-2.132-.884 2.945 2.945 0 0 1-.549-3.085 2.955 2.955 0 0 1 2.681-1.762c.306 0 .6.047.877.134v-4.007a7.047 7.047 0 0 0-.88-.056 6.934 6.934 0 0 0-4.93 2.055A6.937 6.937 0 0 0 2.6 12.556a6.995 6.995 0 0 0 .857 4.443 6.928 6.928 0 0 0 3.026 2.717 6.904 6.904 0 0 0 2.05.63c.334.046.672.07 1.01.07 a6.952 6.952 0 0 0 5.537-2.748 6.95 6.95 0 0 0 1.387-4.182v-5.45a9.161 9.161 0 0 0 2.31 1.417 9.134 9.134 0 0 0 2.844.772V6.208c-.48-.033-.96-.13-1.422-.29a5.263 5.263 0 0 1-.878-.356Z" />
+                            </svg>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PayPal SDK monitoring script -->
+    <script>
+        // Monitor when PayPal SDK becomes available
+        let monitorAttempts = 0;
+        const maxMonitorAttempts = 150; // 30 seconds
+        let monitoringActive = true;
+
+        function monitorPayPalSDK() {
+            if (!monitoringActive) return;
+
+            monitorAttempts++;
+
+            // Check for PayPal SDK in multiple ways
+            const paypalObj = (typeof paypal !== 'undefined' && paypal)
+                ? paypal
+                : (typeof window.paypal !== 'undefined' && window.paypal)
+                    ? window.paypal
+                    : null;
+
+            if (paypalObj && paypalObj.Buttons) {
+                window.paypalSDKReady = true;
+                window.paypalSDK = paypalObj;
+
+                // Trigger initialization if function exists
+                if (typeof window.initPayPalAfterLoad === 'function') {
+                    window.initPayPalAfterLoad();
+                }
+                // Stop monitoring once SDK is ready
+                monitoringActive = false;
+            } else if (monitorAttempts < maxMonitorAttempts) {
+                // Log every 20 attempts
+                if (monitorAttempts % 20 === 0) {
+                    console.log(`Monitoring PayPal SDK (attempt ${monitorAttempts}/${maxMonitorAttempts})...`);
+                }
+                // Check again after a short delay
+                setTimeout(monitorPayPalSDK, 200);
+            } else {
+                console.error('❌ PayPal SDK monitoring timeout after', maxMonitorAttempts, 'attempts');
+                const loadingIndicator = document.getElementById('paypal-loading');
+                if (loadingIndicator) {
+                    loadingIndicator.innerHTML = '<p style="color: var(--primary-color);">PayPal SDK not initializing. Please check the browser console (F12) for errors. Make sure your Client ID is correct.</p>';
+                }
+                monitoringActive = false;
+            }
+        }
+
+        // Start monitoring
+        monitorPayPalSDK();
+
+        // Function to restart monitoring (for SDK reloads)
+        window.restartPayPalMonitoring = function () {
+            monitorAttempts = 0;
+            monitoringActive = true;
+            monitorPayPalSDK();
+        };
+    </script>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+    <script src="/meta-pixel.js"></script>
+
+    <!-- Sendit Integration -->
+    <!-- Load local config first (if exists, gitignored) -->
+    <script>
+        // Initialize Sendit local config object (will be populated if file exists)
+        if (typeof window.SENDIT_LOCAL_CONFIG === 'undefined') {
+            window.SENDIT_LOCAL_CONFIG = {};
+        }
+        // Try to load Sendit local config dynamically (only if file exists)
+        fetch('sendit-config.local.js')
+            .then(response => {
+                if (response.ok) {
+                    const script = document.createElement('script');
+                    script.src = 'sendit-config.local.js';
+                    document.head.appendChild(script);
+                }
+            })
+            .catch(() => {
+                // File doesn't exist (normal in production), use defaults
+            });
+    </script>
+    <script src="sendit-config.js"></script>
+    <script>
+        // Load Sendit config from API (for Vercel environment variables)
+        // This must run before sendit-integration.js loads
+        (async function () {
+            // Wait for sendit-config.js to load
+            let attempts = 0;
+            while (typeof loadSenditConfigFromAPI === 'undefined' && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (typeof loadSenditConfigFromAPI === 'function') {
+                try {
+                    const apiConfig = await loadSenditConfigFromAPI();
+                    if (apiConfig && typeof SENDIT_CONFIG !== 'undefined') {
+                        // Update SENDIT_CONFIG with API values
+                        let updated = false;
+                        Object.keys(apiConfig).forEach(key => {
+                            if (apiConfig[key] !== 'YOUR_PUBLIC_KEY_HERE' &&
+                                apiConfig[key] !== 'YOUR_SECRET_KEY_HERE' &&
+                                apiConfig[key] !== null &&
+                                apiConfig[key] !== undefined) {
+                                SENDIT_CONFIG[key] = apiConfig[key];
+                                updated = true;
+                            }
+                        });
+                        if (updated) {
+                            // Now that config is loaded, initialize Sendit integration to load districts
+                            if (typeof initSenditIntegration === 'function') {
+                                initSenditIntegration().catch(error => {
+                                    console.error('Error initializing Sendit integration:', error);
+                                });
+                            }
+                        }
+                    } else {
+                        console.warn('⚠️ Sendit API config not available or SENDIT_CONFIG not defined');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Could not load Sendit config from API:', error.message);
+                    console.warn('   Using defaults or local config if available');
+                }
+            } else {
+                console.warn('⚠️ loadSenditConfigFromAPI function not available');
+            }
+        })();
+    </script>
+    <script src="sendit-integration.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+    <script src="checkout.js"></script>
+</body>
+
+</html>

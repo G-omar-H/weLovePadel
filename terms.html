@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Terms and Conditions">
+    <meta name="robots" content="index, follow">
+    <title>Terms & Conditions</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            // Detect browser language OR use stored preference
+            function detectBrowserLanguage() {
+                // Check if user has already set a language preference
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) {
+                    return storedLang; // Use stored preference
+                }
+
+                // Detect browser language (try multiple methods for best compatibility)
+                let browserLang = 'en'; // Default fallback
+
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                // Get base language code (e.g., 'fr' from 'fr-FR', 'fr-CA', etc.)
+                const langCode = browserLang.toLowerCase().split('-')[0];
+
+                // Map to supported languages
+                const supportedLanguages = {
+                    'en': 'en', // English (en, en-US, en-GB, etc.)
+                    'fr': 'fr', // French (fr, fr-FR, fr-CA, etc.)
+                    'ar': 'ar'  // Arabic (ar, ar-MA, ar-SA, etc.)
+                };
+
+                // Return mapped language or default to English
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            // Get language (from storage or detect)
+            const detectedLang = detectBrowserLanguage();
+
+            // Save detected language if it's the first visit (no stored preference)
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            // Set HTML lang and dir attributes IMMEDIATELY (before page renders)
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Terms & Conditions Content -->
+    <section class="legal-page">
+        <div class="container">
+            <h1 class="page-title" data-i18n="legal.terms.title">Terms & Conditions</h1>
+            <p class="legal-updated" data-i18n="legal.terms.updated">Last Updated: November 9, 2025</p>
+
+            <div class="legal-language-note">
+                <p>📄 <strong>Note:</strong> This legal document is provided in English. For assistance understanding
+                    these terms in French or Arabic, please contact us at <a
+                        href="mailto:legal@storename.com">legal@storename.com</a></p>
+            </div>
+
+            <div class="legal-content">
+                <h2>1. Agreement to Terms</h2>
+                <p>By accessing and using the StoreName website ("Website"), you accept and agree to be bound by these
+                    Terms and Conditions. If you do not agree with these terms, please do not use our Website.</p>
+
+                <h2>2. About Us</h2>
+                <p>We are a premium brand specializing in high-quality products. Our business operates from:</p>
+                <div class="contact-details">
+                    <p><strong>Company Name:</strong> Company Name</p>
+                    <p><strong>Address:</strong> [Address Line, City, Postal Code, Country]</p>
+                    <p><strong>Email:</strong> <a href="mailto:info@example.com">info@example.com</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 234-567890</a></p>
+                </div>
+
+                <h2>3. Products and Pricing</h2>
+
+                <h3>3.1 Product Information</h3>
+                <p>We strive to display our Heritage Icons as accurately as possible. However:</p>
+                <ul>
+                    <li>Colors may vary slightly due to screen settings</li>
+                    <li>Heritage Icon descriptions are provided in good faith</li>
+                    <li>We reserve the right to correct errors in item information</li>
+                    <li>All Heritage Icons are subject to availability</li>
+                </ul>
+
+                <h3>3.2 Pricing</h3>
+                <ul>
+                    <li>All prices are listed in local currency</li>
+                    <li>Prices include applicable taxes</li>
+                    <li>We reserve the right to change prices without notice</li>
+                    <li>The price at checkout is the price you pay</li>
+                </ul>
+
+                <h2>4. Ordering and Payment</h2>
+
+                <h3>4.1 Order Process</h3>
+                <p>When you place an order:</p>
+                <ol>
+                    <li>You submit an order through our checkout process</li>
+                    <li>You receive an order confirmation</li>
+                    <li>We contact you within 24 hours to confirm details</li>
+                    <li>We process your payment</li>
+                    <li>We prepare and ship your order</li>
+                </ol>
+
+                <h3>4.2 Payment Methods</h3>
+                <p>We accept:</p>
+                <ul>
+                    <li>PayPal (credit/debit cards + PayPal account)</li>
+                    <li>Credit Cards (Visa, Mastercard, American Express)</li>
+                    <li>Bank Transfer (details provided after order)</li>
+                    <li>Cash on Delivery (Morocco only)</li>
+                </ul>
+
+                <h3>4.3 Payment Security</h3>
+                <p>All payments are processed securely through PayPal's encrypted payment system. We do not store credit
+                    card information on our servers.</p>
+
+                <h2>5. Shipping and Delivery</h2>
+
+                <h3>5.1 Shipping Policy</h3>
+                <ul>
+                    <li><strong>Domestic:</strong> Standard shipping rates apply</li>
+                    <li><strong>International:</strong> Available on request, costs vary</li>
+                    <li><strong>Processing Time:</strong> 1-2 business days</li>
+                    <li><strong>Tracking:</strong> Provided for all shipments</li>
+                </ul>
+
+                <h3>5.2 Delivery</h3>
+                <p>Delivery times are estimates and not guaranteed. Delays may occur due to:</p>
+                <ul>
+                    <li>Customs clearance (international)</li>
+                    <li>Weather conditions</li>
+                    <li>Courier delays</li>
+                    <li>Incorrect address information</li>
+                </ul>
+
+                <h2>6. Returns and Refunds</h2>
+
+                <h3>6.1 Return Policy</h3>
+                <p>We want you to love your Heritage Icon. If you're not satisfied:</p>
+                <ul>
+                    <li><strong>Return Window:</strong> 14 days from delivery</li>
+                    <li><strong>Condition:</strong> Unused, unworn, with original tags</li>
+                    <li><strong>Proof:</strong> Original packaging and receipt required</li>
+                    <li><strong>Process:</strong> Contact us first at <a
+                            href="mailto:returns@storename.com">returns@storename.com</a></li>
+                </ul>
+
+                <h3>6.2 Non-Returnable Items</h3>
+                <p>The following cannot be returned:</p>
+                <ul>
+                    <li>Items marked as "Final Sale"</li>
+                    <li>Worn or used items</li>
+                    <li>Items without tags or in damaged packaging</li>
+                    <li>Customized or personalized products</li>
+                </ul>
+
+                <h3>6.3 Refund Process</h3>
+                <p>Once your return is received and inspected:</p>
+                <ul>
+                    <li>Approval takes 2-3 business days</li>
+                    <li>Refunds processed to original payment method</li>
+                    <li>Refunds appear within 5-10 business days</li>
+                    <li>Shipping costs are non-refundable (unless item is defective)</li>
+                </ul>
+
+                <h2>7. Intellectual Property</h2>
+                <p>All content on this Website is the property of StoreName, including:</p>
+                <ul>
+                    <li>StoreName brand name and logo</li>
+                    <li>Heritage Icon designs and images</li>
+                    <li>Website design and layout</li>
+                    <li>Text, graphics, and code</li>
+                </ul>
+                <p>You may not reproduce, distribute, or use any content without written permission.</p>
+
+                <h2>8. Limitation of Liability</h2>
+                <p>To the fullest extent permitted by law:</p>
+                <ul>
+                    <li>StoreName is not liable for indirect or consequential damages</li>
+                    <li>Our liability is limited to the purchase price of the Heritage Icon</li>
+                    <li>We are not responsible for delays beyond our control</li>
+                    <li>Heritage Icon colors may vary from images due to screen differences</li>
+                </ul>
+
+                <h2>9. User Responsibilities</h2>
+                <p>When using our Website, you agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete information</li>
+                    <li>Maintain confidentiality of your account (if applicable)</li>
+                    <li>Use the Website only for lawful purposes</li>
+                    <li>Not interfere with Website operation</li>
+                    <li>Not attempt unauthorized access to our systems</li>
+                </ul>
+
+                <h2>10. Quality Guarantee</h2>
+                <p>We stand behind our premium quality:</p>
+                <ul>
+                    <li>All products undergo quality inspection before shipping</li>
+                    <li>Defective products will be replaced or refunded</li>
+                    <li>Manufacturing defects covered for 30 days</li>
+                    <li>Normal wear and tear not covered</li>
+                </ul>
+
+                <h2>11. Dispute Resolution</h2>
+                <p>In case of disputes:</p>
+                <ol>
+                    <li>Contact us first at <a href="mailto:info@example.com">info@example.com</a></li>
+                    <li>We will attempt resolution within 14 days</li>
+                    <li>Unresolved disputes subject to applicable laws</li>
+                    <li>Jurisdiction: Courts of [Jurisdiction]</li>
+                </ol>
+
+                <h2>12. Privacy</h2>
+                <p>Your privacy is important to us. Please review our <a href="privacy-policy.html">Privacy Policy</a>
+                    to understand how we collect, use, and protect your information.</p>
+
+                <h2>13. Modifications to Terms</h2>
+                <p>We reserve the right to modify these Terms at any time. Changes will be posted on this page with an
+                    updated date. Continued use after changes constitutes acceptance.</p>
+
+                <h2>14. Governing Law</h2>
+                <p>These Terms are governed by the laws of [Country]. Any disputes shall be resolved in the
+                    courts of [Jurisdiction].</p>
+
+                <h2>15. Contact Information</h2>
+                <p>For questions about these Terms & Conditions:</p>
+                <div class="contact-details">
+                    <p><strong>Email:</strong> <a href="mailto:legal@example.com">legal@example.com</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 234-567890</a></p>
+                    <p><strong>Address:</strong> [Address Line, City, Postal Code, Country]</p>
+                </div>
+
+                <h2>16. Entire Agreement</h2>
+                <p>These Terms & Conditions, together with our Privacy Policy, constitute the entire agreement between
+                    you and StoreName regarding use of the Website and purchase of products.</p>
+
+                <div class="legal-acknowledgment">
+                    <p><strong>By using this Website and making a purchase, you acknowledge that you have read,
+                            understood, and agree to be bound by these Terms & Conditions.</strong></p>
+                </div>
+            </div>
+
+            <div class="legal-footer">
+                <a href="index.html" class="btn btn-outline">Back to Home</a>
+                <a href="privacy-policy.html" class="btn btn-secondary">Privacy Policy</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img"
+                            loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Quality, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.1 6.1 0 0 0-1-.05A6.34 6.34 0 0 0 4.83 15.5a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                            </svg>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

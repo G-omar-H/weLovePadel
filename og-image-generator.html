@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreName OG Image Generator</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .og-image {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #C8102E 0%, #006233 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .og-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.05) 30px, rgba(255, 255, 255, 0.05) 31px),
+                repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.03) 30px, rgba(255, 255, 255, 0.03) 31px);
+            opacity: 0.6;
+        }
+        
+        .og-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 60px;
+        }
+        
+        .og-logo {
+            font-size: 90px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+        }
+        
+        .og-brand {
+            font-family: 'Georgia', serif;
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        
+        .og-tagline {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.95;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            max-width: 900px;
+        }
+        
+        .og-badge {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background: rgba(255, 215, 0, 0.95);
+            color: #1a1a1a;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .instructions {
+            margin-top: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .instructions h3 {
+            color: #C8102E;
+            margin-top: 0;
+        }
+        
+        .instructions code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <div class="og-image" id="ogImage">
+            <div class="og-pattern"></div>
+            <div class="og-badge">PREMIUM</div>
+            <div class="og-content">
+                <div class="og-logo">🎩</div>
+                <div class="og-brand">StoreName</div>
+                <div class="og-tagline">Where Tradition Meets Modern Excellence</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📸 How to Create og-image.jpg:</h3>
+            <p><strong>Method 1: Screenshot (Quick)</strong></p>
+            <ol>
+                <li>Open this file in browser at full screen</li>
+                <li>Use screenshot tool to capture just the colored rectangle above</li>
+                <li>Crop to exact 1200×630px</li>
+                <li>Save as <code>og-image.jpg</code> in root folder</li>
+            </ol>
+            
+            <p><strong>Method 2: Using Canva (Professional)</strong></p>
+            <ol>
+                <li>Go to <a href="https://canva.com" target="_blank">canva.com</a></li>
+                <li>Create custom size: 1200×630px</li>
+                <li>Use StoreName colors: #C8102E (red), #006233 (green), #FFD700 (gold)</li>
+                <li>Add logo, brand name "StoreName", and tagline</li>
+                <li>Export as JPG and save as <code>og-image.jpg</code></li>
+            </ol>
+            
+            <p><strong>Method 3: Use Existing Logo</strong></p>
+            <ol>
+                <li>Open <code>/assets/logo/logo.png</code> in image editor</li>
+                <li>Create 1200×630px canvas with gradient background</li>
+                <li>Center logo and add tagline below</li>
+                <li>Export as <code>og-image.jpg</code></li>
+            </ol>
+            
+            <p style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px;">
+                <strong>💡 Tip:</strong> The image should be 1200×630px for optimal display on Facebook, LinkedIn, and Twitter.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

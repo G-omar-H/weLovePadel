@@ -1,0 +1,27 @@
+📍 Loaded 1 cached IP locations
+🔄 Restored 0 active sessions from disk
+📦 Loaded 0 orders from storage
+📦 Starting delivery status monitor...
+📬 Checking for already delivered orders to send review requests...
+🚀 StoreName API Server running on port 3000
+📍 Health check: http://localhost:3000/health
+📊 Analytics dashboard: /analytics-dashboard.html
+❌ SMTP connection failed: connect ECONNREFUSED 127.0.0.1:25
+✅ SQLite Database initialized
+🔄 Starting migration from JSON to SQLite...
+✅ Migrated 0 reviews
+✅ Migrated 0 review requests
+📦 Loaded 0 orders from DB
+⭐ Loaded 2 reviews from DB
+📬 Loaded 0 sent requests from DB
+📬 Checking local orders for delivered status via Sendit API...
+🔄 Backfilling reviews from local storage...
+🏁 Backfill complete: 0 requests sent
+📦 Found 0 local orders to check for DELIVERED status
+📊 Review requests summary: 0 sent, 0 skipped (already sent), 0 not delivered, 0 errors
+🔄 Auto-checking for delivered orders...
+✓ No pending orders to check
+🔄 Auto-checking for delivered orders...
+✓ No pending orders to check
+🔄 Auto-checking for delivered orders...
+✓ No pending orders to check

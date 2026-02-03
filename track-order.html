@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track Your Order - StoreName Premium Quality Products">
+    <title>Track Order - StoreName</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            function detectBrowserLanguage() {
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) return storedLang;
+
+                let browserLang = 'en';
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                const langCode = browserLang.toLowerCase().split('-')[0];
+                const supportedLanguages = { 'en': 'en', 'fr': 'fr', 'ar': 'ar' };
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            const detectedLang = detectBrowserLanguage();
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
+    <style>
+        /* Track Order Page - Clean Layout */
+
+        /* Account for fixed navbar */
+        .tracking-hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            background: linear-gradient(160deg, #1a1a1a 0%, #2d2d3a 100%);
+            text-align: center;
+        }
+
+        .tracking-hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .tracking-icon-large {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tracking-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 12px;
+        }
+
+        .tracking-hero p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+
+        /* Search Section */
+        .tracking-search-section {
+            padding: 0 24px;
+            margin-top: -32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tracking-search-card {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+            padding: 24px;
+        }
+
+        .tracking-input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .tracking-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .tracking-input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #999;
+            pointer-events: none;
+        }
+
+        [dir="rtl"] .tracking-input-icon {
+            left: auto;
+            right: 14px;
+        }
+
+        .tracking-input {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            font-size: 0.95rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        [dir="rtl"] .tracking-input {
+            padding: 14px 44px 14px 14px;
+        }
+
+        .tracking-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .tracking-input::placeholder {
+            color: #aaa;
+        }
+
+        .track-btn {
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .track-btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .track-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .track-btn .btn-loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .tracking-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* Results Section */
+        .tracking-results-section {
+            background: #f5f5f5;
+            padding: 48px 24px 80px;
+            min-height: 200px;
+        }
+
+        /* Loading State */
+        .tracking-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 20px;
+            gap: 16px;
+        }
+
+        .loading-animation {
+            font-size: 36px;
+            animation: bounce 0.8s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .tracking-loading p {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Error State */
+        .tracking-error {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 32px 20px;
+        }
+
+        .error-icon {
+            width: 64px;
+            height: 64px;
+            background: #fee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .tracking-error h3 {
+            font-size: 1.25rem;
+            color: #1a1a1a;
+            margin: 0 0 8px;
+            font-weight: 600;
+        }
+
+        .tracking-error .error-message {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0 0 12px;
+            line-height: 1.5;
+        }
+
+        .tracking-error .error-help {
+            color: #888;
+            font-size: 0.85rem;
+            margin: 0 0 20px;
+            line-height: 1.5;
+        }
+
+        .error-contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: var(--accent-green);
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .error-contact-btn:hover {
+            background: #004d28;
+        }
+
+        /* Results Card */
+        .tracking-results-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        /* Status Header */
+        .status-header {
+            padding: 28px 24px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #fff;
+            position: relative;
+        }
+
+        .status-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-green));
+        }
+
+        .status-header-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .status-icon-wrapper {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .status-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0 0 4px;
+            font-weight: 500;
+        }
+
+        .status-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 0 0 6px;
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .status-text.status-processing,
+        .status-text.status-transit {
+            color: #7dd3fc;
+        }
+
+        .status-text.status-delivering {
+            color: #fde68a;
+        }
+
+        .status-text.status-delivered {
+            color: #86efac;
+        }
+
+        .status-text.status-failed {
+            color: #fca5a5;
+        }
+
+        .status-date {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .tracking-code-badge {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Shipping Progress - Elegant & Light */
+        .delivery-progress {
+            padding: 28px 24px 32px;
+            background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Connecting line */
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 36px;
+            right: 36px;
+            height: 2px;
+            background: #e8e8e8;
+            border-radius: 1px;
+        }
+
+        /* Filled progress line */
+        .progress-steps::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 36px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green) 0%, #008844 100%);
+            border-radius: 1px;
+            transition: width 0.5s ease;
+            width: var(--progress-width, 0%);
+        }
+
+        .progress-step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .progress-step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: #bbb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .progress-step-item.completed .progress-step-circle {
+            background: linear-gradient(135deg, var(--accent-green) 0%, #008844 100%);
+            border-color: var(--accent-green);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 98, 51, 0.25);
+        }
+
+        .progress-step-item.active .progress-step-circle {
+            border-color: var(--primary-color);
+            background: #fff;
+            color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: pulse-active 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-active {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.12), 0 2px 8px rgba(200, 16, 46, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .progress-step-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .progress-step-item.completed .progress-step-icon::before {
+            content: '✓';
+        }
+
+        .progress-step-label {
+            font-size: 0.68rem;
+            color: #999;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            max-width: 65px;
+            line-height: 1.3;
+        }
+
+        .progress-step-item.completed .progress-step-label {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .progress-step-item.active .progress-step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Order Info Grid */
+        .order-info-section {
+            padding: 24px;
+            background: #fff;
+        }
+
+        .order-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .info-card {
+            background: #fafafa;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+
+        .info-card:hover {
+            background: #f5f5f5;
+            border-color: #e8e8e8;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .info-card-icon {
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        .info-card-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #999;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .info-card-value {
+            font-size: 0.92rem;
+            color: #1a1a1a;
+            font-weight: 500;
+            margin: 0;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .info-card-value a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px dashed #ccc;
+            transition: all 0.2s;
+        }
+
+        .info-card-value a:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .info-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .info-card-value.amount {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            padding: 20px 24px 24px;
+            border-top: 1px solid #f0f0f0;
+            background: #fff;
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .timeline-header-icon {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .timeline-header h3 {
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .timeline-list {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        [dir="rtl"] .timeline-list {
+            padding-left: 0;
+            padding-right: 24px;
+        }
+
+        .timeline-list::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, #e0e0e0 0%, #f0f0f0 100%);
+            border-radius: 1px;
+        }
+
+        [dir="rtl"] .timeline-list::before {
+            left: auto;
+            right: 5px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -21px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #e8e8e8;
+            transition: all 0.2s ease;
+        }
+
+        [dir="rtl"] .timeline-dot {
+            left: auto;
+            right: -21px;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item.completed .timeline-dot {
+            background: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.1);
+        }
+
+        .timeline-content {
+            background: #fafafa;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+            flex: 1;
+            transition: all 0.2s ease;
+        }
+
+        .timeline-item.active .timeline-content {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.02) 100%);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-event {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0 0 4px;
+            font-size: 0.85rem;
+            letter-spacing: -0.01em;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: #999;
+            margin: 0;
+        }
+
+        .timeline-user {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin: 6px 0 0;
+        }
+
+        /* Actions */
+        .tracking-actions {
+            padding: 20px 24px;
+            background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #25D366 0%, #20bd5a 100%);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+        }
+
+        .action-btn.primary:active {
+            transform: translateY(0);
+        }
+
+        .action-btn.secondary {
+            background: #fff;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .action-btn.secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        /* Tablet - 768px */
+        @media (max-width: 768px) {
+            .tracking-hero {
+                padding-top: 100px;
+                padding-bottom: 60px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .tracking-icon-large {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+
+            .tracking-search-section {
+                padding: 0 16px;
+            }
+
+            .tracking-search-card {
+                padding: 20px;
+            }
+
+            .tracking-input-group {
+                flex-direction: column;
+            }
+
+            .track-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .status-header-content {
+                flex-wrap: wrap;
+            }
+
+            .tracking-code-badge {
+                width: 100%;
+                text-align: center;
+                margin-top: 8px;
+            }
+
+            .order-info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .tracking-results-section {
+                padding: 32px 16px 60px;
+            }
+
+            .delivery-progress {
+                padding: 24px 16px;
+            }
+
+            .progress-steps {
+                max-width: 100%;
+            }
+        }
+
+        /* Small tablets / Large phones - 576px */
+        @media (max-width: 576px) {
+            .tracking-hero {
+                padding-top: 90px;
+                padding-bottom: 50px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .tracking-hero p {
+                font-size: 0.85rem;
+                padding: 0 10px;
+            }
+
+            .tracking-icon-large {
+                width: 54px;
+                height: 54px;
+                font-size: 25px;
+            }
+
+            .tracking-search-section {
+                padding: 0 12px;
+            }
+
+            .tracking-search-card {
+                padding: 16px;
+            }
+
+            .tracking-help {
+                font-size: 0.75rem;
+            }
+
+            /* Progress steps horizontal scroll on small screens */
+            .delivery-progress {
+                padding: 20px 12px;
+                overflow-x: auto;
+            }
+
+            .progress-steps {
+                min-width: 350px;
+                padding: 0 5px;
+            }
+
+            .progress-step-circle {
+                width: 34px;
+                height: 34px;
+            }
+
+            .progress-step-icon {
+                font-size: 13px;
+            }
+
+            .progress-step-label {
+                font-size: 0.55rem;
+                max-width: 50px;
+            }
+
+            .progress-steps::before,
+            .progress-steps::after {
+                left: 30px;
+                right: 30px;
+                top: 17px;
+            }
+
+            .order-info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .timeline-section {
+                padding: 20px 16px;
+            }
+
+            .timeline-list {
+                padding-left: 24px;
+            }
+
+            [dir="rtl"] .timeline-list {
+                padding-left: 0;
+                padding-right: 24px;
+            }
+
+            .timeline-dot {
+                left: -20px;
+            }
+
+            [dir="rtl"] .timeline-dot {
+                left: auto;
+                right: -20px;
+            }
+        }
+
+        /* Mobile - 480px */
+        @media (max-width: 480px) {
+            body {
+                padding-top: 56px;
+            }
+
+            .tracking-hero {
+                padding-top: 80px;
+                padding-bottom: 40px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 1.35rem;
+            }
+
+            .tracking-hero p {
+                font-size: 0.8rem;
+            }
+
+            .tracking-icon-large {
+                width: 48px;
+                height: 48px;
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+
+            .tracking-search-section {
+                padding: 0 10px;
+                margin-top: -20px;
+            }
+
+            .tracking-search-card {
+                padding: 14px;
+                border-radius: 10px;
+            }
+
+            .tracking-input {
+                padding: 11px 11px 11px 36px;
+                font-size: 0.85rem;
+            }
+
+            [dir="rtl"] .tracking-input {
+                padding: 11px 36px 11px 11px;
+            }
+
+            .tracking-input-icon {
+                left: 11px;
+                font-size: 15px;
+            }
+
+            [dir="rtl"] .tracking-input-icon {
+                left: auto;
+                right: 11px;
+            }
+
+            .track-btn {
+                padding: 11px 16px;
+                font-size: 0.85rem;
+            }
+
+            .tracking-help {
+                margin-top: 10px;
+                font-size: 0.7rem;
+            }
+
+            .tracking-results-section {
+                padding: 24px 10px 50px;
+            }
+
+            .results-card {
+                border-radius: 10px;
+            }
+
+            .status-header {
+                padding: 16px;
+            }
+
+            .status-icon-wrapper {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .status-text {
+                font-size: 0.95rem;
+            }
+
+            .status-label {
+                font-size: 0.65rem;
+            }
+
+            .status-date {
+                font-size: 0.7rem;
+            }
+
+            .tracking-code-badge {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+
+            .delivery-progress {
+                padding: 16px 10px;
+            }
+
+            .progress-steps {
+                min-width: 320px;
+            }
+
+            .progress-step-circle {
+                width: 30px;
+                height: 30px;
+            }
+
+            .progress-step-icon {
+                font-size: 11px;
+            }
+
+            .progress-step-label {
+                font-size: 0.5rem;
+                max-width: 45px;
+                line-height: 1.2;
+            }
+
+            .progress-steps::before,
+            .progress-steps::after {
+                left: 25px;
+                right: 25px;
+                top: 15px;
+            }
+
+            .order-info-section {
+                padding: 16px;
+            }
+
+            .info-card {
+                padding: 12px;
+            }
+
+            .info-card-icon {
+                font-size: 16px;
+            }
+
+            .info-card-label {
+                font-size: 0.65rem;
+            }
+
+            .info-card-value {
+                font-size: 0.85rem;
+            }
+
+            .info-card-value a {
+                font-size: 0.85rem;
+            }
+
+            .timeline-section {
+                padding: 16px;
+            }
+
+            .timeline-header h3 {
+                font-size: 0.9rem;
+            }
+
+            .timeline-event {
+                font-size: 0.8rem;
+            }
+
+            .timeline-date {
+                font-size: 0.7rem;
+            }
+
+            .tracking-actions {
+                padding: 14px 16px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+
+            /* Error state */
+            .error-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 24px;
+            }
+
+            .tracking-error h3 {
+                font-size: 1.1rem;
+            }
+
+            .tracking-error p {
+                font-size: 0.85rem;
+            }
+
+            .error-contact-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Small phones - 375px */
+        @media (max-width: 375px) {
+            body {
+                padding-top: 52px;
+            }
+
+            .tracking-hero {
+                padding-top: 72px;
+                padding-bottom: 32px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 1.2rem;
+            }
+
+            .tracking-hero p {
+                font-size: 0.75rem;
+            }
+
+            .tracking-icon-large {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .tracking-search-section {
+                padding: 0 8px;
+                margin-top: -16px;
+            }
+
+            .tracking-search-card {
+                padding: 12px;
+                border-radius: 8px;
+            }
+
+            .tracking-input {
+                padding: 10px 10px 10px 32px;
+                font-size: 0.8rem;
+            }
+
+            [dir="rtl"] .tracking-input {
+                padding: 10px 32px 10px 10px;
+            }
+
+            .tracking-input-icon {
+                left: 10px;
+                font-size: 14px;
+            }
+
+            [dir="rtl"] .tracking-input-icon {
+                left: auto;
+                right: 10px;
+            }
+
+            .track-btn {
+                padding: 10px 14px;
+                font-size: 0.8rem;
+            }
+
+            .tracking-help {
+                font-size: 0.65rem;
+                gap: 5px;
+            }
+
+            .tracking-results-section {
+                padding: 20px 8px 40px;
+            }
+
+            .status-header {
+                padding: 14px;
+            }
+
+            .status-icon-wrapper {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .status-text {
+                font-size: 0.85rem;
+            }
+
+            .status-label {
+                font-size: 0.6rem;
+            }
+
+            .status-date {
+                font-size: 0.65rem;
+            }
+
+            .tracking-code-badge {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+
+            .delivery-progress {
+                padding: 14px 8px;
+            }
+
+            .progress-steps {
+                min-width: 290px;
+            }
+
+            .progress-step-circle {
+                width: 26px;
+                height: 26px;
+            }
+
+            .progress-step-icon {
+                font-size: 10px;
+            }
+
+            .progress-step-label {
+                font-size: 0.45rem;
+                max-width: 40px;
+            }
+
+            .progress-steps::before,
+            .progress-steps::after {
+                left: 20px;
+                right: 20px;
+                top: 13px;
+            }
+
+            .order-info-section {
+                padding: 14px;
+            }
+
+            .info-card {
+                padding: 10px;
+            }
+
+            .info-card-icon {
+                font-size: 14px;
+            }
+
+            .info-card-label {
+                font-size: 0.6rem;
+            }
+
+            .info-card-value {
+                font-size: 0.8rem;
+            }
+
+            .timeline-section {
+                padding: 14px;
+            }
+
+            .timeline-header h3 {
+                font-size: 0.85rem;
+            }
+
+            .timeline-event {
+                font-size: 0.75rem;
+            }
+
+            .timeline-date {
+                font-size: 0.65rem;
+            }
+
+            .timeline-list {
+                padding-left: 22px;
+            }
+
+            [dir="rtl"] .timeline-list {
+                padding-left: 0;
+                padding-right: 22px;
+            }
+
+            .timeline-item {
+                padding-bottom: 14px;
+            }
+
+            .timeline-dot {
+                left: -18px;
+                width: 10px;
+                height: 10px;
+            }
+
+            [dir="rtl"] .timeline-dot {
+                left: auto;
+                right: -18px;
+            }
+
+            .tracking-actions {
+                padding: 12px 14px;
+            }
+
+            .action-btn {
+                padding: 9px 12px;
+                font-size: 0.8rem;
+            }
+
+            .error-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .tracking-error h3 {
+                font-size: 1rem;
+            }
+
+            .tracking-error p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Very small phones - 320px */
+        @media (max-width: 320px) {
+            body {
+                padding-top: 48px;
+            }
+
+            .tracking-hero {
+                padding-top: 64px;
+                padding-bottom: 28px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 1.1rem;
+            }
+
+            .tracking-hero p {
+                font-size: 0.7rem;
+            }
+
+            .tracking-icon-large {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            .tracking-search-section {
+                padding: 0 6px;
+                margin-top: -14px;
+            }
+
+            .tracking-search-card {
+                padding: 10px;
+                border-radius: 6px;
+            }
+
+            .tracking-input {
+                padding: 9px 9px 9px 28px;
+                font-size: 0.75rem;
+            }
+
+            [dir="rtl"] .tracking-input {
+                padding: 9px 28px 9px 9px;
+            }
+
+            .tracking-input-icon {
+                left: 8px;
+                font-size: 12px;
+            }
+
+            [dir="rtl"] .tracking-input-icon {
+                left: auto;
+                right: 8px;
+            }
+
+            .track-btn {
+                padding: 9px 12px;
+                font-size: 0.75rem;
+            }
+
+            .tracking-help {
+                font-size: 0.6rem;
+            }
+
+            .tracking-results-section {
+                padding: 16px 6px 32px;
+            }
+
+            .results-card {
+                border-radius: 8px;
+            }
+
+            .status-header {
+                padding: 12px;
+            }
+
+            .status-icon-wrapper {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .status-text {
+                font-size: 0.75rem;
+            }
+
+            .status-label {
+                font-size: 0.55rem;
+            }
+
+            .status-date {
+                font-size: 0.6rem;
+            }
+
+            .tracking-code-badge {
+                font-size: 0.6rem;
+                padding: 3px 6px;
+            }
+
+            .delivery-progress {
+                padding: 12px 6px;
+            }
+
+            .progress-steps {
+                min-width: 260px;
+            }
+
+            .progress-step-circle {
+                width: 24px;
+                height: 24px;
+            }
+
+            .progress-step-icon {
+                font-size: 9px;
+            }
+
+            .progress-step-label {
+                font-size: 0.4rem;
+                max-width: 35px;
+            }
+
+            .progress-steps::before,
+            .progress-steps::after {
+                left: 18px;
+                right: 18px;
+                top: 12px;
+            }
+
+            .order-info-section {
+                padding: 12px;
+            }
+
+            .info-card {
+                padding: 8px;
+            }
+
+            .info-card-icon {
+                font-size: 12px;
+            }
+
+            .info-card-label {
+                font-size: 0.55rem;
+            }
+
+            .info-card-value {
+                font-size: 0.75rem;
+            }
+
+            .timeline-section {
+                padding: 12px;
+            }
+
+            .timeline-header h3 {
+                font-size: 0.8rem;
+            }
+
+            .timeline-header-icon {
+                font-size: 14px;
+            }
+
+            .timeline-event {
+                font-size: 0.7rem;
+            }
+
+            .timeline-date {
+                font-size: 0.6rem;
+            }
+
+            .timeline-list {
+                padding-left: 18px;
+            }
+
+            [dir="rtl"] .timeline-list {
+                padding-left: 0;
+                padding-right: 18px;
+            }
+
+            .timeline-item {
+                padding-bottom: 12px;
+            }
+
+            .timeline-dot {
+                left: -15px;
+                width: 8px;
+                height: 8px;
+            }
+
+            [dir="rtl"] .timeline-dot {
+                left: auto;
+                right: -15px;
+            }
+
+            .tracking-actions {
+                padding: 10px 12px;
+            }
+
+            .action-btn {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+
+            .error-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+
+            .tracking-error h3 {
+                font-size: 0.9rem;
+            }
+
+            .tracking-error p {
+                font-size: 0.75rem;
+            }
+
+            .error-contact-btn {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Collection</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="tracking-hero">
+        <div class="tracking-hero-content">
+            <div class="tracking-icon-large">📦</div>
+            <h1 data-i18n="tracking.title">Track Your Order</h1>
+            <p data-i18n="tracking.subtitle">Enter your tracking code to see real-time delivery status</p>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="tracking-search-section">
+        <div class="container">
+            <div class="tracking-search-card">
+                <div class="tracking-input-group">
+                    <div class="tracking-input-wrapper">
+                        <span class="tracking-input-icon">🔍</span>
+                        <input type="text" id="trackingCodeInput" placeholder="Enter tracking code (e.g., DSH17AE950C9)"
+                            data-i18n-placeholder="tracking.enterCode" class="tracking-input" autocomplete="off"
+                            spellcheck="false">
+                    </div>
+                    <button id="trackButton" class="track-btn">
+                        <span class="btn-text" data-i18n="tracking.track">Track Order</span>
+                        <span class="btn-loader" style="display: none;"></span>
+                    </button>
+                </div>
+                <div class="tracking-help">
+                    <span class="tracking-help-icon">💡</span>
+                    <span data-i18n="tracking.helpText">Your tracking code was sent to your email after placing your
+                        order</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="tracking-results-section">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="trackingLoading" class="tracking-loading" style="display: none;">
+                <div class="loading-animation">🚚</div>
+                <p data-i18n="tracking.loading">Locating your package...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="trackingError" class="tracking-error" style="display: none;">
+                <div class="error-icon">😕</div>
+                <h3 data-i18n="tracking.error.title">Tracking Not Found</h3>
+                <p class="error-message" data-i18n="tracking.error.message">We couldn't find a delivery with that
+                    tracking code.</p>
+                <p class="error-help" data-i18n="tracking.error.help">Please check the code and try again. If you just
+                    placed an order, it may take a few minutes to appear in our system.</p>
+                <a href="tel:+212602432539" class="error-contact-btn">
+                    <span>📞</span>
+                    <span data-i18n="tracking.error.contact">Contact Support</span>
+                </a>
+            </div>
+
+            <!-- Tracking Results -->
+            <div id="trackingResults" style="display: none;">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img" loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Moroccan Heritage, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0ZM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.138-.866c-.846-.935-1.224-2.013-1.293-2.438h.032c-.021-.12-.033-.244-.039-.371h-3.972v11.16c0 .188 0 .373-.008.557a2.952 2.952 0 0 1-2.946 2.752 2.956 2.956 0 0 1-2.132-.884 2.945 2.945 0 0 1-.549-3.085 2.955 2.955 0 0 1 2.681-1.762c.306 0 .6.047.877.134v-4.007a7.047 7.047 0 0 0-.88-.056 6.934 6.934 0 0 0-4.93 2.055A6.937 6.937 0 0 0 2.6 12.556a6.995 6.995 0 0 0 .857 4.443 6.928 6.928 0 0 0 3.026 2.717 6.904 6.904 0 0 0 2.05.63c.334.046.672.07 1.01.07a6.952 6.952 0 0 0 5.537-2.748 6.95 6.95 0 0 0 1.387-4.182v-5.45a9.161 9.161 0 0 0 2.31 1.417 9.134 9.134 0 0 0 2.844.772V6.208c-.48-.033-.96-.13-1.422-.29a5.263 5.263 0 0 1-.878-.356Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+
+    <!-- Sendit Integration -->
+    <script>
+        if (typeof window.SENDIT_LOCAL_CONFIG === 'undefined') {
+            window.SENDIT_LOCAL_CONFIG = {};
+        }
+        fetch('sendit-config.local.js')
+            .then(response => {
+                if (response.ok) {
+                    const script = document.createElement('script');
+                    script.src = 'sendit-config.local.js';
+                    document.head.appendChild(script);
+                }
+            })
+            .catch(() => { });
+    </script>
+    <script src="sendit-config.js"></script>
+    <script>
+        (async function () {
+            if (typeof loadSenditConfigFromAPI === 'function') {
+                try {
+                    const apiConfig = await loadSenditConfigFromAPI();
+                    if (apiConfig && typeof SENDIT_CONFIG !== 'undefined') {
+                        Object.keys(apiConfig).forEach(key => {
+                            if (apiConfig[key] !== 'YOUR_PUBLIC_KEY_HERE' &&
+                                apiConfig[key] !== 'YOUR_SECRET_KEY_HERE') {
+                                SENDIT_CONFIG[key] = apiConfig[key];
+                            }
+                        });
+                    }
+                } catch (error) { }
+            }
+        })();
+    </script>
+    <script src="sendit-integration.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const trackButton = document.getElementById('trackButton');
+            const trackingInput = document.getElementById('trackingCodeInput');
+            const trackingResults = document.getElementById('trackingResults');
+            const trackingLoading = document.getElementById('trackingLoading');
+            const trackingError = document.getElementById('trackingError');
+
+            // Check if tracking code is in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeFromUrl = urlParams.get('code');
+            if (codeFromUrl) {
+                trackingInput.value = codeFromUrl;
+                setTimeout(() => trackOrder(codeFromUrl), 500);
+            }
+
+            // Track button click
+            trackButton.addEventListener('click', () => {
+                const code = trackingInput.value.trim();
+                if (code) {
+                    trackOrder(code);
+                } else {
+                    showInputError();
+                }
+            });
+
+            // Enter key on input
+            trackingInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const code = trackingInput.value.trim();
+                    if (code) {
+                        trackOrder(code);
+                    } else {
+                        showInputError();
+                    }
+                }
+            });
+
+            function showInputError() {
+                trackingInput.style.borderColor = '#C8102E';
+                trackingInput.focus();
+                setTimeout(() => {
+                    trackingInput.style.borderColor = '#e0e0e0';
+                }, 2000);
+            }
+
+            async function trackOrder(trackingCode) {
+                // Hide previous results
+                trackingResults.style.display = 'none';
+                trackingError.style.display = 'none';
+                trackingLoading.style.display = 'flex';
+
+                // Show loading state on button
+                const btnText = trackButton.querySelector('.btn-text');
+                const btnLoader = trackButton.querySelector('.btn-loader');
+                if (btnText) btnText.style.display = 'none';
+                if (btnLoader) btnLoader.style.display = 'inline-block';
+                trackButton.disabled = true;
+
+                try {
+                    if (typeof sendit === 'undefined') {
+                        throw new Error('Sendit integration not available');
+                    }
+
+                    const delivery = await sendit.getDeliveryDetails(trackingCode);
+
+                    if (delivery) {
+                        displayTrackingResults(delivery);
+                    } else {
+                        throw new Error('Delivery not found');
+                    }
+                } catch (error) {
+                    console.error('Tracking error:', error);
+                    trackingLoading.style.display = 'none';
+                    trackingError.style.display = 'block';
+                } finally {
+                    if (btnText) btnText.style.display = 'inline';
+                    if (btnLoader) btnLoader.style.display = 'none';
+                    trackButton.disabled = false;
+                }
+            }
+
+            function displayTrackingResults(delivery) {
+                trackingLoading.style.display = 'none';
+                trackingError.style.display = 'none';
+
+                const currentLang = localStorage.getItem('language') || 'en';
+
+                // Status configuration with icons and progress
+                const statusConfig = {
+                    'PENDING': { icon: '⏳', text: getT('tracking.status.pending') || 'Pending', class: 'pending', progress: 10 },
+                    'TO_PREPARE': { icon: '📋', text: getT('tracking.status.toPrepare') || 'Being Prepared', class: 'processing', progress: 20 },
+                    'NEW_DESTINATION': { icon: '🔄', text: getT('tracking.status.newDestination') || 'New Destination', class: 'processing', progress: 25 },
+                    'TO_PICKUP': { icon: '📤', text: getT('tracking.status.toPickup') || 'Ready for Pickup', class: 'processing', progress: 30 },
+                    'PICKEDUP': { icon: '✅', text: getT('tracking.status.pickedup') || 'Picked Up', class: 'transit', progress: 40 },
+                    'WAREHOUSE': { icon: '🏭', text: getT('tracking.status.warehouse') || 'At Warehouse', class: 'transit', progress: 50 },
+                    'TRANSIT': { icon: '🚛', text: getT('tracking.status.transit') || 'In Transit', class: 'transit', progress: 60 },
+                    'DISTRIBUTED': { icon: '📦', text: getT('tracking.status.distributed') || 'At Local Hub', class: 'transit', progress: 70 },
+                    'DELIVERING': { icon: '🚚', text: getT('tracking.status.delivering') || 'Out for Delivery', class: 'delivering', progress: 85 },
+                    'SCHEDULED': { icon: '📅', text: getT('tracking.status.scheduled') || 'Delivery Scheduled', class: 'processing', progress: 80 },
+                    'POSTPONED': { icon: '⏸️', text: getT('tracking.status.postponed') || 'Postponed', class: 'pending', progress: 75 },
+                    'UNREACHABLE': { icon: '📵', text: getT('tracking.status.unreachable') || 'Unreachable', class: 'failed', progress: 75 },
+                    'DELIVERED': { icon: '🎉', text: getT('tracking.status.delivered') || 'Delivered', class: 'delivered', progress: 100 },
+                    'CANCELED': { icon: '❌', text: getT('tracking.status.canceled') || 'Canceled', class: 'failed', progress: 0 },
+                    'REJECTED': { icon: '↩️', text: getT('tracking.status.rejected') || 'Rejected', class: 'failed', progress: 0 }
+                };
+
+                const status = delivery.status || 'PENDING';
+                const statusInfo = statusConfig[status] || { icon: '📦', text: status, class: 'pending', progress: 10 };
+
+                // Progress steps labels
+                const progressLabels = {
+                    en: ['Confirmed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'],
+                    fr: ['Confirmé', 'En préparation', 'Expédié', 'En livraison', 'Livré'],
+                    ar: ['مؤكد', 'قيد التحضير', 'تم الشحن', 'في الطريق', 'تم التسليم']
+                };
+                const labels = progressLabels[currentLang] || progressLabels.en;
+
+                // Determine which steps are completed
+                const progressValue = statusInfo.progress;
+                const steps = [
+                    { threshold: 10 },
+                    { threshold: 30 },
+                    { threshold: 50 },
+                    { threshold: 80 },
+                    { threshold: 100 }
+                ];
+
+                // Icons for each step (shown when not completed)
+                const stepIcons = [
+                    { icon: '✓' },
+                    { icon: '📦' },
+                    { icon: '🚚' },
+                    { icon: '📍' },
+                    { icon: '🎉' }
+                ];
+
+                // Build timeline HTML with deduplication
+                let timelineHtml = '';
+                if (delivery.audits && delivery.audits.length > 0) {
+                    const sortedAudits = [...delivery.audits].reverse(); // Most recent first
+
+                    // Deduplicate: remove consecutive entries with same event and timestamp
+                    const uniqueAudits = sortedAudits.filter((audit, index) => {
+                        if (index === 0) return true;
+                        const prev = sortedAudits[index - 1];
+                        // Skip if same event and same timestamp (within same minute)
+                        const sameEvent = audit.event === prev.event;
+                        const sameTime = audit.created_at && prev.created_at &&
+                            audit.created_at.substring(0, 16) === prev.created_at.substring(0, 16);
+                        return !(sameEvent && sameTime);
+                    });
+
+                    timelineHtml = uniqueAudits.map((audit, index) => {
+                        const isActive = index === 0;
+                        const formattedDate = formatDate(audit.created_at);
+                        const eventName = formatEventName(audit.event);
+                        return `
+                            <div class="timeline-item ${isActive ? 'active' : 'completed'}">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <p class="timeline-event">${eventName}</p>
+                                    <p class="timeline-date">${formattedDate}</p>
+                                    ${audit.user && audit.user !== 'StoreName' && audit.user !== 'Sendit' ? `<p class="timeline-user">${audit.user}</p>` : ''}
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                }
+
+                const html = `
+                    <div class="tracking-results-card">
+                        <!-- Status Header -->
+                        <div class="status-header">
+                            <div class="status-header-content">
+                                <div class="status-icon-wrapper status-${statusInfo.class}">
+                                    ${statusInfo.icon}
+                                </div>
+                                <div class="status-details">
+                                    <p class="status-label" data-i18n="tracking.currentStatus">Current Status</p>
+                                    <p class="status-text status-${statusInfo.class}">${statusInfo.text}</p>
+                                ${delivery.last_action_at ? `<p class="status-date">${formatDate(delivery.last_action_at)}</p>` : ''}
+                                </div>
+                                <div class="tracking-code-badge">${delivery.code || '-'}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Shipping Progress -->
+                        ${statusInfo.class !== 'failed' ? `
+                        <div class="delivery-progress">
+                            <div class="progress-steps" style="--progress-width: ${Math.min(100, Math.max(0, (progressValue - 10) * 100 / 90))}%">
+                                ${stepIcons.map((step, i) => {
+                    const isCompleted = progressValue > steps[i].threshold;
+                    const isActive = progressValue >= steps[i].threshold && progressValue <= (steps[i + 1]?.threshold || 100);
+                    return `
+                                    <div class="progress-step-item ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}">
+                                        <div class="progress-step-circle">
+                                            <span class="progress-step-icon">${isCompleted ? '' : step.icon}</span>
+                            </div>
+                                        <span class="progress-step-label">${labels[i]}</span>
+                            </div>
+                                    `;
+                }).join('')}
+                            </div>
+                            </div>
+                            ` : ''}
+                        
+                        <!-- Order Info Grid -->
+                        <div class="order-info-section">
+                            <div class="order-info-grid">
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <span class="info-card-icon">👤</span>
+                                        <p class="info-card-label" data-i18n="tracking.recipient">Recipient</p>
+                            </div>
+                                    <p class="info-card-value">${delivery.name || '-'}</p>
+                        </div>
+                        
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <span class="info-card-icon">📱</span>
+                                        <p class="info-card-label" data-i18n="tracking.phone">Phone</p>
+                                    </div>
+                                    <p class="info-card-value">${delivery.phone ? `<a href="tel:${delivery.phone}" style="color: inherit; text-decoration: none;">${delivery.phone}</a>` : '-'}</p>
+                                </div>
+                                
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <span class="info-card-icon">💰</span>
+                                        <p class="info-card-label" data-i18n="tracking.amount">Order Amount</p>
+                                    </div>
+                                    <p class="info-card-value amount">${delivery.amount || 0} MAD</p>
+                                </div>
+                                
+                                ${delivery.district ? `
+                                <div class="info-card">
+                                    <div class="info-card-header">
+                                        <span class="info-card-icon">🏙️</span>
+                                        <p class="info-card-label" data-i18n="tracking.city">City</p>
+                                    </div>
+                                    <p class="info-card-value">${delivery.district.ville || delivery.district.name || '-'}</p>
+                        </div>
+                        ` : ''}
+                        
+                                ${delivery.address ? `
+                                <div class="info-card full-width">
+                                    <div class="info-card-header">
+                                        <span class="info-card-icon">📍</span>
+                                        <p class="info-card-label" data-i18n="tracking.address">Delivery Address</p>
+                                        </div>
+                                    <p class="info-card-value">${delivery.address}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline -->
+                        ${timelineHtml ? `
+                        <div class="timeline-section">
+                            <div class="timeline-header">
+                                <span>📜</span>
+                                <h3 data-i18n="tracking.timeline">Delivery Timeline</h3>
+                            </div>
+                            <div class="timeline-list">
+                                ${timelineHtml}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <!-- Actions -->
+                        <div class="tracking-actions">
+                            ${delivery.labelUrl ? `
+                            <a href="${delivery.labelUrl}" target="_blank" class="action-btn secondary">
+                                <span>🏷️</span>
+                                <span data-i18n="tracking.downloadLabel">Download Label</span>
+                            </a>
+                            ` : ''}
+                            <a href="https://wa.me/212667951100?text=${encodeURIComponent(`Hello, I'd like to inquire about my order ${delivery.code}`)}" target="_blank" class="action-btn primary">
+                                <span>💬</span>
+                                <span data-i18n="tracking.needHelp">Need Help?</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                trackingResults.innerHTML = html;
+                trackingResults.style.display = 'block';
+
+                // Update translations
+                setTimeout(() => updateTranslations(), 0);
+            }
+
+            function formatDate(dateString) {
+                if (!dateString) return '-';
+                try {
+                    let date;
+                    if (dateString.includes('T') || dateString.match(/^\d{4}-\d{2}-\d{2}/)) {
+                        date = new Date(dateString);
+                    } else {
+                        date = new Date(dateString);
+                    }
+
+                    if (isNaN(date.getTime())) {
+                        const frenchMonths = {
+                            'janvier': '01', 'février': '02', 'mars': '03', 'avril': '04',
+                            'mai': '05', 'juin': '06', 'juillet': '07', 'août': '08',
+                            'septembre': '09', 'octobre': '10', 'novembre': '11', 'décembre': '12'
+                        };
+                        const match = dateString.match(/(\d{1,2})\s+(\w+)\s+(\d{4})/);
+                        if (match) {
+                            const day = match[1].padStart(2, '0');
+                            const month = frenchMonths[match[2].toLowerCase()] || '01';
+                            const year = match[3];
+                            const timeMatch = dateString.match(/(\d{1,2}):(\d{2})/);
+                            const time = timeMatch ? ` ${timeMatch[1]}:${timeMatch[2]}` : '';
+                            date = new Date(`${year}-${month}-${day}${time}`);
+                        }
+                    }
+
+                    if (isNaN(date.getTime())) return dateString;
+
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    const locale = currentLang === 'fr' ? 'fr-FR' : currentLang === 'ar' ? 'ar-MA' : 'en-US';
+                    return date.toLocaleDateString(locale, {
+                        year: 'numeric', month: 'short', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                } catch (e) {
+                    return dateString;
+                }
+            }
+
+            function formatEventName(event) {
+                if (!event) return getT('tracking.events.updated') || 'Update';
+
+                const eventKey = `tracking.events.${event.toLowerCase()}`;
+                const translated = getT(eventKey);
+                if (translated) return translated;
+
+                const eventMap = {
+                    'created': 'Order Created',
+                    'updated': 'Status Updated',
+                    'status_changed': 'Status Changed',
+                    'delivered': 'Delivered',
+                    'picked_up': 'Picked Up',
+                    'in_transit': 'In Transit',
+                    'out_for_delivery': 'Out for Delivery'
+                };
+                return eventMap[event.toLowerCase()] || event.charAt(0).toUpperCase() + event.slice(1).replace(/_/g, ' ');
+            }
+
+            function getT(key) {
+                const currentLang = localStorage.getItem('language') || 'en';
+                const keys = key.split('.');
+                let value = typeof translations !== 'undefined' ? translations[currentLang] : null;
+
+                if (!value) return null;
+
+                for (const k of keys) {
+                    if (value && typeof value === 'object' && value[k]) {
+                        value = value[k];
+                    } else {
+                        // Fallback to English
+                        if (currentLang !== 'en' && typeof translations !== 'undefined') {
+                            let enValue = translations.en;
+                            for (const k of keys) {
+                                if (enValue && typeof enValue === 'object' && enValue[k]) {
+                                    enValue = enValue[k];
+                                } else {
+                                    return null;
+                                }
+                            }
+                            return enValue;
+                        }
+                        return null;
+                    }
+                }
+                return value;
+            }
+
+            function updateTranslations() {
+                const lang = localStorage.getItem('language') || 'en';
+                if (typeof translations !== 'undefined') {
+                    trackingResults.querySelectorAll('[data-i18n]').forEach(element => {
+                        const key = element.getAttribute('data-i18n');
+                        const translation = getT(key);
+                        if (translation) element.textContent = translation;
+                    });
+                }
+            }
+
+            // Copyright year
+            const yearEl = document.getElementById('copyright-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        });
+    </script>
+    <script src="translations.js"></script>
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+    <script src="/meta-pixel.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

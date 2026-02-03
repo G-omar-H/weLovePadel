@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendit API Test Page</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #C8102E;
+            margin-top: 0;
+        }
+        button {
+            background: #C8102E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        button:hover {
+            background: #A00D25;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            border-left: 4px solid #C8102E;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            border-left-color: #006233;
+            background: #f0f9f4;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #2D9CDB;
+        }
+        input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+            margin: 0.5rem 0;
+        }
+        label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Sendit API Integration Test Page</h1>
+    <p>Use this page to test your Sendit API integration before going live.</p>
+
+    <div class="info">
+        <strong>⚠️ Before Testing:</strong>
+        <ol>
+            <li>Make sure you've updated credentials in <code>sendit-config.js</code></li>
+            <li>Replace <code>YOUR_PUBLIC_KEY_HERE</code> and <code>YOUR_SECRET_KEY_HERE</code></li>
+            <li>Set your <code>PICKUP_DISTRICT_ID</code></li>
+        </ol>
+    </div>
+
+    <!-- Test 1: Configuration Check -->
+    <div class="test-section">
+        <h2>1. Configuration Check</h2>
+        <button onclick="testConfig()">Check Configuration</button>
+        <div id="configResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 2: Authentication -->
+    <div class="test-section">
+        <h2>2. Authentication Test</h2>
+        <button onclick="testAuth()">Test Login</button>
+        <div id="authResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 3: Get Districts -->
+    <div class="test-section">
+        <h2>3. Get Districts (Cities)</h2>
+        <button onclick="testDistricts()">Load Districts</button>
+        <div id="districtsResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 4: Get Specific District -->
+    <div class="test-section">
+        <h2>4. Get District Details</h2>
+        <label>District ID:</label>
+        <input type="number" id="districtId" value="1" placeholder="Enter district ID">
+        <button onclick="testDistrictDetails()">Get District Details</button>
+        <div id="districtResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 5: Calculate Shipping -->
+    <div class="test-section">
+        <h2>5. Calculate Shipping Cost</h2>
+        <label>District ID:</label>
+        <input type="number" id="shippingDistrictId" value="1" placeholder="Enter district ID">
+        <button onclick="testShipping()">Calculate Shipping</button>
+        <div id="shippingResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 6: Create Test Delivery -->
+    <div class="test-section">
+        <h2>6. Create Test Delivery</h2>
+        <p><strong>⚠️ Warning:</strong> This will create an actual delivery in Sendit!</p>
+        <label>District ID:</label>
+        <input type="number" id="deliveryDistrictId" value="1" placeholder="Enter district ID">
+        <label>Customer Name:</label>
+        <input type="text" id="customerName" value="Test Customer" placeholder="Customer name">
+        <label>Phone:</label>
+        <input type="text" id="customerPhone" value="0612345678" placeholder="Phone number">
+        <label>Address:</label>
+        <input type="text" id="customerAddress" value="Test Address, Casablanca" placeholder="Address">
+        <label>Order Amount (MAD):</label>
+        <input type="number" id="orderAmount" value="299" placeholder="Order amount">
+        <br>
+        <button onclick="testCreateDelivery()">Create Test Delivery</button>
+        <div id="deliveryResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 7: Track Delivery -->
+    <div class="test-section">
+        <h2>7. Track Delivery</h2>
+        <label>Delivery Code:</label>
+        <input type="text" id="trackingCode" placeholder="Enter delivery code (e.g., DXXXXXXX)">
+        <button onclick="testTracking()">Track Delivery</button>
+        <div id="trackingResult" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script>
+        // Initialize Sendit local config object (will be populated if file exists)
+        if (typeof window.SENDIT_LOCAL_CONFIG === 'undefined') {
+            window.SENDIT_LOCAL_CONFIG = {};
+        }
+        // Try to load Sendit local config dynamically (only if file exists)
+        fetch('sendit-config.local.js')
+            .then(response => {
+                if (response.ok) {
+                    const script = document.createElement('script');
+                    script.src = 'sendit-config.local.js';
+                    document.head.appendChild(script);
+                }
+            })
+            .catch(() => {
+                // File doesn't exist (normal in production), use defaults
+            });
+    </script>
+    <script src="sendit-config.js"></script>
+    <script>
+        // Load config from API endpoint (for Vercel environment variables)
+        (async function() {
+            if (typeof loadSenditConfigFromAPI === 'function') {
+                try {
+                    const apiConfig = await loadSenditConfigFromAPI();
+                    if (apiConfig && typeof SENDIT_CONFIG !== 'undefined') {
+                        Object.keys(apiConfig).forEach(key => {
+                            if (apiConfig[key] !== 'YOUR_PUBLIC_KEY_HERE' && 
+                                apiConfig[key] !== 'YOUR_SECRET_KEY_HERE') {
+                                SENDIT_CONFIG[key] = apiConfig[key];
+                            }
+                        });
+                        console.log('✅ Sendit config loaded from API');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Could not load Sendit config from API, using defaults');
+                }
+            }
+        })();
+    </script>
+    <script src="sendit-integration.js"></script>
+    <script>
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result ' + (isSuccess ? 'success' : 'error');
+            element.textContent = message;
+        }
+
+        async function testConfig() {
+            try {
+                // Wait a bit for API config to load if it hasn't yet
+                if (typeof loadSenditConfigFromAPI === 'function') {
+                    try {
+                        const apiConfig = await loadSenditConfigFromAPI();
+                        if (apiConfig && typeof SENDIT_CONFIG !== 'undefined') {
+                            Object.keys(apiConfig).forEach(key => {
+                                if (apiConfig[key] !== 'YOUR_PUBLIC_KEY_HERE' && 
+                                    apiConfig[key] !== 'YOUR_SECRET_KEY_HERE') {
+                                    SENDIT_CONFIG[key] = apiConfig[key];
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.warn('Could not load config from API:', error);
+                    }
+                }
+                
+                // Wait for SENDIT_CONFIG to be available
+                let attempts = 0;
+                while (typeof SENDIT_CONFIG === 'undefined' && attempts < 20) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+                
+                if (typeof SENDIT_CONFIG === 'undefined') {
+                    showResult('configResult', '❌ Error: SENDIT_CONFIG not loaded. Check console for errors.', false);
+                    return;
+                }
+                
+                const config = SENDIT_CONFIG;
+                let message = 'Configuration Status:\n\n';
+                
+                if (config.PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE' || !config.PUBLIC_KEY) {
+                    message += '❌ PUBLIC_KEY not configured\n';
+                } else {
+                    message += `✅ PUBLIC_KEY: ${config.PUBLIC_KEY.substring(0, 10)}...\n`;
+                }
+                
+                if (config.SECRET_KEY === 'YOUR_SECRET_KEY_HERE' || !config.SECRET_KEY) {
+                    message += '❌ SECRET_KEY not configured\n';
+                } else {
+                    message += `✅ SECRET_KEY: ${config.SECRET_KEY.substring(0, 10)}...\n`;
+                }
+                
+                message += `\nBASE_URL: ${config.BASE_URL}\n`;
+                message += `PICKUP_DISTRICT_ID: ${config.PICKUP_DISTRICT_ID || 'Not set'}\n`;
+                message += `ALLOW_OPEN: ${config.ALLOW_OPEN}\n`;
+                message += `ALLOW_TRY: ${config.ALLOW_TRY}\n`;
+                message += `PRODUCTS_FROM_STOCK: ${config.PRODUCTS_FROM_STOCK}\n`;
+                message += `OPTION_EXCHANGE: ${config.OPTION_EXCHANGE}\n`;
+                
+                const isConfigured = config.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY_HERE' && 
+                                    config.PUBLIC_KEY !== '' &&
+                                    config.SECRET_KEY !== 'YOUR_SECRET_KEY_HERE' &&
+                                    config.SECRET_KEY !== '';
+                
+                showResult('configResult', message, isConfigured);
+            } catch (error) {
+                showResult('configResult', 'Error: ' + error.message + '\n\nStack: ' + (error.stack || 'N/A'), false);
+            }
+        }
+
+        async function testAuth() {
+            try {
+                showResult('authResult', 'Testing authentication...', true);
+                const token = await SENDIT_CONFIG.getToken();
+                const message = `✅ Authentication Successful!\n\nToken: ${token.substring(0, 50)}...\n\nToken stored in localStorage.`;
+                showResult('authResult', message, true);
+            } catch (error) {
+                showResult('authResult', `❌ Authentication Failed:\n\n${error.message}\n\nCheck your credentials in sendit-config.js`, false);
+            }
+        }
+
+        async function testDistricts() {
+            try {
+                showResult('districtsResult', 'Loading districts...', true);
+                const districts = await sendit.getDistricts();
+                const message = `✅ Districts Loaded: ${districts.length}\n\n` +
+                    `Sample districts:\n${JSON.stringify(districts.slice(0, 5), null, 2)}\n\n` +
+                    `Total: ${districts.length} districts`;
+                showResult('districtsResult', message, true);
+            } catch (error) {
+                showResult('districtsResult', `❌ Failed to load districts:\n\n${error.message}`, false);
+            }
+        }
+
+        async function testDistrictDetails() {
+            try {
+                const districtId = document.getElementById('districtId').value;
+                if (!districtId) {
+                    showResult('districtResult', 'Please enter a district ID', false);
+                    return;
+                }
+                
+                showResult('districtResult', `Loading district ${districtId}...`, true);
+                const district = await sendit.getDistrictById(districtId);
+                
+                if (district) {
+                    const message = `✅ District Found:\n\n${JSON.stringify(district, null, 2)}`;
+                    showResult('districtResult', message, true);
+                } else {
+                    showResult('districtResult', `District ${districtId} not found`, false);
+                }
+            } catch (error) {
+                showResult('districtResult', `❌ Error:\n\n${error.message}`, false);
+            }
+        }
+
+        async function testShipping() {
+            try {
+                const districtId = document.getElementById('shippingDistrictId').value;
+                if (!districtId) {
+                    showResult('shippingResult', 'Please enter a district ID', false);
+                    return;
+                }
+                
+                showResult('shippingResult', `Calculating shipping for district ${districtId}...`, true);
+                const result = await sendit.calculateShippingCost(districtId);
+                
+                const message = `✅ Shipping Calculated:\n\n` +
+                    `Cost: ${result.cost} MAD\n` +
+                    `Delivery Time: ${result.deliveryTime}\n` +
+                    `District: ${result.district ? result.district.name || result.district.ville : 'N/A'}`;
+                showResult('shippingResult', message, true);
+            } catch (error) {
+                showResult('shippingResult', `❌ Error:\n\n${error.message}`, false);
+            }
+        }
+
+        async function testCreateDelivery() {
+            try {
+                const districtId = document.getElementById('deliveryDistrictId').value;
+                const name = document.getElementById('customerName').value;
+                const phone = document.getElementById('customerPhone').value;
+                const address = document.getElementById('customerAddress').value;
+                const amount = parseFloat(document.getElementById('orderAmount').value);
+                
+                if (!districtId || !name || !phone || !address || !amount) {
+                    showResult('deliveryResult', 'Please fill in all fields', false);
+                    return;
+                }
+                
+                showResult('deliveryResult', 'Creating delivery...', true);
+                
+                const orderData = {
+                    customer: {
+                        firstName: name.split(' ')[0] || name,
+                        lastName: name.split(' ').slice(1).join(' ') || 'Test',
+                        email: 'test@example.com',
+                        phone: phone
+                    },
+                    shipping: {
+                        address: address,
+                        city: 'Test City',
+                        districtId: districtId,
+                        postalCode: '20000',
+                        country: 'Morocco',
+                        notes: 'Test delivery from integration test page'
+                    },
+                    payment: {
+                        method: 'test',
+                        details: null
+                    },
+                    items: [{
+                        id: 'test-product',
+                        name: 'Test Product',
+                        price: '299',
+                        quantity: 1
+                    }],
+                    subtotal: amount,
+                    shippingCost: 0,
+                    total: amount,
+                    orderNumber: 'TEST-' + Date.now()
+                };
+                
+                const delivery = await sendit.createDelivery(orderData);
+                
+                const message = `✅ Delivery Created Successfully!\n\n` +
+                    `Delivery Code: ${delivery.deliveryCode}\n` +
+                    `Tracking Code: ${delivery.trackingCode}\n` +
+                    `Label URL: ${delivery.labelUrl || 'N/A'}\n\n` +
+                    `Full Response:\n${JSON.stringify(delivery.deliveryData, null, 2)}`;
+                showResult('deliveryResult', message, true);
+            } catch (error) {
+                showResult('deliveryResult', `❌ Failed to create delivery:\n\n${error.message}`, false);
+            }
+        }
+
+        async function testTracking() {
+            try {
+                const code = document.getElementById('trackingCode').value.trim();
+                if (!code) {
+                    showResult('trackingResult', 'Please enter a delivery code', false);
+                    return;
+                }
+                
+                showResult('trackingResult', `Tracking delivery ${code}...`, true);
+                const delivery = await sendit.getDeliveryDetails(code);
+                
+                if (delivery) {
+                    const message = `✅ Delivery Found:\n\n` +
+                        `Code: ${delivery.code}\n` +
+                        `Status: ${delivery.status}\n` +
+                        `Recipient: ${delivery.name}\n` +
+                        `Phone: ${delivery.phone}\n` +
+                        `Address: ${delivery.address}\n` +
+                        `Amount: ${delivery.amount} MAD\n` +
+                        `Fee: ${delivery.fee} MAD\n\n` +
+                        `Full Details:\n${JSON.stringify(delivery, null, 2)}`;
+                    showResult('trackingResult', message, true);
+                } else {
+                    showResult('trackingResult', `Delivery ${code} not found`, false);
+                }
+            } catch (error) {
+                showResult('trackingResult', `❌ Error:\n\n${error.message}`, false);
+            }
+        }
+
+        // Auto-check config on load
+        window.addEventListener('load', () => {
+            testConfig();
+        });
+    </script>
+</body>
+</html>
+

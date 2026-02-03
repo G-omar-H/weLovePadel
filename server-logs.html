@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Logs - StoreName</title>
+    <link rel="icon" type="image/png" href="./assets/icons/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-color: #2a2a3a;
+            --accent-primary: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --accent-cyan: #06b6d4;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1025 100%);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        .login-error {
+            color: var(--accent-red);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: var(--radius-sm);
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-mini {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-mini-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-mini-value.success { color: var(--accent-green); }
+        .stat-mini-value.redirect { color: var(--accent-yellow); }
+        .stat-mini-value.client-error { color: var(--accent-orange); }
+        .stat-mini-value.server-error { color: var(--accent-red); }
+        .stat-mini-value.total { color: var(--accent-blue); }
+
+        .stat-mini-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Filters */
+        .filters-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-input {
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            min-width: 140px;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .filter-input.search {
+            min-width: 250px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .filter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .filter-btn.secondary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Logs Table */
+        .logs-table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .logs-table {
+            width: 100%;
+            min-width: 900px; /* Ensure table has minimum width for horizontal scroll */
+            border-collapse: collapse;
+        }
+
+        .logs-table th,
+        .logs-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logs-table th {
+            background: var(--bg-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+
+        .logs-table th.sortable {
+            cursor: pointer;
+        }
+
+        .logs-table th.sortable:hover {
+            color: var(--text-primary);
+        }
+
+        .logs-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .logs-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .logs-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-badge.s2xx { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .status-badge.s3xx { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
+        .status-badge.s4xx { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .status-badge.s5xx { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+
+        /* Method Badge */
+        .method-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .method-badge.GET { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .method-badge.POST { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .method-badge.PUT { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
+        .method-badge.DELETE { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .method-badge.OPTIONS { background: rgba(139, 92, 246, 0.15); color: var(--accent-primary); }
+        .method-badge.HEAD { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+
+        /* Path Cell */
+        .path-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .path-cell .query {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Location Cell */
+        .location-cell {
+            font-size: 0.85rem;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .location-cell .country-flag {
+            margin-right: 4px;
+            font-size: 1rem;
+        }
+
+        /* Time Cell */
+        .time-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .time-cell .ms {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Response Time */
+        .response-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .response-time.fast { color: var(--accent-green); }
+        .response-time.medium { color: var(--accent-yellow); }
+        .response-time.slow { color: var(--accent-red); }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--bg-card-hover);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Log Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .modal-header h2 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .modal-header h2 #modalPath {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent-green);
+        }
+
+        .copy-btn .copy-icon {
+            font-size: 1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-green);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .detail-section {
+            margin-bottom: 24px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section h3 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .detail-item {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .detail-item-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-item-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .detail-code {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .detail-headers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-item {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .header-key {
+            background: var(--bg-card-hover);
+            padding: 8px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            min-width: 180px;
+        }
+
+        .header-value {
+            padding: 8px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Responsive - Mobile First Approach */
+        
+        /* Large screens */
+        @media (max-width: 1200px) {
+            .path-cell {
+                max-width: 300px;
+            }
+        }
+
+        /* Tablets */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .header-nav {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .path-cell {
+                max-width: 250px;
+            }
+
+            .location-cell {
+                max-width: 140px;
+            }
+        }
+
+        /* Small tablets / large phones */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header-title h1 {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .filter-group {
+                flex: 1 1 100%;
+            }
+
+            .filter-input {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .filter-actions {
+                flex-direction: row;
+                width: 100%;
+            }
+
+            .filter-btn {
+                flex: 1;
+            }
+
+            /* Table stays scrollable with all columns */
+            .logs-table-container {
+                margin: 0 -16px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .logs-table {
+                font-size: 0.85rem;
+            }
+
+            .logs-table th,
+            .logs-table td {
+                padding: 10px 8px;
+            }
+
+            .path-cell {
+                max-width: 200px;
+                font-size: 0.8rem;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .pagination-info {
+                font-size: 0.85rem;
+            }
+
+            .pagination-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .pagination-btn {
+                flex: 1;
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+
+            /* Modal improvements */
+            .modal-overlay {
+                padding: 16px;
+            }
+
+            .modal {
+                max-height: 90vh;
+                width: 100%;
+                max-width: none;
+                border-radius: var(--radius-md);
+            }
+
+            .modal-header {
+                padding: 16px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 0.95rem;
+                flex: 1 1 100%;
+                order: 1;
+            }
+
+            .modal-actions {
+                order: 0;
+                margin-left: auto;
+            }
+
+            .modal-body {
+                padding: 16px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .detail-code {
+                font-size: 0.75rem;
+                word-break: break-all;
+            }
+
+            .detail-headers {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 576px) {
+            .header-content {
+                gap: 12px;
+            }
+
+            .header-title {
+                justify-content: center;
+            }
+
+            .header-title .logo {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+
+            .header-title h1 {
+                font-size: 1.1rem;
+            }
+
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .refresh-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .live-indicator {
+                font-size: 0.8rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-value {
+                font-size: 1.1rem;
+            }
+
+            /* Compact filter labels */
+            .filter-label {
+                font-size: 0.7rem;
+            }
+
+            .filter-input {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+
+            /* Scroll hint for table - only in active dashboard */
+            .dashboard.active .logs-table-container::before {
+                content: '← Scroll horizontally →';
+                display: block;
+                text-align: center;
+                padding: 8px;
+                background: var(--bg-secondary);
+                color: var(--text-muted);
+                font-size: 0.75rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .logs-table th,
+            .logs-table td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+
+            .method-badge {
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+
+            .status-badge {
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+
+            .path-cell {
+                max-width: 150px;
+                font-size: 0.75rem;
+            }
+
+            .location-cell {
+                max-width: 120px;
+                font-size: 0.8rem;
+            }
+
+            .time-cell {
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            /* Toast on mobile */
+            .toast {
+                bottom: 20px;
+                left: 16px;
+                right: 16px;
+                transform: translateY(100px);
+            }
+
+            .toast.show {
+                transform: translateY(0);
+            }
+
+            /* Copy button */
+            .copy-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .copy-btn .copy-text {
+                display: none;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-width: 380px) {
+            .main-content {
+                padding: 12px;
+            }
+
+            .stats-bar {
+                gap: 6px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .pagination-btn {
+                padding: 8px 6px;
+                font-size: 0.75rem;
+            }
+
+            .header-nav {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Touch device improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .logs-table tbody tr:active {
+                background: var(--bg-secondary);
+            }
+
+            .pagination-btn,
+            .filter-btn,
+            .refresh-btn,
+            .nav-link {
+                min-height: 44px;
+            }
+
+            /* Larger touch targets for table rows */
+            .logs-table td {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+        }
+
+        /* Landscape phone */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .modal {
+                max-height: 95vh;
+            }
+
+            .modal-body {
+                max-height: calc(95vh - 60px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <h1>🔒 Server Logs</h1>
+            <p>Enter the admin password to access server logs</p>
+            <div class="login-error" id="loginError">Invalid password. Please try again.</div>
+            <input type="password" class="login-input" id="passwordInput" placeholder="Enter password" autofocus>
+            <button class="login-btn" id="loginBtn">Access Logs</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="logo">📋</div>
+                    <h1>Server Logs</h1>
+                </div>
+                <nav class="header-nav">
+                    <a href="analytics-dashboard.html" class="nav-link">📊 Analytics</a>
+                    <a href="server-logs.html" class="nav-link active">📋 Logs</a>
+                    <a href="orders-dashboard.html" class="nav-link">📦 Orders</a>
+                    <a href="business-insights.html" class="nav-link">📈 Insights</a>
+                </nav>
+                <div class="header-controls">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span id="totalLogs">0</span> Total Logs
+                    </div>
+                    <button class="refresh-btn" id="refreshBtn">
+                        <span>↻</span> Refresh
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-mini">
+                    <div class="stat-mini-value total" id="statTotal">0</div>
+                    <div class="stat-mini-label">Total Requests</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value success" id="stat2xx">0</div>
+                    <div class="stat-mini-label">2xx Success</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value redirect" id="stat3xx">0</div>
+                    <div class="stat-mini-label">3xx Redirect</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value client-error" id="stat4xx">0</div>
+                    <div class="stat-mini-label">4xx Client Error</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value server-error" id="stat5xx">0</div>
+                    <div class="stat-mini-label">5xx Server Error</div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-value" id="statAvgTime" style="color: var(--accent-cyan);">0ms</div>
+                    <div class="stat-mini-label">Avg Response</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <span class="filter-label">Search Path</span>
+                        <input type="text" class="filter-input search" id="filterPath" placeholder="e.g., /api, /checkout, .js">
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Method</span>
+                        <select class="filter-input" id="filterMethod">
+                            <option value="">All Methods</option>
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="OPTIONS">OPTIONS</option>
+                            <option value="HEAD">HEAD</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Status Code</span>
+                        <select class="filter-input" id="filterStatus">
+                            <option value="">All Status</option>
+                            <option value="2xx">2xx Success</option>
+                            <option value="3xx">3xx Redirect</option>
+                            <option value="4xx">4xx Client Error</option>
+                            <option value="5xx">5xx Server Error</option>
+                            <option value="200">200 OK</option>
+                            <option value="201">201 Created</option>
+                            <option value="301">301 Moved</option>
+                            <option value="302">302 Found</option>
+                            <option value="304">304 Not Modified</option>
+                            <option value="400">400 Bad Request</option>
+                            <option value="401">401 Unauthorized</option>
+                            <option value="403">403 Forbidden</option>
+                            <option value="404">404 Not Found</option>
+                            <option value="500">500 Server Error</option>
+                            <option value="502">502 Bad Gateway</option>
+                            <option value="503">503 Unavailable</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Response Time</span>
+                        <select class="filter-input" id="filterTime">
+                            <option value="">All Times</option>
+                            <option value="fast">Fast (&lt; 100ms)</option>
+                            <option value="medium">Medium (100-500ms)</option>
+                            <option value="slow">Slow (&gt; 500ms)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Browser</span>
+                        <select class="filter-input" id="filterBrowser">
+                            <option value="">All Browsers</option>
+                            <option value="Chrome">Chrome</option>
+                            <option value="Firefox">Firefox</option>
+                            <option value="Safari">Safari</option>
+                            <option value="Edge">Edge</option>
+                            <option value="Unknown">Unknown/Bot</option>
+                        </select>
+                    </div>
+                    <button class="filter-btn" id="applyFilters">Apply Filters</button>
+                    <button class="filter-btn secondary" id="clearFilters">Clear</button>
+                </div>
+            </div>
+
+            <!-- Logs Table -->
+            <div class="logs-table-container">
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="timestamp">Timestamp ▼</th>
+                            <th>Method</th>
+                            <th>Path</th>
+                            <th>Status</th>
+                            <th class="sortable" data-sort="responseTime">Response</th>
+                            <th>Location</th>
+                            <th>Browser</th>
+                            <th>Device</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <p>Loading logs...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 0-0 of 0 logs
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" id="firstPage">« First</button>
+                        <button class="pagination-btn" id="prevPage">‹ Prev</button>
+                        <button class="pagination-btn" id="nextPage">Next ›</button>
+                        <button class="pagination-btn" id="lastPage">Last »</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Log Detail Modal -->
+    <div class="modal-overlay" id="logModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><span id="modalMethod" class="method-badge GET">GET</span> <span id="modalPath">/path</span></h2>
+                <div class="modal-actions">
+                    <button class="copy-btn" id="copyLogBtn" title="Copy log details">
+                        <span class="copy-icon">📋</span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast notification -->
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script>
+        // Configuration
+        const API_BASE = '/api';
+        let authPassword = '';
+        let currentPage = 0;
+        const LOGS_PER_PAGE = 100;
+        let totalLogs = 0;
+        let allLogs = [];
+        let filteredLogs = [];
+        let sortOrder = 'desc';
+        let sortField = 'timestamp';
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboard = document.getElementById('dashboard');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const logsTableBody = document.getElementById('logsTableBody');
+        const logModal = document.getElementById('logModal');
+
+        // Login Handler
+        async function handleLogin() {
+            const password = passwordInput.value.trim();
+            if (!password) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/analytics/logs?password=${encodeURIComponent(password)}&limit=1`);
+                if (response.ok) {
+                    authPassword = password;
+                    loginScreen.style.display = 'none';
+                    dashboard.classList.add('active');
+                    loadLogs();
+                } else {
+                    loginError.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                loginError.style.display = 'block';
+            }
+        }
+
+        loginBtn.addEventListener('click', handleLogin);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        // API Request Helper
+        async function apiRequest(endpoint, params = {}) {
+            const url = new URL(`${API_BASE}${endpoint}`, window.location.origin);
+            url.searchParams.set('password', authPassword);
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined && value !== '') {
+                    url.searchParams.set(key, value);
+                }
+            });
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API request failed');
+            return response.json();
+        }
+
+        // Load Logs
+        async function loadLogs() {
+            try {
+                // Load all logs (up to 5000)
+                const data = await apiRequest('/analytics/logs', { limit: 5000, offset: 0 });
+                allLogs = data.logs || [];
+                totalLogs = data.total || allLogs.length;
+                
+                document.getElementById('totalLogs').textContent = formatNumber(totalLogs);
+                
+                applyFiltersAndSort();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading logs:', error);
+                logsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <div class="empty-state-icon">❌</div>
+                            <p>Error loading logs: ${error.message}</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Apply Filters and Sort
+        function applyFiltersAndSort() {
+            const pathFilter = document.getElementById('filterPath').value.toLowerCase();
+            const methodFilter = document.getElementById('filterMethod').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const timeFilter = document.getElementById('filterTime').value;
+            const browserFilter = document.getElementById('filterBrowser').value;
+
+            filteredLogs = allLogs.filter(log => {
+                // Path filter
+                if (pathFilter && !log.path.toLowerCase().includes(pathFilter)) return false;
+                
+                // Method filter
+                if (methodFilter && log.method !== methodFilter) return false;
+                
+                // Status filter
+                if (statusFilter) {
+                    if (statusFilter === '2xx' && (log.statusCode < 200 || log.statusCode >= 300)) return false;
+                    if (statusFilter === '3xx' && (log.statusCode < 300 || log.statusCode >= 400)) return false;
+                    if (statusFilter === '4xx' && (log.statusCode < 400 || log.statusCode >= 500)) return false;
+                    if (statusFilter === '5xx' && log.statusCode < 500) return false;
+                    if (!isNaN(parseInt(statusFilter)) && log.statusCode !== parseInt(statusFilter)) return false;
+                }
+                
+                // Time filter
+                if (timeFilter) {
+                    const rt = log.responseTime || 0;
+                    if (timeFilter === 'fast' && rt >= 100) return false;
+                    if (timeFilter === 'medium' && (rt < 100 || rt > 500)) return false;
+                    if (timeFilter === 'slow' && rt <= 500) return false;
+                }
+                
+                // Browser filter
+                if (browserFilter && log.browser !== browserFilter) return false;
+                
+                return true;
+            });
+
+            // Sort
+            filteredLogs.sort((a, b) => {
+                let aVal = a[sortField];
+                let bVal = b[sortField];
+                
+                if (sortField === 'timestamp') {
+                    aVal = new Date(aVal).getTime();
+                    bVal = new Date(bVal).getTime();
+                }
+                
+                if (sortOrder === 'desc') {
+                    return bVal > aVal ? 1 : -1;
+                } else {
+                    return aVal > bVal ? 1 : -1;
+                }
+            });
+
+            currentPage = 0;
+            renderLogs();
+        }
+
+        // Update Stats
+        function updateStats() {
+            const stats = {
+                total: filteredLogs.length,
+                s2xx: 0,
+                s3xx: 0,
+                s4xx: 0,
+                s5xx: 0,
+                totalTime: 0
+            };
+
+            filteredLogs.forEach(log => {
+                const status = log.statusCode || 0;
+                if (status >= 200 && status < 300) stats.s2xx++;
+                else if (status >= 300 && status < 400) stats.s3xx++;
+                else if (status >= 400 && status < 500) stats.s4xx++;
+                else if (status >= 500) stats.s5xx++;
+                stats.totalTime += log.responseTime || 0;
+            });
+
+            document.getElementById('statTotal').textContent = formatNumber(stats.total);
+            document.getElementById('stat2xx').textContent = formatNumber(stats.s2xx);
+            document.getElementById('stat3xx').textContent = formatNumber(stats.s3xx);
+            document.getElementById('stat4xx').textContent = formatNumber(stats.s4xx);
+            document.getElementById('stat5xx').textContent = formatNumber(stats.s5xx);
+            document.getElementById('statAvgTime').textContent = stats.total > 0 
+                ? Math.round(stats.totalTime / stats.total) + 'ms' 
+                : '0ms';
+        }
+
+        // Render Logs Table
+        function renderLogs() {
+            const start = currentPage * LOGS_PER_PAGE;
+            const end = Math.min(start + LOGS_PER_PAGE, filteredLogs.length);
+            const pageLogs = filteredLogs.slice(start, end);
+
+            if (pageLogs.length === 0) {
+                logsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No logs found matching your filters</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                logsTableBody.innerHTML = pageLogs.map(log => {
+                    // Format location display
+                    const locationParts = [];
+                    if (log.city && log.city !== 'Unknown' && log.city !== 'Loading...') locationParts.push(log.city);
+                    if (log.countryCode) locationParts.push(log.countryCode);
+                    const locationText = locationParts.length > 0 ? locationParts.join(', ') : (log.ip || 'Unknown');
+                    const locationTitle = [log.city, log.region, log.country, log.isp].filter(Boolean).join(' • ') || log.ip;
+                    
+                    return `
+                    <tr onclick="showLogDetail('${log.id}')">
+                        <td class="time-cell">${formatTimestamp(log.timestamp)}</td>
+                        <td><span class="method-badge ${log.method}">${log.method}</span></td>
+                        <td class="path-cell" title="${escapeHtml(log.path)}">${escapeHtml(log.path)}</td>
+                        <td><span class="status-badge s${Math.floor(log.statusCode/100)}xx">${log.statusCode}</span></td>
+                        <td class="response-time ${getResponseClass(log.responseTime)}">${log.responseTime}ms</td>
+                        <td class="location-cell" title="${escapeHtml(locationTitle)}">
+                            ${log.countryCode ? `<span class="country-flag">${getCountryFlag(log.countryCode)}</span>` : ''}
+                            ${escapeHtml(locationText)}
+                        </td>
+                        <td>${log.browser || 'Unknown'}</td>
+                        <td>${log.device || 'Unknown'}</td>
+                    </tr>
+                `;}).join('');
+            }
+
+            // Update pagination
+            document.getElementById('paginationInfo').textContent = 
+                `Showing ${start + 1}-${end} of ${formatNumber(filteredLogs.length)} logs`;
+            
+            document.getElementById('firstPage').disabled = currentPage === 0;
+            document.getElementById('prevPage').disabled = currentPage === 0;
+            document.getElementById('nextPage').disabled = end >= filteredLogs.length;
+            document.getElementById('lastPage').disabled = end >= filteredLogs.length;
+        }
+
+        // Current log for copying
+        let currentLogData = null;
+
+        // Show Log Detail Modal
+        function showLogDetail(logId) {
+            const log = allLogs.find(l => l.id === logId);
+            if (!log) return;
+
+            // Store for copy functionality
+            currentLogData = log;
+
+            document.getElementById('modalMethod').className = `method-badge ${log.method}`;
+            document.getElementById('modalMethod').textContent = log.method;
+            document.getElementById('modalPath').textContent = log.path;
+            
+            // Reset copy button
+            const copyBtn = document.getElementById('copyLogBtn');
+            copyBtn.classList.remove('copied');
+            copyBtn.querySelector('.copy-text').textContent = 'Copy';
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="detail-section">
+                    <h3>📋 Request Overview</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">Timestamp</div>
+                            <div class="detail-item-value">${new Date(log.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Method</div>
+                            <div class="detail-item-value"><span class="method-badge ${log.method}">${log.method}</span></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Status Code</div>
+                            <div class="detail-item-value"><span class="status-badge s${Math.floor(log.statusCode/100)}xx">${log.statusCode} ${getStatusText(log.statusCode)}</span></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Response Time</div>
+                            <div class="detail-item-value response-time ${getResponseClass(log.responseTime)}">${log.responseTime}ms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🌐 Full URL</h3>
+                    <div class="detail-code">${escapeHtml(log.path)}${log.query && Object.keys(log.query).length > 0 ? '?' + new URLSearchParams(log.query).toString() : ''}</div>
+                </div>
+
+                ${log.query && Object.keys(log.query).length > 0 ? `
+                <div class="detail-section">
+                    <h3>🔍 Query Parameters</h3>
+                    <div class="detail-headers">
+                        ${Object.entries(log.query).map(([key, value]) => `
+                            <div class="header-item">
+                                <div class="header-key">${escapeHtml(key)}</div>
+                                <div class="header-value">${escapeHtml(String(value))}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="detail-section">
+                    <h3>📍 Location</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">City</div>
+                            <div class="detail-item-value">${log.city || 'Unknown'}${log.region ? ', ' + log.region : ''}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Country</div>
+                            <div class="detail-item-value">${log.countryCode ? getCountryFlag(log.countryCode) + ' ' : ''}${log.country || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">ISP / Network</div>
+                            <div class="detail-item-value">${log.isp || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">IP Address</div>
+                            <div class="detail-item-value" style="font-family: 'JetBrains Mono', monospace;">${log.ip || 'Unknown'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>👤 Client Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">Browser</div>
+                            <div class="detail-item-value">${log.browser || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Operating System</div>
+                            <div class="detail-item-value">${log.os || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Device Type</div>
+                            <div class="detail-item-value">${log.device || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Visitor ID</div>
+                            <div class="detail-item-value">${log.visitorId || 'Unknown'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Referer</div>
+                            <div class="detail-item-value">${log.referer || 'Direct'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📱 User Agent</h3>
+                    <div class="detail-code">${escapeHtml(log.userAgent || 'Unknown')}</div>
+                </div>
+
+                ${log.requestHeaders ? `
+                <div class="detail-section">
+                    <h3>📨 Request Headers</h3>
+                    <div class="detail-headers">
+                        ${Object.entries(log.requestHeaders).map(([key, value]) => `
+                            <div class="header-item">
+                                <div class="header-key">${escapeHtml(key)}</div>
+                                <div class="header-value">${escapeHtml(String(value))}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                ${log.requestBody ? `
+                <div class="detail-section">
+                    <h3>📦 Request Body</h3>
+                    <div class="detail-code">${escapeHtml(typeof log.requestBody === 'object' ? JSON.stringify(log.requestBody, null, 2) : log.requestBody)}</div>
+                </div>
+                ` : ''}
+
+                ${log.error ? `
+                <div class="detail-section">
+                    <h3>❌ Error Details</h3>
+                    <div class="detail-code" style="color: var(--accent-red);">${escapeHtml(log.error)}</div>
+                </div>
+                ` : ''}
+
+                <div class="detail-section">
+                    <h3>🔑 Log ID</h3>
+                    <div class="detail-code">${log.id}</div>
+                </div>
+            `;
+
+            logModal.classList.add('active');
+        }
+
+        // Helper Functions
+        function formatNumber(num) {
+            return new Intl.NumberFormat().format(num);
+        }
+
+        function formatTimestamp(ts) {
+            const date = new Date(ts);
+            const today = new Date();
+            const isToday = date.toDateString() === today.toDateString();
+            
+            if (isToday) {
+                return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            }
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit'
+            });
+        }
+
+        function getResponseClass(ms) {
+            if (ms < 100) return 'fast';
+            if (ms < 500) return 'medium';
+            return 'slow';
+        }
+
+        function getStatusText(code) {
+            const statusTexts = {
+                200: 'OK', 201: 'Created', 204: 'No Content',
+                301: 'Moved', 302: 'Found', 304: 'Not Modified',
+                400: 'Bad Request', 401: 'Unauthorized', 403: 'Forbidden', 404: 'Not Found',
+                500: 'Server Error', 502: 'Bad Gateway', 503: 'Unavailable'
+            };
+            return statusTexts[code] || '';
+        }
+
+        // Convert country code to flag emoji
+        function getCountryFlag(countryCode) {
+            if (!countryCode || countryCode.length !== 2) return '';
+            const codePoints = countryCode
+                .toUpperCase()
+                .split('')
+                .map(char => 127397 + char.charCodeAt(0));
+            return String.fromCodePoint(...codePoints);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Format log for copying (plain text)
+        function formatLogForCopy(log) {
+            const lines = [];
+            const divider = '─'.repeat(60);
+            
+            lines.push('╔' + '═'.repeat(60) + '╗');
+            lines.push('║  SERVER LOG DETAILS');
+            lines.push('╚' + '═'.repeat(60) + '╝');
+            lines.push('');
+            
+            // Request Overview
+            lines.push('📋 REQUEST OVERVIEW');
+            lines.push(divider);
+            lines.push(`Timestamp:     ${new Date(log.timestamp).toLocaleString()}`);
+            lines.push(`Method:        ${log.method}`);
+            lines.push(`Status:        ${log.statusCode} ${getStatusText(log.statusCode)}`);
+            lines.push(`Response Time: ${log.responseTime}ms`);
+            lines.push(`Source:        ${log.source || 'api'}`);
+            lines.push('');
+            
+            // URL
+            lines.push('🌐 URL');
+            lines.push(divider);
+            const fullUrl = log.fullUrl || log.path;
+            lines.push(fullUrl);
+            lines.push('');
+            
+            // Query Parameters
+            if (log.query && Object.keys(log.query).length > 0) {
+                lines.push('🔍 QUERY PARAMETERS');
+                lines.push(divider);
+                Object.entries(log.query).forEach(([key, value]) => {
+                    lines.push(`${key}: ${value}`);
+                });
+                lines.push('');
+            }
+            
+            // Location
+            lines.push('📍 LOCATION');
+            lines.push(divider);
+            lines.push(`City:          ${log.city || 'Unknown'}${log.region ? ', ' + log.region : ''}`);
+            lines.push(`Country:       ${log.country || 'Unknown'} (${log.countryCode || ''})`);
+            lines.push(`ISP/Network:   ${log.isp || 'Unknown'}`);
+            lines.push(`IP Address:    ${log.ip || 'Unknown'}`);
+            lines.push('');
+            
+            // Client Information
+            lines.push('👤 CLIENT INFORMATION');
+            lines.push(divider);
+            lines.push(`Browser:       ${log.browser || 'Unknown'}`);
+            lines.push(`OS:            ${log.os || 'Unknown'}`);
+            lines.push(`Device:        ${log.device || 'Unknown'}`);
+            lines.push(`Visitor ID:    ${log.visitorId || 'Unknown'}`);
+            lines.push(`Referer:       ${log.referer || 'Direct'}`);
+            lines.push('');
+            
+            // User Agent
+            lines.push('📱 USER AGENT');
+            lines.push(divider);
+            lines.push(log.userAgent || 'Unknown');
+            lines.push('');
+            
+            // Request Headers
+            if (log.requestHeaders && Object.keys(log.requestHeaders).length > 0) {
+                lines.push('📨 REQUEST HEADERS');
+                lines.push(divider);
+                Object.entries(log.requestHeaders).forEach(([key, value]) => {
+                    lines.push(`${key}: ${value}`);
+                });
+                lines.push('');
+            }
+            
+            // Request Body
+            if (log.requestBody) {
+                lines.push('📦 REQUEST BODY');
+                lines.push(divider);
+                if (typeof log.requestBody === 'object') {
+                    lines.push(JSON.stringify(log.requestBody, null, 2));
+                } else {
+                    lines.push(log.requestBody);
+                }
+                lines.push('');
+            }
+            
+            // Error
+            if (log.error) {
+                lines.push('❌ ERROR');
+                lines.push(divider);
+                lines.push(log.error);
+                lines.push('');
+            }
+            
+            // Log ID
+            lines.push('🔑 LOG ID');
+            lines.push(divider);
+            lines.push(log.id);
+            lines.push('');
+            
+            // JSON (for technical use)
+            lines.push('📄 RAW JSON');
+            lines.push(divider);
+            lines.push(JSON.stringify(log, null, 2));
+            
+            return lines.join('\n');
+        }
+
+        // Copy log to clipboard
+        async function copyLogToClipboard() {
+            if (!currentLogData) return;
+            
+            const text = formatLogForCopy(currentLogData);
+            const copyBtn = document.getElementById('copyLogBtn');
+            const toast = document.getElementById('toast');
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                // Update button
+                copyBtn.classList.add('copied');
+                copyBtn.querySelector('.copy-icon').textContent = '✓';
+                copyBtn.querySelector('.copy-text').textContent = 'Copied!';
+                
+                // Show toast
+                toast.classList.add('show');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.querySelector('.copy-icon').textContent = '📋';
+                    copyBtn.querySelector('.copy-text').textContent = 'Copy';
+                }, 3000);
+                
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                copyBtn.classList.add('copied');
+                copyBtn.querySelector('.copy-text').textContent = 'Copied!';
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    copyBtn.classList.remove('copied');
+                    copyBtn.querySelector('.copy-text').textContent = 'Copy';
+                }, 2000);
+            }
+        }
+
+        // Event Listeners
+        refreshBtn.addEventListener('click', loadLogs);
+
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            applyFiltersAndSort();
+            updateStats();
+        });
+
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.getElementById('filterPath').value = '';
+            document.getElementById('filterMethod').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterTime').value = '';
+            document.getElementById('filterBrowser').value = '';
+            applyFiltersAndSort();
+            updateStats();
+        });
+
+        // Pagination
+        document.getElementById('firstPage').addEventListener('click', () => {
+            currentPage = 0;
+            renderLogs();
+        });
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderLogs();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if ((currentPage + 1) * LOGS_PER_PAGE < filteredLogs.length) {
+                currentPage++;
+                renderLogs();
+            }
+        });
+
+        document.getElementById('lastPage').addEventListener('click', () => {
+            currentPage = Math.floor((filteredLogs.length - 1) / LOGS_PER_PAGE);
+            renderLogs();
+        });
+
+        // Copy log button
+        document.getElementById('copyLogBtn').addEventListener('click', copyLogToClipboard);
+
+        // Modal close
+        document.getElementById('modalClose').addEventListener('click', () => {
+            logModal.classList.remove('active');
+        });
+
+        logModal.addEventListener('click', (e) => {
+            if (e.target === logModal) {
+                logModal.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && logModal.classList.contains('active')) {
+                logModal.classList.remove('active');
+            }
+        });
+
+        // Filter on Enter
+        document.getElementById('filterPath').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                applyFiltersAndSort();
+                updateStats();
+            }
+        });
+
+        // Sort headers
+        document.querySelectorAll('.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const field = th.dataset.sort;
+                if (sortField === field) {
+                    sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+                } else {
+                    sortField = field;
+                    sortOrder = 'desc';
+                }
+                applyFiltersAndSort();
+            });
+        });
+    </script>
+</body>
+</html>
+

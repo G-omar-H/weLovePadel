@@ -1,0 +1,26 @@
+// PayPal API Local Configuration
+// Copy this file to paypal-config.local.js and fill in your actual credentials
+// This file is gitignored and will not be committed to the repository
+// Get your credentials from: https://developer.paypal.com/dashboard/
+
+// This file will be automatically loaded by paypal-config.js
+// DO NOT commit this file with real credentials!
+
+window.PAYPAL_LOCAL_CONFIG = {
+    // Sandbox Client ID (for testing)
+    // Get from: https://developer.paypal.com/dashboard/applications/sandbox
+    CLIENT_ID_SANDBOX: 'your_sandbox_client_id_here',
+    
+    // Live Client ID (for production) - REQUIRED for production
+    // Get from: https://developer.paypal.com/dashboard/applications/live
+    CLIENT_ID_LIVE: 'your_live_client_id_here',
+    
+    // Use sandbox mode (true) or live mode (false)
+    // Set to false for production
+    USE_SANDBOX: false,
+    
+    // Currency conversion rate (MAD to USD)
+    // Update with real-time exchange rate
+    MAD_TO_USD_RATE: 0.1, // 1 MAD = 0.1 USD (update this!)
+};
+

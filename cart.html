@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shopping Cart - StoreName Premium Quality Products">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Shopping Cart - StoreName</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Early Language Detection & Initialization (Before Page Render) -->
+    <script>
+        (function () {
+            // Detect browser language OR use stored preference
+            function detectBrowserLanguage() {
+                // Check if user has already set a language preference
+                const storedLang = localStorage.getItem('language');
+                if (storedLang) {
+                    return storedLang; // Use stored preference
+                }
+
+                // Detect browser language (try multiple methods for best compatibility)
+                let browserLang = 'en'; // Default fallback
+
+                if (navigator.languages && navigator.languages.length > 0) {
+                    browserLang = navigator.languages[0];
+                } else if (navigator.language) {
+                    browserLang = navigator.language;
+                } else if (navigator.userLanguage) {
+                    browserLang = navigator.userLanguage;
+                }
+
+                // Get base language code (e.g., 'fr' from 'fr-FR', 'fr-CA', etc.)
+                const langCode = browserLang.toLowerCase().split('-')[0];
+
+                // Map to supported languages
+                const supportedLanguages = {
+                    'en': 'en', // English (en, en-US, en-GB, etc.)
+                    'fr': 'fr', // French (fr, fr-FR, fr-CA, etc.)
+                    'ar': 'ar'  // Arabic (ar, ar-MA, ar-SA, etc.)
+                };
+
+                // Return mapped language or default to English
+                return supportedLanguages[langCode] || 'en';
+            }
+
+            // Get language (from storage or detect)
+            const detectedLang = detectBrowserLanguage();
+
+            // Save detected language if it's the first visit (no stored preference)
+            if (!localStorage.getItem('language')) {
+                localStorage.setItem('language', detectedLang);
+            }
+
+            // Set HTML lang and dir attributes IMMEDIATELY (before page renders)
+            document.documentElement.lang = detectedLang;
+            document.documentElement.dir = detectedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <picture>
+                            <source srcset="/assets/logo/logo.webp" type="image/webp">
+                            <img src="/assets/logo/logo.png" alt="StoreName" class="logo-img" loading="eager">
+                        </picture>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                    <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                    <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                        <span class="cart-icon-symbol">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="fr">FR</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+        <div class="container">
+            <div class="breadcrumbs-container">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <span class="breadcrumbs-separator">▸</span>
+                <span class="breadcrumbs-current" data-i18n="cart.title">Shopping Cart</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="page-title">
+                <span class="page-title-icon">🛒</span>
+                <span data-i18n="cart.title">Shopping Cart</span>
+            </h1>
+
+            <div id="cartContent">
+                <!-- Cart items will be dynamically inserted here -->
+                <div class="cart-empty" id="cartEmpty">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h2 data-i18n="cart.empty.title">Your cart is empty</h2>
+                    <p data-i18n="cart.empty.desc">Add some products to get started!</p>
+                    <a href="products.html" class="btn btn-primary" data-i18n="cart.empty.shop">Shop Now</a>
+                </div>
+            </div>
+
+            <div class="cart-content-wrapper" id="cartWrapper" style="display: none;">
+                <div id="cartItemsContainer" class="cart-items"></div>
+                <div class="cart-summary" id="cartSummary">
+                    <div class="summary-content">
+                        <h3 data-i18n="cart.summary.title">Order Summary</h3>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row">
+                            <span data-i18n="cart.summary.items">Items (<span id="cartItemCount">0</span>)</span>
+                            <span id="cartSubtotal">0 MAD</span>
+                        </div>
+                        <div class="summary-row">
+                            <span data-i18n="cart.summary.shipping">Shipping</span>
+                            <span class="shipping-free" data-i18n="cart.summary.shippingFree">Free</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row total">
+                            <span data-i18n="cart.summary.total">Total</span>
+                            <span id="cartTotal" class="price-highlight">0 MAD</span>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="cart-shipping-info">
+                            <span class="shipping-icon">🚚</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.free">Free Shipping</span>
+                            <span class="shipping-separator">•</span>
+                            <span class="shipping-icon">⏱️</span>
+                            <span class="shipping-text" data-i18n="productDetail.shippingInfo.deliveryTime">1-2 Days
+                                (7/7)</span>
+                        </div>
+
+                        <!-- Security Note (Above Checkout Button) -->
+                        <div class="cart-security-note">
+                            <span class="security-icon">🔒</span>
+                            <span data-i18n="cart.secure">Secure checkout guaranteed</span>
+                        </div>
+
+                        <button class="btn btn-cta btn-checkout" id="checkoutBtn" data-i18n="cart.checkout">Proceed
+                            to Checkout</button>
+                        <span class="cod-badge cart-cod-badge" data-i18n="productDetail.cashOnDelivery">💵 Pay on
+                            Delivery</span>
+
+                        <!-- Payment Partners Icons (Below Checkout Button) -->
+                        <div class="cart-payment-methods">
+                            <p class="payment-methods-label" data-i18n="cart.paymentPartners">Trusted Payment Partners
+                            </p>
+                            <div class="payment-icons-container">
+                                <img src="assets/payment_authoritary_icons/visa_icon.png" alt="Visa"
+                                    class="payment-icon" loading="lazy">
+                                <img src="assets/payment_authoritary_icons/mastercard_icon.png" alt="Mastercard"
+                                    class="payment-icon" loading="lazy">
+                                <img src="assets/payment_authoritary_icons/american_express_icon.png"
+                                    alt="American Express" class="payment-icon" loading="lazy">
+                                <img src="assets/payment_authoritary_icons/paypal_icon.webp" alt="PayPal"
+                                    class="payment-icon" loading="lazy">
+                            </div>
+                        </div>
+
+                        <a href="products.html" class="btn btn-outline btn-continue-shopping"
+                            data-i18n="cart.continue">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <picture>
+                        <source srcset="/assets/logo/logo.webp" type="image/webp">
+                        <img src="/assets/logo/logo.png" alt="StoreName" class="footer-logo-img" loading="lazy">
+                    </picture>
+                    <p data-i18n="footer.tagline">Premium Quality, Modern Excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                        <li><a href="products.html" data-i18n="nav.products">Products</a></li>
+                        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="privacy-policy.html" data-i18n="legal.footer.privacyLink">Privacy Policy</a></li>
+                        <li><a href="terms.html" data-i18n="legal.footer.termsLink">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer.follow">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/storename/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0ZM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.138-.866c-.846-.935-1.224-2.013-1.293-2.438h.032c-.021-.12-.033-.244-.039-.371h-3.972v11.16c0 .188 0 .373-.008.557a2.952 2.952 0 0 1-2.946 2.752 2.956 2.956 0 0 1-2.132-.884 2.945 2.945 0 0 1-.549-3.085 2.955 2.955 0 0 1 2.681-1.762c.306 0 .6.047.877.134v-4.007a7.047 7.047 0 0 0-.88-.056 6.934 6.934 0 0 0-4.93 2.055A6.937 6.937 0 0 0 2.6 12.556a6.995 6.995 0 0 0 .857 4.443 6.928 6.928 0 0 0 3.026 2.717 6.904 6.904 0 0 0 2.05.63c.334.046.672.07 1.01.07a6.952 6.952 0 0 0 5.537-2.748 6.95 6.95 0 0 0 1.387-4.182v-5.45a9.161 9.161 0 0 0 2.31 1.417 9.134 9.134 0 0 0 2.844.772V6.208c-.48-.033-.96-.13-1.422-.29a5.263 5.263 0 0 1-.878-.356 Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@StoreName" target="_blank" rel="noopener noreferrer"
+                            aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.pinterest.com/storename" target="_blank" rel="noopener noreferrer"
+                            aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.182-.78 1.172-4.97 1.172-4.97s-.299-.6-.299-1.486c0-1.39.806-2.428 1.81-2.428.852 0 1.264.64 1.264 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.223-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.525-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> StoreName. <span data-i18n="footer.rights">All rights
+                        reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics -->
+    <script src="analytics.js"></script>
+    <script src="custom-analytics.js"></script>
+    <script src="/meta-pixel.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Cart page functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+
+            // Track cart view
+            if (typeof trackCartView === 'function' && cart.items.length > 0) {
+                const totalValue = cart.getTotalPrice();
+                trackCartView(cart.items, totalValue);
+            }
+        });
+
+        // Listen for language changes and re-render cart
+        document.addEventListener('languageChanged', () => {
+            renderCart();
+        });
+
+        // Also listen for storage events (when language changes in another tab/window)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'language') {
+                renderCart();
+            }
+        });
+
+        function renderCart() {
+            const cartContent = document.getElementById('cartContent');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartWrapper = document.getElementById('cartWrapper');
+            const cartItemsContainer = document.getElementById('cartItemsContainer');
+
+            if (cart.items.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartWrapper.style.display = 'none';
+                return;
+            }
+
+            cartEmpty.style.display = 'none';
+            cartWrapper.style.display = 'grid';
+
+            const currentLang = localStorage.getItem('language') || 'en';
+            let html = '';
+
+            cart.items.forEach(item => {
+                // Use originalId if available (for products with sizes), otherwise use item.id
+                const productId = item.originalId || item.id;
+                const product = products[productId];
+                const name = product ? (product.name[currentLang] || product.name.en) : item.name;
+                // Parse price - handle both "0.5 MAD" format and numeric values
+                let priceStr = item.price || product?.price || '0';
+                if (typeof priceStr === 'string') {
+                    priceStr = priceStr.replace(' MAD', '').replace(/\s/g, '').replace(',', '');
+                }
+                const price = parseFloat(priceStr) || 0;
+                const total = price * item.quantity;
+
+                // Get image path - prefer item.image if stored, otherwise use variation image or product image
+                let imagePath = '';
+                let imageWebP = '';
+                if (item.image) {
+                    // Image is stored in cart item, use it directly
+                    const extension = product?.imageExtension || 'jpeg';
+                    imagePath = `/products/${item.image}.${extension}`;
+                    imageWebP = `/products/${item.image}.webp`;
+                } else if (item.variation && product?.variations && product.variations[item.variation] && product.variations[item.variation].images && product.variations[item.variation].images.length > 0) {
+                    // Use variation image if available
+                    const variationImage = product.variations[item.variation].images[0];
+                    imagePath = `/products/${variationImage.path}.${variationImage.extension}`;
+                    imageWebP = `/products/${variationImage.path}.webp`;
+                } else if (product?.image) {
+                    // Fallback to product image
+                    imagePath = `/products/${product.image}.${product.imageExtension || 'jpeg'}`;
+                    imageWebP = `/products/${product.image}.webp`;
+                }
+
+                html += `
+                    <div class="cart-item" data-product-id="${item.id}">
+                        <div class="cart-item-image">
+                            ${imagePath ? `
+                            <picture>
+                                <source srcset="${imageWebP}" type="image/webp">
+                                <img src="${imagePath}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            </picture>
+                            <div class="product-placeholder" style="display: none;"></div>` : `<div class="product-placeholder"></div>`}
+                        </div>
+                        <div class="cart-item-details">
+                            <a href="product-detail.html?id=${item.originalId || item.id}${item.variation ? '&variation=' + item.variation : ''}" class="cart-item-link">
+                                <h3>${name}</h3>
+                            </a>
+                            ${item.variation && product && product.variations && product.variations[item.variation] ? `<p class="cart-item-variation">${product.variations[item.variation].name[currentLang] || product.variations[item.variation].name.en}</p>` : ''}
+                            ${item.size ? `<p class="cart-item-size">Size: ${item.size}</p>` : ''}
+                            <p class="cart-item-price"><span class="price-amount">${price % 1 === 0 ? price.toFixed(0) : price.toFixed(2)}</span> <span class="price-currency">MAD</span> <span class="per-item" data-i18n="cart.perItem"></span></p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <span class="qty-value">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <div class="cart-item-total">
+                            <span><span class="price-amount">${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}</span> <span class="price-currency">MAD</span></span>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Remove">×</button>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = html;
+
+            // Update summary
+            const total = cart.getTotalPrice();
+            const itemCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+            // Format totals with proper currency positioning - always number first, then currency
+            const subtotalEl = document.getElementById('cartSubtotal');
+            const totalEl = document.getElementById('cartTotal');
+            if (subtotalEl) {
+                subtotalEl.innerHTML = `<span class="price-amount">${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}</span> <span class="price-currency">MAD</span>`;
+            }
+            if (totalEl) {
+                totalEl.innerHTML = `<span class="price-amount">${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}</span> <span class="price-currency">MAD</span>`;
+            }
+            const itemCountEl = document.getElementById('cartItemCount');
+            if (itemCountEl) {
+                itemCountEl.textContent = itemCount;
+            }
+
+            // Check if cart contains Atlas Star cap for express delivery
+            // Update translations for data-i18n attributes - use multiple attempts to ensure it works
+            const updateTranslations = () => {
+                const lang = localStorage.getItem('language') || 'en';
+                if (typeof getTranslation === 'function') {
+                    // Update all data-i18n attributes in the cart items
+                    document.querySelectorAll('#cartItemsContainer [data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        if (key) {
+                            try {
+                                const translation = getTranslation(key, lang);
+                                if (translation) {
+                                    if (translation.includes('<span') || translation.includes('<')) {
+                                        el.innerHTML = translation;
+                                    } else {
+                                        el.textContent = translation;
+                                    }
+                                }
+                            } catch (e) {
+                                console.warn('Translation error for key:', key, e);
+                            }
+                        }
+                    });
+
+                    const cartContent = document.getElementById('cartContent');
+                    if (cartContent) {
+                        cartContent.querySelectorAll('[data-i18n]').forEach(element => {
+                            const key = element.getAttribute('data-i18n');
+                            if (key) {
+                                try {
+                                    const translation = getTranslation(key, lang);
+                                    if (translation) {
+                                        if (translation.includes('<span') || translation.includes('<')) {
+                                            element.innerHTML = translation;
+                                        } else {
+                                            element.textContent = translation;
+                                        }
+                                    }
+                                } catch (e) {
+                                    console.warn('Translation error for key:', key, e);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    // Retry if getTranslation is not yet available
+                    setTimeout(updateTranslations, 100);
+                }
+            };
+
+            // Try immediately and also after a short delay to ensure translations are loaded
+            updateTranslations();
+            setTimeout(updateTranslations, 50);
+            setTimeout(updateTranslations, 200);
+            setTimeout(updateTranslations, 500);
+        }
+
+        function updateCartQuantity(productId, quantity) {
+            cart.updateQuantity(productId, quantity);
+            renderCart();
+        }
+
+        function removeFromCart(productId) {
+            cart.removeItem(productId);
+            renderCart();
+        }
+
+        // Checkout button - redirect to checkout page
+        document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+            if (cart.items.length > 0) {
+                window.location.href = 'checkout.html';
+            }
+        });
+    </script>
+</body>
+
+</html>

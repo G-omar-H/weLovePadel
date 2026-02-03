@@ -1,0 +1,19 @@
+// Sendit API Local Configuration
+// Copy this file to sendit-config.local.js and fill in your actual credentials
+// This file is gitignored and will not be committed to the repository
+// Get your credentials from: https://app.sendit.ma
+
+// This file will be automatically loaded by sendit-config.js
+// DO NOT commit this file with real credentials!
+
+window.SENDIT_LOCAL_CONFIG = {
+    PUBLIC_KEY: 'your_public_key_here',
+    SECRET_KEY: 'your_secret_key_here',
+    PICKUP_DISTRICT_ID: 1, // REQUIRED: Your warehouse/pickup location district ID (1 = Casablanca - Al fida)
+    // Optional overrides
+    // ALLOW_OPEN: 1,
+    // ALLOW_TRY: 1,
+    // OPTION_EXCHANGE: 0,
+    // PRODUCTS_FROM_STOCK: 0
+};
+

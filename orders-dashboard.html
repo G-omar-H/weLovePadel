@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f0f10;
+            --bg-secondary: #1a1a1d;
+            --bg-card: #242428;
+            --bg-card-hover: #2a2a2f;
+            --border-color: #333338;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a8;
+            --text-muted: #6b6b75;
+            --accent-primary: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-orange: #f97316;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .login-error {
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-title .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card.total .stat-value {
+            color: var(--accent-blue);
+        }
+
+        .stat-card.pending .stat-value {
+            color: var(--accent-yellow);
+        }
+
+        .stat-card.shipped .stat-value {
+            color: var(--accent-purple);
+        }
+
+        .stat-card.delivered .stat-value {
+            color: var(--accent-green);
+        }
+
+        .stat-card.returned .stat-value {
+            color: var(--accent-orange);
+        }
+
+        .stat-card.potential .stat-value {
+            color: var(--accent-yellow);
+        }
+
+        .stat-card.revenue .stat-value {
+            color: var(--accent-primary);
+        }
+
+        /* Filters */
+        .filters-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .filter-input {
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .filter-input.search {
+            min-width: 250px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.primary {
+            background: var(--accent-primary);
+            border: none;
+            color: white;
+        }
+
+        .filter-btn.secondary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Orders Table */
+        .orders-table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .orders-table {
+            width: 100%;
+            min-width: 1000px;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .orders-table th {
+            background: var(--bg-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .orders-table th:hover {
+            color: var(--text-primary);
+        }
+
+        .orders-table tbody tr {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .orders-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending,
+        .status-badge.to_prepare {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .status-badge.ready_to_ship {
+            background: rgba(6, 182, 212, 0.15);
+            /* Cyan */
+            color: #06b6d4;
+        }
+
+        .status-badge.in_delivery,
+        .status-badge.delivering {
+            background: rgba(59, 130, 246, 0.15);
+            /* Blue */
+            color: var(--accent-blue);
+        }
+
+        .status-badge.shipped {
+            background: rgba(139, 92, 246, 0.15);
+            /* Purple */
+            color: var(--accent-purple);
+        }
+
+        .status-badge.postponed {
+            background: rgba(168, 85, 247, 0.15);
+            /* Light Purple */
+            color: #a855f7;
+        }
+
+        .status-badge.unreachable {
+            background: rgba(236, 72, 153, 0.15);
+            /* Pink */
+            color: #ec4899;
+        }
+
+        .status-badge.delivered {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        .status-badge.returned {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .status-badge.cancelled,
+        .status-badge.refused,
+        .status-badge.rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        /* Amount */
+        .amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        /* Phone Links */
+        .phone-cell {
+            white-space: nowrap;
+        }
+
+        .phone-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phone-link {
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+
+        .phone-link.call {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+        }
+
+        .phone-link.call:hover {
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .phone-link.whatsapp {
+            color: #25D366;
+            font-size: 1rem;
+            padding: 4px 8px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 6px;
+        }
+
+        .phone-link.whatsapp:hover {
+            background: rgba(37, 211, 102, 0.25);
+            transform: scale(1.1);
+        }
+
+        /* Address Cell */
+        .address-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Phone Actions in Modal */
+        .phone-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .phone-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .phone-btn.call-btn {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .phone-btn.call-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .phone-btn.whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+
+        .phone-btn.whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        }
+
+        .phone-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Call Status */
+        .call-status-cell {
+            text-align: center;
+        }
+
+        .call-status-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .call-status-btn.uncalled {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .call-status-btn.uncalled:hover {
+            background: rgba(239, 68, 68, 0.25);
+            transform: scale(1.05);
+        }
+
+        .call-status-btn.called {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .call-status-btn.called:hover {
+            background: rgba(34, 197, 94, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* Row highlighting for uncalled orders */
+        tr.uncalled-row {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        tr.called-row {
+            opacity: 0.7;
+        }
+
+        tr.called-row:hover {
+            opacity: 1;
+        }
+
+        /* Call status in modal */
+        .modal-call-status {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .modal-call-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .modal-call-btn.mark-called {
+            background: linear-gradient(135deg, var(--accent-green) 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .modal-call-btn.mark-called:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .modal-call-btn.mark-uncalled {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-call-btn.mark-uncalled:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--bg-card-hover);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        /* Order Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            margin: 40px auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .detail-section {
+            margin-bottom: 24px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail-item {
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .detail-item-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .detail-item-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Collapsible Filters */
+        .filters-toggle {
+            display: none;
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 12px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filters-toggle .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .filters-toggle.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .filters-collapsible {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .filters-collapsible.collapsed {
+            max-height: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .header-nav.active {
+                display: flex;
+            }
+
+            .nav-link {
+                text-align: center;
+                padding: 14px 16px;
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .filters-toggle {
+                display: flex;
+            }
+
+            .filters-row {
+                flex-direction: column;
+            }
+
+            .filter-input,
+            .filter-select {
+                width: 100%;
+                min-width: auto;
+                min-height: 48px;
+            }
+
+            .filter-btn {
+                min-height: 48px;
+                padding: 14px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px 12px;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .refresh-btn {
+                min-height: 48px;
+                padding: 12px 16px;
+            }
+
+            /* Mobile Order Cards */
+            .orders-table th:nth-child(3),
+            .orders-table td:nth-child(3),
+            .orders-table th:nth-child(6),
+            .orders-table td:nth-child(6) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header-title h1 {
+                font-size: 1.1rem;
+            }
+
+            .header-title .logo {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+
+            .orders-table-container::before {
+                content: '← Scroll horizontally →';
+                display: block;
+                text-align: center;
+                padding: 10px;
+                background: var(--bg-secondary);
+                color: var(--text-muted);
+                font-size: 0.8rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .stats-grid {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px 8px;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            /* Hide more columns on very small screens */
+            .orders-table th:nth-child(2),
+            .orders-table td:nth-child(2),
+            .orders-table th:nth-child(7),
+            .orders-table td:nth-child(7) {
+                display: none;
+            }
+
+            .filters-card {
+                padding: 12px;
+            }
+
+            .modal-content {
+                padding: 20px 16px;
+                margin: 10px;
+                max-height: calc(100vh - 20px);
+            }
+
+            .phone-links {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .phone-link {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            /* Show essential columns only */
+            .orders-table th,
+            .orders-table td {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+
+            .call-status-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <h1>📦 Orders Dashboard</h1>
+            <p>Enter the admin password to view orders from Sendit</p>
+            <div class="login-error" id="loginError">Invalid password. Please try again.</div>
+            <input type="password" class="login-input" id="passwordInput" placeholder="Enter password" autofocus>
+            <button class="login-btn" id="loginBtn">Access Orders</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="logo">📦</div>
+                    <h1>Orders Dashboard</h1>
+                </div>
+                <div class="header-controls">
+                    <button class="refresh-btn" id="refreshBtn">
+                        <span>↻</span> Refresh
+                    </button>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">☰</button>
+                </div>
+                <nav class="header-nav" id="headerNav">
+                    <a href="analytics-dashboard.html" class="nav-link">📊 Analytics</a>
+                    <a href="server-logs.html" class="nav-link">📋 Logs</a>
+                    <a href="orders-dashboard.html" class="nav-link active">📦 Orders</a>
+                    <a href="business-insights.html" class="nav-link">📈 Insights</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card total">
+                    <div class="stat-value" id="totalOrders">-</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-value" id="pendingOrders">-</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card shipped">
+                    <div class="stat-value" id="shippedOrders">-</div>
+                    <div class="stat-label">Shipped</div>
+                </div>
+                <div class="stat-card delivered">
+                    <div class="stat-value" id="deliveredOrders">-</div>
+                    <div class="stat-label">Delivered</div>
+                </div>
+                <div class="stat-card returned">
+                    <div class="stat-value" id="returnedOrders">-</div>
+                    <div class="stat-label">Returned</div>
+                </div>
+                <div class="stat-card potential">
+                    <div class="stat-value" id="potentialRevenue">-</div>
+                    <div class="stat-label">Potential (MAD)</div>
+                </div>
+                <div class="stat-card revenue">
+                    <div class="stat-value" id="totalRevenue">-</div>
+                    <div class="stat-label">Confirmed (MAD)</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-card">
+                <button class="filters-toggle" id="filtersToggle">
+                    <span>🔍 Filters & Search</span>
+                    <span class="toggle-icon">▼</span>
+                </button>
+                <div class="filters-collapsible" id="filtersContent">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Search</label>
+                            <input type="text" class="filter-input search" id="searchInput"
+                                placeholder="Code, name, phone, district...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select class="filter-input" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="to_prepare">To Prepare</option>
+                                <option value="ready_to_ship">Ready to Ship</option>
+                                <option value="in_delivery">In Delivery</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="postponed">Postponed</option>
+                                <option value="unreachable">Unreachable</option>
+                                <option value="returned">Returned</option>
+                                <option value="refused">Refused</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Call Status</label>
+                            <select class="filter-input" id="callStatusFilter">
+                                <option value="">All</option>
+                                <option value="uncalled">📞 Need to Call</option>
+                                <option value="called">✅ Called & Confirmed</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button class="filter-btn primary" id="applyFilters">Apply</button>
+                        </div>
+                        <div class="filter-group">
+                            <button class="filter-btn secondary" id="clearFilters">Clear</button>
+                        </div>
+                    </div>
+                </div><!-- End filters-collapsible -->
+            </div>
+
+            <!-- Orders Table -->
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Call</th>
+                            <th>Code</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>District/Area</th>
+                            <th>City</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="9">
+                                <div class="loading">
+                                    <div class="loading-spinner"></div>
+                                    <p>Loading orders from Sendit...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination" id="pagination">
+                    <div class="pagination-info" id="paginationInfo">Showing 0 orders</div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" id="prevPage" disabled>← Previous</button>
+                        <button class="pagination-btn" id="nextPage">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>📦 Order Details</h2>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Order details will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="translations.js"></script>
+
+    <script>
+        // Configuration
+        const SENDIT_API_BASE = 'https://app.sendit.ma/api/v1';
+        const ADMIN_PASSWORD = 'storename-admin-2026';
+
+        // State
+        let authToken = null;
+        let allOrders = [];
+        let filteredOrders = [];
+        let currentPage = 1;
+        const ORDERS_PER_PAGE = 25;
+        let allStatuses = {};
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboard = document.getElementById('dashboard');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const ordersTableBody = document.getElementById('ordersTableBody');
+        const orderModal = document.getElementById('orderModal');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+
+        // Sendit API credentials (from environment)
+        const SENDIT_PUBLIC_KEY = '9a8a46843e3b20b922f67690ff1f27e0';
+        const SENDIT_SECRET_KEY = 'k1S94ZRQ4AFpMDoL2UQktsXymcAfFVyG';
+
+        // Login to Sendit API
+        async function loginToSendit() {
+            try {
+                const response = await fetch(`${SENDIT_API_BASE}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        public_key: SENDIT_PUBLIC_KEY,
+                        secret_key: SENDIT_SECRET_KEY
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Sendit login response:', JSON.stringify(data, null, 2));
+
+                // Token is at data.data.token according to Sendit API
+                if (data.success && data.data && data.data.token) {
+                    authToken = data.data.token;
+                    console.log('Sendit authenticated successfully');
+                    return true;
+                }
+
+                console.error('Sendit login failed - no token found in data.data.token:', data);
+                return false;
+            } catch (error) {
+                console.error('Sendit login error:', error);
+                return false;
+            }
+        }
+
+        // Fetch all deliveries from Sendit
+        async function fetchDeliveries(querystring = '') {
+            if (!authToken) {
+                const loggedIn = await loginToSendit();
+                if (!loggedIn) {
+                    throw new Error('Failed to authenticate with Sendit');
+                }
+            }
+
+            try {
+                let allDeliveries = [];
+                let currentPage = 1;
+                let hasMorePages = true;
+
+                while (hasMorePages) {
+                    const url = new URL(`${SENDIT_API_BASE}/deliveries`);
+                    url.searchParams.set('page', currentPage);
+                    if (querystring) {
+                        url.searchParams.set('querystring', querystring);
+                    }
+
+                    console.log(`Fetching deliveries page ${currentPage}...`);
+                    const response = await fetch(url.toString(), {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`,
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        // Token expired, re-login
+                        authToken = null;
+                        return fetchDeliveries(querystring);
+                    }
+
+                    const data = await response.json();
+                    console.log(`Page ${currentPage} response:`, JSON.stringify(data, null, 2));
+
+                    if (data.success) {
+                        // Sendit API returns data as object with numeric keys: {"0": {...}, "1": {...}, ...}
+                        // Need to convert to array
+                        let deliveries = [];
+
+                        if (Array.isArray(data.data)) {
+                            deliveries = data.data;
+                        } else if (data.data && typeof data.data === 'object') {
+                            // Convert object with numeric keys to array
+                            // Filter out non-order properties like "packaging_fee"
+                            deliveries = Object.entries(data.data)
+                                .filter(([key, value]) => !isNaN(key) && value && typeof value === 'object' && value.code)
+                                .map(([key, value]) => value);
+                        }
+
+                        console.log(`Page ${currentPage}: Found ${deliveries.length} deliveries`);
+                        allDeliveries.push(...deliveries);
+
+                        // Pagination info is at root level
+                        const lastPage = data.last_page || 1;
+                        const total = data.total || 0;
+                        console.log(`Total: ${total}, Last page: ${lastPage}, Current: ${currentPage}`);
+
+                        hasMorePages = currentPage < lastPage && deliveries.length > 0;
+                        currentPage++;
+                    } else {
+                        console.error('API returned success: false', data);
+                        hasMorePages = false;
+                    }
+                }
+
+                console.log(`Total deliveries fetched: ${allDeliveries.length}`);
+                return allDeliveries;
+            } catch (error) {
+                console.error('Error fetching deliveries:', error);
+                throw error;
+            }
+        }
+
+        // Fetch delivery statuses
+        async function fetchStatuses() {
+            if (!authToken) {
+                await loginToSendit();
+            }
+
+            try {
+                const response = await fetch(`${SENDIT_API_BASE}/all-status-deliveries`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                if (data.success && data.data) {
+                    allStatuses = data.data;
+                }
+            } catch (error) {
+                console.error('Error fetching statuses:', error);
+            }
+        }
+
+        // Get status name from status string or ID
+        function getStatusName(status) {
+            // Sendit returns status as string like "TO_PREPARE", "IN_DELIVERY", "DELIVERED", etc.
+            // Map to internal granular keys
+
+            if (typeof status === 'number') {
+                const numericMap = {
+                    1: 'to_prepare',
+                    2: 'shipped',
+                    3: 'delivered',
+                    4: 'returned',
+                    5: 'cancelled'
+                };
+                return numericMap[status] || 'pending';
+            }
+
+            const statusMap = {
+                // Pending group
+                'TO_PREPARE': 'to_prepare',
+                'READY_TO_SHIP': 'ready_to_ship',
+                'pending': 'pending',
+
+                // Shipped group
+                'IN_DELIVERY': 'in_delivery',
+                'DELIVERING': 'in_delivery',
+                'SHIPPED': 'shipped',
+                'POSTPONED': 'postponed',
+                'UNREACHABLE': 'unreachable',
+
+                // Delivered group
+                'DELIVERED': 'delivered',
+                'delivered': 'delivered',
+
+                // Returned group
+                'RETURNED': 'returned',
+                'REFUSED': 'refused',
+                'REJECTED': 'rejected',
+
+                // Cancelled group
+                'CANCELED': 'cancelled',
+                'CANCELLED': 'cancelled',
+                'cancelled': 'cancelled'
+            };
+            // Fallback to lowercase or pending
+            return statusMap[status] || (status ? status.toLowerCase() : 'pending');
+        }
+
+        // Get status display name (Translated)
+        function getStatusDisplay(status) {
+            // Get normalized key
+            const normalized = getStatusName(status);
+
+            // Try to find translation
+            const lang = localStorage.getItem('storename_lang') || 'fr';
+
+            if (window.translations && window.translations[lang] && window.translations[lang].status && window.translations[lang].status[normalized]) {
+                return window.translations[lang].status[normalized];
+            }
+
+            // Fallbacks
+            const displayNames = {
+                'pending': 'En attente',
+                'shipped': 'Expédié',
+                'delivered': 'Livré',
+                'returned': 'Retourné',
+                'cancelled': 'Annulé'
+            };
+
+            return displayNames[normalized] || status;
+        }
+
+        // Calculate stats
+        // Calculate stats
+        function calculateStats(orders) {
+            const stats = {
+                total: orders.length,
+                pending: 0,
+                shipped: 0,
+                delivered: 0,
+                returned: 0,
+                potentialRevenue: 0,  // Sum of all active orders
+                revenue: 0            // Only confirmed delivered orders
+            };
+
+            orders.forEach(order => {
+                const status = getStatusName(order.status);
+                const amount = parseFloat(order.amount) || 0;
+
+                // Count specific categories for the top cards (approximate mapping)
+                if (['to_prepare', 'ready_to_ship', 'pending'].includes(status)) {
+                    stats.pending++;
+                } else if (['in_delivery', 'shipped', 'postponed', 'unreachable'].includes(status)) {
+                    stats.shipped++;
+                } else if (status === 'delivered') {
+                    stats.delivered++;
+                } else if (['returned', 'refused', 'rejected'].includes(status)) {
+                    stats.returned++;
+                }
+
+                // Confirmed revenue: only delivered orders
+                if (status === 'delivered') {
+                    stats.revenue += amount;
+                }
+
+                // Potential revenue: exclude cancelled and all return-like statuses
+                const deadStatuses = ['returned', 'refused', 'rejected', 'cancelled'];
+                if (!deadStatuses.includes(status)) {
+                    stats.potentialRevenue += amount;
+                }
+            });
+
+            return stats;
+        }
+
+        // Update stats display
+        function updateStats(stats) {
+            document.getElementById('totalOrders').textContent = stats.total.toLocaleString();
+            document.getElementById('pendingOrders').textContent = stats.pending.toLocaleString();
+            document.getElementById('shippedOrders').textContent = stats.shipped.toLocaleString();
+            document.getElementById('deliveredOrders').textContent = stats.delivered.toLocaleString();
+            document.getElementById('returnedOrders').textContent = stats.returned.toLocaleString();
+            document.getElementById('potentialRevenue').textContent = stats.potentialRevenue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            document.getElementById('totalRevenue').textContent = stats.revenue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+
+        // Called orders storage
+        function getCalledOrders() {
+            try {
+                return JSON.parse(localStorage.getItem('storename_called_orders') || '{}');
+            } catch {
+                return {};
+            }
+        }
+
+        function setOrderCalled(code, called) {
+            const calledOrders = getCalledOrders();
+            if (called) {
+                calledOrders[code] = { calledAt: new Date().toISOString() };
+            } else {
+                delete calledOrders[code];
+            }
+            localStorage.setItem('storename_called_orders', JSON.stringify(calledOrders));
+        }
+
+        function isOrderCalled(code) {
+            const calledOrders = getCalledOrders();
+            return !!calledOrders[code];
+        }
+
+        function toggleCallStatus(code, event) {
+            if (event) event.stopPropagation();
+            const currentStatus = isOrderCalled(code);
+            setOrderCalled(code, !currentStatus);
+            renderOrders();
+        }
+
+        // Render orders table
+        function renderOrders() {
+            const start = (currentPage - 1) * ORDERS_PER_PAGE;
+            const end = start + ORDERS_PER_PAGE;
+            const pageOrders = filteredOrders.slice(start, end);
+
+            if (pageOrders.length === 0) {
+                ordersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📦</div>
+                                <p>No orders found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                ordersTableBody.innerHTML = pageOrders.map(order => {
+                    const statusName = getStatusName(order.status);
+                    const statusDisplay = getStatusDisplay(order.status);
+                    // Use last_action_at as date since created_at may not exist
+                    const dateStr = order.created_at || order.last_action_at;
+                    const date = dateStr ? new Date(dateStr).toLocaleDateString() : '-';
+                    const amount = parseFloat(order.amount) || 0;
+
+                    // Format phone number for links
+                    const phone = order.phone || '';
+                    const phoneFormatted = phone.replace(/\s/g, '');
+                    const phoneIntl = phoneFormatted.startsWith('0') ? '+212' + phoneFormatted.substring(1) : phoneFormatted;
+
+                    // Get district/area info (Sendit API doesn't return address in list endpoint)
+                    // Use district.name which includes more specific area (e.g., "Casablanca - Centre Ville")
+                    const districtName = order.district?.name || order.district?.ville || '-';
+                    const districtShort = districtName.length > 35 ? districtName.substring(0, 35) + '...' : districtName;
+
+                    // Call status
+                    const called = isOrderCalled(order.code);
+                    const callStatusClass = called ? 'called' : 'uncalled';
+                    const callStatusText = called ? '✅ Called' : '📞 Call';
+                    const rowClass = called ? 'called-row' : 'uncalled-row';
+
+                    return `
+                        <tr data-code="${order.code}" class="${rowClass}">
+                            <td class="call-status-cell">
+                                <button class="call-status-btn ${callStatusClass}" onclick="toggleCallStatus('${order.code}', event)" title="${called ? 'Mark as uncalled' : 'Mark as called & confirmed'}">
+                                    ${callStatusText}
+                                </button>
+                            </td>
+                            <td><strong>${order.code || '-'}</strong></td>
+                            <td>${date}</td>
+                            <td>${order.name || '-'}</td>
+                            <td class="phone-cell">
+                                ${phone ? `
+                                    <div class="phone-links">
+                                        <a href="tel:${phoneIntl}" class="phone-link call" title="Call ${phone}" onclick="event.stopPropagation();">
+                                            📞 ${phone}
+                                        </a>
+                                        <a href="https://wa.me/${phoneIntl.replace('+', '')}" target="_blank" class="phone-link whatsapp" title="WhatsApp ${phone}" onclick="event.stopPropagation();">
+                                            💬
+                                        </a>
+                                    </div>
+                                ` : '-'}
+                            </td>
+                            <td class="address-cell" title="${districtName}">${districtShort}</td>
+                            <td>${order.district?.ville || order.ville || '-'}</td>
+                            <td><span class="amount">${amount.toFixed(2)} MAD</span></td>
+                            <td><span class="status-badge ${statusName}">${statusDisplay}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Update pagination
+            const totalPages = Math.ceil(filteredOrders.length / ORDERS_PER_PAGE);
+            document.getElementById('paginationInfo').textContent =
+                `Showing ${start + 1}-${Math.min(end, filteredOrders.length)} of ${filteredOrders.length} orders`;
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage >= totalPages;
+        }
+
+        // Fetch individual order detail from Sendit API
+        async function fetchOrderDetail(code) {
+            if (!authToken) {
+                const loggedIn = await loginToSendit();
+                if (!loggedIn) {
+                    throw new Error('Failed to authenticate with Sendit');
+                }
+            }
+
+            try {
+                const url = `${SENDIT_API_BASE}/deliveries/${code}`;
+                console.log(`Fetching order detail for ${code}...`);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.status === 401) {
+                    // Token expired, re-login and retry
+                    authToken = null;
+                    return fetchOrderDetail(code);
+                }
+
+                const data = await response.json();
+                console.log(`Order detail response:`, data);
+
+                if (data.success && data.data) {
+                    return data.data;
+                }
+                return null;
+            } catch (error) {
+                console.error('Error fetching order detail:', error);
+                return null;
+            }
+        }
+
+        // Show order detail modal
+        async function showOrderDetail(code) {
+            const basicOrder = allOrders.find(o => o.code === code);
+            if (!basicOrder) return;
+
+            // Show loading state
+            modalBody.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>
+                    <div style="color: var(--text-secondary);">Loading order details...</div>
+                </div>
+            `;
+            orderModal.classList.add('active');
+
+            // Fetch full order details
+            const order = await fetchOrderDetail(code) || basicOrder;
+
+            const statusName = getStatusName(order.status);
+            const statusDisplay = getStatusDisplay(order.status);
+            const dateStr = order.created_at || order.last_action_at;
+            const date = dateStr ? new Date(dateStr).toLocaleString() : '-';
+            const lastActionDate = order.last_action_at ? new Date(order.last_action_at).toLocaleString() : '-';
+            const amount = parseFloat(order.amount) || 0;
+            const fee = parseFloat(order.fee) || 0;
+
+            // Build products HTML if available
+            let productsHtml = '';
+            if (order.products && Array.isArray(order.products) && order.products.length > 0) {
+                productsHtml = `
+                    <div class="detail-section">
+                        <h3>📦 Products</h3>
+                        <div style="background: var(--bg-secondary); border-radius: 8px; padding: 12px;">
+                            ${order.products.map(p => `
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                                    <span>${p.name || p.code || 'Product'}</span>
+                                    <span style="color: var(--accent-primary);">x${p.quantity || 1}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Build return status HTML if applicable
+            let returnStatusHtml = '';
+            if (order.status_return && order.status_return !== 'null' && order.status_return !== null) {
+                const returnStatusMap = {
+                    'RETOUR_PENDING': { label: 'Return Pending', color: 'var(--accent-yellow)' },
+                    'TORETURN': { label: 'To Return', color: 'var(--accent-orange)' },
+                    'RETURN_WAREHOUSE': { label: 'In Warehouse', color: 'var(--accent-blue)' },
+                    'RETURN_TOCHECK': { label: 'To Check', color: 'var(--accent-purple)' },
+                    'RETURN_STOCK': { label: 'In Stock', color: 'var(--accent-green)' },
+                    'RETURN_SELLER': { label: 'Returned to Seller', color: 'var(--text-secondary)' }
+                };
+                const returnInfo = returnStatusMap[order.status_return] || { label: order.status_return, color: 'var(--text-secondary)' };
+                returnStatusHtml = `
+                    <div class="detail-item">
+                        <div class="detail-item-label">Return Status</div>
+                        <div class="detail-item-value"><span style="color: ${returnInfo.color}; font-weight: 600;">${returnInfo.label}</span></div>
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = `
+                <div class="detail-section">
+                    <h3>📋 Order Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">Order Code</div>
+                            <div class="detail-item-value"><strong>${order.code || '-'}</strong></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Status</div>
+                            <div class="detail-item-value"><span class="status-badge ${statusName}">${statusDisplay}</span></div>
+                        </div>
+                        ${returnStatusHtml}
+                        <div class="detail-item">
+                            <div class="detail-item-label">Created Date</div>
+                            <div class="detail-item-value">${date}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Last Update</div>
+                            <div class="detail-item-value">${lastActionDate}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Amount</div>
+                            <div class="detail-item-value"><span class="amount">${amount.toFixed(2)} MAD</span></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Shipping Fee</div>
+                            <div class="detail-item-value">${fee.toFixed(2)} MAD</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>👤 Customer Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">Name</div>
+                            <div class="detail-item-value">${order.name || '-'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Phone</div>
+                            <div class="detail-item-value">
+                                ${order.phone ? `
+                                    <div class="phone-actions">
+                                        <a href="tel:${order.phone.startsWith('0') ? '+212' + order.phone.substring(1) : order.phone}" class="phone-btn call-btn">
+                                            📞 Call
+                                        </a>
+                                        <a href="https://wa.me/${(order.phone.startsWith('0') ? '212' + order.phone.substring(1) : order.phone.replace('+', '')).replace(/\s/g, '')}" target="_blank" class="phone-btn whatsapp-btn">
+                                            💬 WhatsApp
+                                        </a>
+                                        <span class="phone-number">${order.phone}</span>
+                                    </div>
+                                ` : '-'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📍 Shipping Address</h3>
+                    <div class="detail-grid">
+                        ${order.address ? `
+                        <div class="detail-item" style="grid-column: span 2;">
+                            <div class="detail-item-label">Full Address</div>
+                            <div class="detail-item-value" style="font-weight: 600; color: var(--accent-primary);">${order.address}</div>
+                        </div>
+                        ` : ''}
+                        <div class="detail-item">
+                            <div class="detail-item-label">District/Area</div>
+                            <div class="detail-item-value">${order.district?.name || '-'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">City</div>
+                            <div class="detail-item-value">${order.district?.ville || order.ville || '-'}</div>
+                        </div>
+                        ${order.district?.delais ? `
+                        <div class="detail-item">
+                            <div class="detail-item-label">Delivery Time</div>
+                            <div class="detail-item-value">${order.district.delais}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                ${productsHtml}
+
+                ${order.comment ? `
+                <div class="detail-section">
+                    <h3>💬 Delivery Notes</h3>
+                    <div class="detail-item" style="width: 100%;">
+                        <div class="detail-item-value" style="color: var(--accent-yellow); background: rgba(234, 179, 8, 0.1); padding: 12px; border-radius: 8px;">${order.comment}</div>
+                    </div>
+                </div>
+                ` : ''}
+
+                ${order.reference ? `
+                <div class="detail-section">
+                    <h3>🔗 Reference</h3>
+                    <div class="detail-item" style="width: 100%;">
+                        <div class="detail-item-value">${order.reference}</div>
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="detail-section">
+                    <h3>⚙️ Order Options</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-item-label">Allow Open</div>
+                            <div class="detail-item-value">${order.allow_open === 1 ? '✅ Yes' : '❌ No'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Allow Try</div>
+                            <div class="detail-item-value">${order.allow_try === 1 ? '✅ Yes' : '❌ No'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">From Stock</div>
+                            <div class="detail-item-value">${order.products_from_stock === 1 ? '✅ Yes' : '❌ No'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Exchange Option</div>
+                            <div class="detail-item-value">${order.option_exchange === 1 ? '✅ Enabled' : '❌ Disabled'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                ${order.labelUrl ? `
+                <div class="detail-section">
+                    <h3>🏷️ Shipping Label</h3>
+                    <div style="text-align: center;">
+                        <a href="${order.labelUrl}" target="_blank" class="phone-btn whatsapp-btn" style="display: inline-block; padding: 12px 24px; text-decoration: none;">
+                            📥 Download Shipping Label
+                        </a>
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="modal-call-status" id="modalCallStatus" data-code="${order.code}">
+                    ${isOrderCalled(order.code) ? `
+                        <button class="modal-call-btn mark-uncalled" onclick="markOrderFromModal('${order.code}', false)">
+                            ↩️ Mark as Not Called
+                        </button>
+                        <div style="flex: 2; text-align: center; padding: 12px; background: rgba(34, 197, 94, 0.15); border-radius: 8px; color: var(--accent-green);">
+                            ✅ Called & Confirmed
+                        </div>
+                    ` : `
+                        <button class="modal-call-btn mark-called" onclick="markOrderFromModal('${order.code}', true)">
+                            ✅ Mark as Called & Confirmed
+                        </button>
+                    `}
+                </div>
+            `;
+        }
+
+        function markOrderFromModal(code, called) {
+            setOrderCalled(code, called);
+            renderOrders();
+            // Update the modal buttons
+            const modalCallStatus = document.getElementById('modalCallStatus');
+            if (modalCallStatus) {
+                modalCallStatus.innerHTML = called ? `
+                    <button class="modal-call-btn mark-uncalled" onclick="markOrderFromModal('${code}', false)">
+                        ↩️ Mark as Not Called
+                    </button>
+                    <div style="flex: 2; text-align: center; padding: 12px; background: rgba(34, 197, 94, 0.15); border-radius: 8px; color: var(--accent-green);">
+                        ✅ Called & Confirmed
+                    </div>
+                ` : `
+                    <button class="modal-call-btn mark-called" onclick="markOrderFromModal('${code}', true)">
+                        ✅ Mark as Called & Confirmed
+                    </button>
+                `;
+            }
+        }
+
+        // Filter orders
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            const callStatus = document.getElementById('callStatusFilter').value;
+
+            filteredOrders = allOrders.filter(order => {
+                // Call status filter
+                if (callStatus) {
+                    const called = isOrderCalled(order.code);
+                    if (callStatus === 'called' && !called) return false;
+                    if (callStatus === 'uncalled' && called) return false;
+                }
+
+                // Search filter
+                if (search) {
+                    const searchFields = [
+                        order.code,
+                        order.name,
+                        order.phone,
+                        order.district?.name,
+                        order.district?.ville,
+                        order.reference,
+                        order.comment
+                    ].map(f => (f || '').toLowerCase());
+
+                    if (!searchFields.some(f => f.includes(search))) {
+                        return false;
+                    }
+                }
+
+                // Status filter
+                if (status) {
+                    const orderStatus = getStatusName(order.status);
+                    if (orderStatus !== status) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderOrders();
+            updateStats(calculateStats(filteredOrders));
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('callStatusFilter').value = '';
+            filteredOrders = [...allOrders];
+            currentPage = 1;
+            renderOrders();
+            updateStats(calculateStats(allOrders));
+        }
+
+        // Load orders
+        async function loadOrders() {
+            ordersTableBody.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading orders from Sendit...</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            try {
+                await fetchStatuses();
+                allOrders = await fetchDeliveries();
+
+                // Sort by date descending (newest first)
+                allOrders.sort((a, b) => {
+                    const dateA = new Date(a.created_at || 0);
+                    const dateB = new Date(b.created_at || 0);
+                    return dateB - dateA;
+                });
+
+                filteredOrders = [...allOrders];
+
+                renderOrders();
+                updateStats(calculateStats(allOrders));
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                ordersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">❌</div>
+                                <p>Failed to load orders: ${error.message}</p>
+                                <button class="filter-btn primary" onclick="loadOrders()" style="margin-top: 16px;">Retry</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Login handler
+        async function handleLogin() {
+            const password = passwordInput.value.trim();
+            if (password === ADMIN_PASSWORD) {
+                loginScreen.style.display = 'none';
+                dashboard.classList.add('active');
+                loadOrders();
+            } else {
+                loginError.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        // Event listeners
+        loginBtn.addEventListener('click', handleLogin);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+        document.getElementById('applyFilters').addEventListener('click', applyFilters);
+        document.getElementById('clearFilters').addEventListener('click', clearFilters);
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const headerNav = document.getElementById('headerNav');
+        if (mobileMenuToggle && headerNav) {
+            mobileMenuToggle.addEventListener('click', () => {
+                headerNav.classList.toggle('active');
+                mobileMenuToggle.textContent = headerNav.classList.contains('active') ? '✕' : '☰';
+            });
+        }
+
+        // Collapsible filters
+        const filtersToggle = document.getElementById('filtersToggle');
+        const filtersContent = document.getElementById('filtersContent');
+        if (filtersToggle && filtersContent) {
+            // Start collapsed on mobile
+            if (window.innerWidth <= 768) {
+                filtersContent.classList.add('collapsed');
+            }
+            filtersToggle.addEventListener('click', () => {
+                filtersContent.classList.toggle('collapsed');
+                filtersToggle.classList.toggle('active');
+            });
+        }
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderOrders();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredOrders.length / ORDERS_PER_PAGE);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderOrders();
+            }
+        });
+
+        // Order row click
+        ordersTableBody.addEventListener('click', (e) => {
+            const row = e.target.closest('tr[data-code]');
+            if (row) {
+                showOrderDetail(row.dataset.code);
+            }
+        });
+
+        // Modal close
+        closeModal.addEventListener('click', () => {
+            orderModal.classList.remove('active');
+        });
+
+        orderModal.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                orderModal.classList.remove('active');
+            }
+        });
+
+        // Search on enter
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') applyFilters();
+        });
+    </script>
+</body>
+
+</html>
