@@ -430,20 +430,25 @@ function renderCheckoutItems() {
         // Get image path - prefer item.image if stored, otherwise use variation image or product image
         let imagePath = '';
         let imageWebP = '';
+
         if (item.image) {
-            // Image is stored in cart item, use it directly
-            const extension = product?.imageExtension || 'jpeg';
-            imagePath = `/products/${item.image}.${extension}`;
-            imageWebP = `/products/${item.image}.webp`;
+            // Image is stored in cart item (now likely a full URL or Path)
+            // Use formatProductImageUrl from script.js
+            const formatted = formatProductImageUrl(item.image, product?.imageExtension || 'jpg');
+            imagePath = formatted.src;
+            imageWebP = formatted.webp;
         } else if (item.variation && product?.variations && product.variations[item.variation] && product.variations[item.variation].images && product.variations[item.variation].images.length > 0) {
             // Use variation image if available
             const variationImage = product.variations[item.variation].images[0];
-            imagePath = `/products/${variationImage.path}.${variationImage.extension}`;
-            imageWebP = `/products/${variationImage.path}.webp`;
-        } else if (product?.image) {
+            const formatted = formatProductImageUrl(variationImage.path, variationImage.extension);
+            imagePath = formatted.src;
+            imageWebP = formatted.webp;
+        } else if (product) {
             // Fallback to product image
-            imagePath = `/products/${product.image}.${product.imageExtension || 'jpeg'}`;
-            imageWebP = `/products/${product.image}.webp`;
+            const mainImage = getProductMainImage(product);
+            const formatted = formatProductImageUrl(mainImage.path, mainImage.extension);
+            imagePath = formatted.src;
+            imageWebP = formatted.webp;
         }
 
         html += `
