@@ -5954,7 +5954,7 @@ html[dir="rtl"] .product-detail-features li::before {
 .progress-step.active .step-number {
     background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
     border-color: var(--primary-color);
-    color: var(--text-dark) !important;
+    color: #000 !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     transform: scale(1.1);
 }
