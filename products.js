@@ -17,8 +17,6 @@ const products = {
         },
         price: '999',
         category: 'rackets',
-        // image: '/assets/home/coach-choice.webp', // Deprecated in favor of gallery
-        // imageExtension: 'webp',
         images: [
             {
                 path: 'vairo_9.1/vairo_9.1_front',
@@ -47,58 +45,41 @@ const products = {
     'item-2': {
         id: 'item-2',
         name: {
-            en: 'Pro Tour Padel Balls (3-Pack)',
-            fr: 'Balles Pro Tour (Pack de 3)',
-            ar: 'كرات باديل برو تور (3 قطع)'
+            en: 'Pro Tour High-Tack Overgrips',
+            fr: 'Surgrips Pro Tour Adhérence Maximale',
+            ar: 'مقبض احترافي عالي الالتصاق'
         },
         description: {
-            en: 'High durability balls for all surfaces.',
-            fr: 'Balles haute durabilité pour toutes les surfaces. Le rebond parfait pour vos matchs.',
-            ar: 'كرات عالية التحمل لجميع الأسطح.'
-        },
-        price: '89',
-        category: 'accessories',
-        image: 'https://placehold.co/600x600/DFFF00/1A1A1A/png?text=Balles+Pro',
-        imageExtension: 'png',
-        featured: true,
-        badge: 'new'
-    },
-    'item-3': {
-        id: 'item-3',
-        name: {
-            en: 'Comfort Overgrip (Wait)',
-            fr: 'Surgrip Club Comfort (Blanc)',
-            ar: 'مقبض مريح (أبيض)'
-        },
-        description: {
-            en: 'Maximum absorption and comfort.',
-            fr: 'Absorption maximale et confort. Ne laissez plus la raquette vous glisser des mains.',
-            ar: 'أقصى امتصاص وراحة.'
+            en: 'Experience the perfect connection with your racket. Superior sweat absorption and tackiness for winning match points.',
+            fr: 'Découvrez la connexion parfaite avec votre raquette. Absorption de la transpiration et adhérence supérieures pour remporter les points décisifs.',
+            ar: 'تجربة الاتصال المثالي مع مضربك. امتصاص فائق للعرق والتصاق للفوز بنقاط المباراة.'
         },
         price: '35',
         category: 'accessories',
-        image: 'https://placehold.co/600x600/FFFFFF/1A1A1A/png?text=Surgrip',
-        imageExtension: 'png',
-        featured: true
-    },
-    'item-4': {
-        id: 'item-4',
-        name: {
-            en: 'Padel Competition Bag',
-            fr: 'Sac de Padel Compétition',
-            ar: 'حقيبة باديل للمنافسات'
-        },
-        description: {
-            en: 'Carry all your gear in style.',
-            fr: 'Transportez tout votre équipement avec style. Compartiment thermique pour vos raquettes.',
-            ar: 'احمل كل معداتك بأناقة.'
-        },
-        price: '499',
-        category: 'accessories',
-        image: 'https://placehold.co/600x600/1A1A1A/FFFFFF/png?text=Sac+Padel',
-        imageExtension: 'png',
+        images: [
+            {
+                path: 'overgrips/overgrips_front',
+                extension: 'png',
+                alt: { en: 'Pro Tour Overgrip Pack', fr: 'Pack Surgrips Pro Tour', ar: 'حزمة مقبض احترافي' }
+            },
+            {
+                path: 'overgrips/overgrips_top',
+                extension: 'png',
+                alt: { en: 'Overgrip Texture Detail', fr: 'Détail Texture Surgrip', ar: 'تفاصيل نسيج المقبض' }
+            },
+            {
+                path: 'overgrips/overgrips_used',
+                extension: 'png',
+                alt: { en: 'Applied Overgrip', fr: 'Surgrip Appliqué', ar: 'مقبض مطبق' }
+            },
+            {
+                path: 'overgrips/overgrips_inaction',
+                extension: 'png',
+                alt: { en: 'Overgrip In Action', fr: 'Surgrip en Action', ar: 'المقبض أثناء اللعب' }
+            }
+        ],
         featured: true,
-        badge: 'limited'
+        badge: 'new'
     }
 };
 
