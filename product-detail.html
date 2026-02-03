@@ -497,7 +497,7 @@
 
                 imageGalleryHTML = `
                     <div class="product-image-gallery" id="productImageGallery">
-                        <div class="product-main-image" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
+                        <div class="product-main-image" onclick="openImageZoom('${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}', '${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}')">
                             <picture>
                                 <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
                                 <img id="mainProductImage" src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -534,7 +534,7 @@
                 const mainImage = productImages[0];
                 const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || name) : name;
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${mainImage.path}.${mainImage.extension}', '/products/${mainImage.path}.webp')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}', '${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}')">
                         <picture>
                             <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
                             <img src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -554,7 +554,7 @@
             } else {
                 // Single image fallback
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('/products/${product.image}.${product.imageExtension || 'jpeg'}', '/products/${product.image}.webp')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}', '${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.webp`}')">
                         <picture>
                             <source srcset="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.webp`}" type="image/webp">
                             <img src="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
