@@ -1929,6 +1929,8 @@ html[dir="rtl"] .about-image::before {
 
 .product-badge.new {
     background: var(--accent-color);
+    color: #000;
+    /* Ensure readability on neon yellow */
 }
 
 .product-badge.test {
@@ -14279,7 +14281,8 @@ html[dir="rtl"] .stars-display {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    max-width: 600px; /* Optimal max width */
+    max-width: 600px;
+    /* Optimal max width */
 }
 
 .coach-highlight a:hover img {
