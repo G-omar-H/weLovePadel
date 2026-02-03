@@ -80,6 +80,45 @@ const products = {
         ],
         featured: true,
         badge: 'new'
+    },
+    'item-3': {
+        id: 'item-3',
+        name: {
+            en: 'Championship Pro Padel Balls',
+            fr: 'Balles de Padel Championship Pro',
+            ar: 'كرات باديل للبطولات الاحترافية'
+        },
+        description: {
+            en: 'Consistent bounce, match after match. Engineered for durability on all court surfaces. The choice of champions.',
+            fr: 'Un rebond constant, match après match. Conçues pour la durabilité sur toutes les surfaces. Le choix des champions.',
+            ar: 'ارتداد ثابت، مباراة تلو الأخرى. مصممة للمتانة على جميع أسطح الملاعب. خيار الأبطال.'
+        },
+        price: '89',
+        category: 'accessories',
+        images: [
+            {
+                path: 'padel_balls/padel_balls_front',
+                extension: 'png',
+                alt: { en: 'Padel Balls 3-Pack', fr: 'Tube de 3 Balles Padel', ar: 'عبوة 3 كرات باديل' }
+            },
+            {
+                path: 'padel_balls/padel_balls_top',
+                extension: 'png',
+                alt: { en: 'Ball Texture Detail', fr: 'Détail Texture Balle', ar: 'تفاصيل نسيج الكرة' }
+            },
+            {
+                path: 'padel_balls/padel_balls_used',
+                extension: 'png',
+                alt: { en: 'balls on Padel Court', fr: 'Balles sur Court de Padel', ar: 'كرات في ملعب الباديل' }
+            },
+            {
+                path: 'padel_balls/padel_balls_in_action',
+                extension: 'png',
+                alt: { en: 'Padel Ball In Play', fr: 'Balle de Padel en Jeu', ar: 'كرة الباديل أثناء اللعب' }
+            }
+        ],
+        featured: true,
+        badge: 'bestseller'
     }
 };
 
