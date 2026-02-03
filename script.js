@@ -36,6 +36,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Helper: Get main image object from product date
+function getProductMainImage(product) {
+    if (product.images && product.images.length > 0) {
+        return product.images[0];
+    }
+    return {
+        path: product.image,
+        extension: product.imageExtension || 'jpg'
+    };
+}
+
+// Helper: Format image URL (handles absolute vs relative)
+function formatProductImageUrl(path, extension) {
+    if (!path) return { src: '', webp: '' };
+
+    // Handle absolute paths (http or leading /)
+    if (path.startsWith('http') || path.startsWith('/')) {
+        return { src: path, webp: path };
+    }
+
+    // Handle relative product paths
+    return {
+        src: `/products/${path}.${extension}`,
+        webp: `/products/${path}.webp`
+    };
+}
+
 // Update copyright year automatically
 function updateCopyrightYear() {
     const copyrightYear = document.getElementById('copyright-year');
@@ -578,13 +605,15 @@ document.addEventListener('click', (e) => {
             const product = products[productId];
             const currentLang = localStorage.getItem('language') || 'en';
             const name = product.name[currentLang] || product.name.en;
+            const mainImage = getProductMainImage(product);
+            const imageUrls = formatProductImageUrl(mainImage.path, mainImage.extension);
 
             cart.addItem({
                 id: product.id,
                 name: name,
                 price: product.price + ' MAD',
                 category: product.category,
-                image: product.image
+                image: imageUrls.src // Cart uses src
             });
         } else {
             // Fallback for products without data attributes
@@ -867,11 +896,17 @@ function renderFeaturedProducts() {
             badgeHtml = `<div class="product-badge">${badgeText}</div>`;
         }
 
+        const mainImage = getProductMainImage(product);
+        const imageUrls = formatProductImageUrl(mainImage.path, mainImage.extension);
+
         html += `
             <a href="product-detail.html?id=${product.id}" class="product-card">
                 <div class="product-image">
                     ${badgeHtml}
-                    <img src="${product.image}" alt="${name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=Product';">
+                    <picture>
+                        <source srcset="${imageUrls.webp}" type="image/webp">
+                        <img src="${imageUrls.src}" alt="${name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=Product';">
+                    </picture>
                 </div>
                 <div class="product-info">
                     <h3>${name}</h3>

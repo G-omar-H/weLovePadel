@@ -269,25 +269,9 @@
     <script src="cart.js?v=2"></script>
     <script src="script.js"></script>
     <script>
-        // Helper function to get image URL with WebP support and fallback
-        function getProductImageUrl(path, extension) {
-            if (path && (path.startsWith('http') || path.startsWith('/'))) {
-                return { webp: path, fallback: path };
-            }
-            // Try WebP first, fallback to original extension
-            const webpUrl = `/products/${path}.webp`;
-            const fallbackUrl = `/products/${path}.${extension}`;
-
-            // Create image element to test WebP support
-            const img = new Image();
-            img.onerror = function () {
-                // WebP not supported or file doesn't exist, use fallback
-                return fallbackUrl;
-            };
-
-            // For now, return both in picture element format
-            // The browser will automatically choose WebP if supported
-            return { webp: webpUrl, fallback: fallbackUrl };
+        // For now, return both in picture element format
+        // The browser will automatically choose WebP if supported
+        return { webp: webpUrl, fallback: fallbackUrl };
         }
 
         // Store productId globally so it can be accessed when language changes
@@ -497,10 +481,10 @@
 
                 imageGalleryHTML = `
                     <div class="product-image-gallery" id="productImageGallery">
-                        <div class="product-main-image" onclick="openImageZoom('${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}', '${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}')">
+                        <div class="product-main-image" onclick="openImageZoom('${product.images[0].path}', '${product.images[0].extension}')">
                             <picture>
-                                <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
-                                <img id="mainProductImage" src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <source srcset="${formatProductImageUrl(mainImage.path, mainImage.extension).webp}" type="image/webp">
+                                <img id="mainProductImage" src="${formatProductImageUrl(mainImage.path, mainImage.extension).src}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             </picture>
                             <div class="product-zoom-indicator">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -520,8 +504,8 @@
                     return `
                                     <div class="thumbnail-item ${index === 0 ? 'active' : ''}" data-image-index="${index}" onclick="switchProductImage(${index}, '${img.path}', '${img.extension}', '${escapedAlt}')">
                                         <picture>
-                                            <source srcset="/products/${img.path}.webp" type="image/webp">
-                                            <img src="/products/${img.path}.${img.extension}" alt="${imgAlt}" loading="lazy">
+                                            <source srcset="${formatProductImageUrl(img.path, img.extension).webp}" type="image/webp">
+                                            <img src="${formatProductImageUrl(img.path, img.extension).src}" alt="${imgAlt}" loading="lazy">
                                         </picture>
                                     </div>
                                 `;
@@ -534,10 +518,10 @@
                 const mainImage = productImages[0];
                 const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || name) : name;
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}', '${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${mainImage.path}', '${mainImage.extension}')">
                         <picture>
-                            <source srcset="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.webp`}" type="image/webp">
-                            <img src="${mainImage.path.startsWith('http') || mainImage.path.startsWith('/') ? mainImage.path : `/products/${mainImage.path}.${mainImage.extension}`}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <source srcset="${formatProductImageUrl(mainImage.path, mainImage.extension).webp}" type="image/webp">
+                            <img src="${formatProductImageUrl(mainImage.path, mainImage.extension).src}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         </picture>
                         <div class="product-zoom-indicator">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -554,10 +538,10 @@
             } else {
                 // Single image fallback
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}', '${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.webp`}')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${product.image}', '${product.imageExtension || 'jpeg'}')">
                         <picture>
-                            <source srcset="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.webp`}" type="image/webp">
-                            <img src="${product.image.startsWith('http') || product.image.startsWith('/') ? product.image : `/products/${product.image}.${product.imageExtension || 'jpeg'}`}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <source srcset="${formatProductImageUrl(product.image, product.imageExtension).webp}" type="image/webp">
+                            <img src="${formatProductImageUrl(product.image, product.imageExtension).src}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         </picture>
                         <div class="product-zoom-indicator">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1280,21 +1264,24 @@
         function switchProductImage(index, imagePath, extension, altText) {
             const mainImage = document.getElementById('mainProductImage');
             if (mainImage) {
+                // Format URLs
+                const urls = formatProductImageUrl(imagePath, extension);
+
                 // Update WebP source if picture element exists
                 const pictureEl = mainImage.closest('picture');
                 if (pictureEl) {
                     const sourceEl = pictureEl.querySelector('source');
                     if (sourceEl) {
-                        sourceEl.srcset = `/products/${imagePath}.webp`;
+                        sourceEl.srcset = urls.webp;
                     }
                 }
-                mainImage.src = `/products/${imagePath}.${extension}`;
+                mainImage.src = urls.src;
                 mainImage.alt = altText;
 
                 // Update the zoom onclick handler with the new image
                 const mainImageContainer = mainImage.closest('.product-main-image');
                 if (mainImageContainer) {
-                    mainImageContainer.setAttribute('onclick', `openImageZoom('/products/${imagePath}.${extension}', '/products/${imagePath}.webp')`);
+                    mainImageContainer.setAttribute('onclick', `openImageZoom('${urls.src}', '${urls.webp}')`);
                 }
 
                 // Update active thumbnail
@@ -1359,6 +1346,7 @@
         }
 
         // Image Zoom Functionality
+        // Updated to accept full URLs (src, srcset)
         function openImageZoom(imageUrl, webpUrl) {
             const modal = document.getElementById('productZoomModal');
             const modalImage = document.getElementById('zoomModalImage');
