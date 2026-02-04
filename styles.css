@@ -14492,6 +14492,15 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
         width: 28px;
         height: 28px;
         font-size: 0.8rem;
+        border-width: 2px;
+        line-height: 1;
+        /* Reset to sure */
+    }
+
+    .checkout-progress-sticky .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
     }
 
     html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
