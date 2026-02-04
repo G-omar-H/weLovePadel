@@ -784,7 +784,7 @@ p:last-child {
     right: 0;
     bottom: 0;
     /* Mobile portrait image by default - WebP with PNG fallback */
-    background-image: url('/assets/hero/hero-mobile.webp');
+    background-image: url('/assets/hero/welovepadel_hero_mobile.webp');
     background-size: cover;
     /* Fill entire hero section */
     background-position: center center;
@@ -797,7 +797,7 @@ p:last-child {
 /* Fallback for browsers that don't support WebP */
 @supports not (background-image: url('/assets/hero/hero-mobile.webp')) {
     .hero::before {
-        background-image: url('/assets/hero/hero-mobile.png');
+        background-image: url('/assets/hero/welovepadel_hero_mobile.png');
     }
 }
 
