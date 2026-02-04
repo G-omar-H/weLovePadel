@@ -177,33 +177,33 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // Update step 1 - Always active as start point
-            const step1El = document.querySelector('.progress-step[data-step="1"]');
-            if (step1El) {
-                setActiveStyle(step1El); // Always active
+            const step1Els = document.querySelectorAll('.progress-step[data-step="1"]');
+            step1Els.forEach(el => {
+                setActiveStyle(el); // Always active
                 if (step1) {
-                    step1El.classList.add('completed');
+                    el.classList.add('completed');
                 }
-            }
+            });
 
             // Update step 2 - Active if Step 1 is complete
-            const step2El = document.querySelector('.progress-step[data-step="2"]');
-            if (step2El) {
+            const step2Els = document.querySelectorAll('.progress-step[data-step="2"]');
+            step2Els.forEach(el => {
                 if (step1) {
-                    setActiveStyle(step2El);
+                    setActiveStyle(el);
                 } else {
-                    removeActiveStyle(step2El);
+                    removeActiveStyle(el);
                 }
-            }
+            });
 
             // Update step 3 - Active if Step 2 is complete
-            const step3El = document.querySelector('.progress-step[data-step="3"]');
-            if (step3El) {
+            const step3Els = document.querySelectorAll('.progress-step[data-step="3"]');
+            step3Els.forEach(el => {
                 if (step2) {
-                    setActiveStyle(step3El);
+                    setActiveStyle(el);
                 } else {
-                    removeActiveStyle(step3El);
+                    removeActiveStyle(el);
                 }
-            }
+            });
         }
 
         // Listen to all form inputs
@@ -213,11 +213,31 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('change', updateProgress);
         });
 
-        // Initial check - Step 1 is always active initially
-        const step1El = document.querySelector('.progress-step[data-step="1"]');
-        if (step1El) {
-            step1El.classList.add('active');
+        // Initialize Sticky Progress
+        const originalProgress = document.querySelector('.checkout-progress');
+        if (originalProgress) {
+            // Check if sticky already exists to avoid dupes on re-init
+            if (!document.querySelector('.checkout-progress-sticky')) {
+                const stickyProgress = originalProgress.cloneNode(true);
+                stickyProgress.classList.add('checkout-progress-sticky');
+                stickyProgress.classList.remove('checkout-progress');
+                document.body.appendChild(stickyProgress);
+
+                // Observer to toggle sticky visibility
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+                            stickyProgress.classList.add('visible');
+                        } else {
+                            stickyProgress.classList.remove('visible');
+                        }
+                    });
+                }, { threshold: 0 });
+
+                observer.observe(originalProgress);
+            }
         }
+
         updateProgress();
     }
 

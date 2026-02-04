@@ -14329,3 +14329,49 @@ html[dir="rtl"] .stars-display {
     background-clip: border-box !important;
     -webkit-background-clip: border-box !important;
 }
+/* Sticky Checkout Progress */
+.checkout-progress-sticky {
+    position: fixed;
+    top: 60px; /* Navbar height when scrolled */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 10px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.checkout-progress-sticky.visible {
+    transform: translateY(0);
+}
+
+/* Minimalist changes for sticky mode */
+.checkout-progress-sticky .step-label {
+    display: none;
+}
+
+.checkout-progress-sticky .progress-step {
+    max-width: auto;
+    flex: initial;
+    gap: 0;
+}
+
+.checkout-progress-sticky .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    border-width: 2px;
+}
+
+.checkout-progress-sticky .progress-line {
+    max-width: 40px;
+    margin: 0 5px;
+}
