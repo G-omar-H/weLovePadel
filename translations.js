@@ -120,7 +120,7 @@ window.translations = {
             customerInfoHelp: "We need your contact details to process your order and send you updates.",
             shippingInfo: "2. Your Delivery Destination",
             shippingInfoHelp: "Enter your delivery address where you'd like to receive your order.",
-            paymentMethod: "3. Secure Payment",
+            paymentMethod: "3. Your Payment Choice",
             paymentInfoHelp: "Choose how you'd like to pay. All payments are secure and encrypted.",
             orderReview: "Order Review",
             form: {
@@ -559,7 +559,7 @@ window.translations = {
             customerInfoHelp: "Nous avons besoin de vos coordonnées pour traiter votre commande et vous envoyer des mises à jour.",
             shippingInfo: "2. Votre Destination de Livraison",
             shippingInfoHelp: "Entrez votre adresse de livraison où vous souhaitez recevoir votre commande.",
-            paymentMethod: "3. Paiement 100% Sécurisé",
+            paymentMethod: "3. Votre Choix de Paiement",
             paymentInfoHelp: "Choisissez comment vous souhaitez payer. Tous les paiements sont sécurisés et cryptés.",
             orderReview: "Révision de la commande",
             form: {
@@ -992,7 +992,7 @@ window.translations = {
             customerInfoHelp: "نحتاج إلى بيانات الاتصال الخاصة بك لمعالجة طلبك وإرسال التحديثات إليك.",
             shippingInfo: "2. عنوان التوصيل الخاص بك",
             shippingInfoHelp: "أدخل عنوان التسليم حيث ترغب في استلام طلبك.",
-            paymentMethod: "3. دفع آمن ومضمون",
+            paymentMethod: "3. خيار الدفع الخاص بك",
             paymentInfoHelp: "اختر طريقة الدفع التي تفضلها. جميع المدفوعات آمنة ومشفرة.",
             orderReview: "مراجعة الطلب",
             form: {
