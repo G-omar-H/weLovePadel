@@ -14387,6 +14387,9 @@ html[dir="rtl"] .stars-display {
     /* Above line */
     background: white;
     /* Cover line behind */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .checkout-progress-sticky .progress-line {
