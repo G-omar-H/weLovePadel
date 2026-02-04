@@ -153,30 +153,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Step 3: Payment (always active when we reach payment section)
             const step3 = step1 && step2;
 
-            // Update step 1
+            // Update step 1 - Always active as start point
             const step1El = document.querySelector('.progress-step[data-step="1"]');
             if (step1El) {
+                step1El.classList.add('active'); // Always active
                 if (step1) {
-                    step1El.classList.add('active');
-                } else {
-                    step1El.classList.remove('active');
+                    step1El.classList.add('completed');
                 }
             }
 
-            // Update step 2
+            // Update step 2 - Active if Step 1 is complete
             const step2El = document.querySelector('.progress-step[data-step="2"]');
             if (step2El) {
-                if (step2) {
+                if (step1) {
                     step2El.classList.add('active');
                 } else {
                     step2El.classList.remove('active');
                 }
             }
 
-            // Update step 3
+            // Update step 3 - Active if Step 2 is complete
             const step3El = document.querySelector('.progress-step[data-step="3"]');
             if (step3El) {
-                if (step3) {
+                if (step2) {
                     step3El.classList.add('active');
                 } else {
                     step3El.classList.remove('active');
