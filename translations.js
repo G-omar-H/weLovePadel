@@ -331,7 +331,7 @@ window.translations = {
             addToCart: "Add to Cart",
             cta: {
                 title: "Ready to Win?",
-                subtitle: "Join the {brandName} elite community.",
+                subtitle: "Join the WeLovePadel elite community.",
                 button: "Shop Bestsellers"
             }
         },
@@ -764,7 +764,7 @@ window.translations = {
             addToCart: "Ajouter au Panier",
             cta: {
                 title: "Prêt à Gagner ?",
-                subtitle: "Rejoignez l'élite {brandName}.",
+                subtitle: "Rejoignez l'élite WeLovePadel.",
                 button: "Voir les Best-sellers"
             }
         },
@@ -1202,7 +1202,7 @@ window.translations = {
             addToCart: "أضف إلى السلة",
             cta: {
                 title: "مستعد للفوز؟",
-                subtitle: "انضم إلى نخبة {brandName}.",
+                subtitle: "انضم إلى نخبة WeLovePadel.",
                 button: "تسوق الأكثر مبيعاً"
             }
         },

@@ -2194,7 +2194,7 @@ html[dir="rtl"] .about-image::before {
 .products-cta {
     padding: var(--spacing-5xl) 0;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color) 100%);
-    color: white;
+    color: var(--primary-dark);
     text-align: center;
     position: relative;
     overflow: hidden;
