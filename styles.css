@@ -14390,6 +14390,10 @@ html[dir="rtl"] .stars-display {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    box-sizing: border-box;
 }
 
 .checkout-progress-sticky .progress-line {
