@@ -14401,3 +14401,34 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
     margin-left: 0;
     margin-right: 10px;
 }
+
+/* Responsive adjustments for sticky banner */
+@media (max-width: 480px) {
+    .checkout-progress-sticky {
+        gap: 10px;
+        padding: 8px 0;
+    }
+
+    .checkout-progress-sticky .progress-step.active {
+        padding: 0 5px;
+    }
+
+    .checkout-progress-sticky .progress-step.active .step-label {
+        font-size: 0.8rem;
+        margin-left: 6px;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .checkout-progress-sticky .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
+        margin-left: 0;
+        margin-right: 6px;
+    }
+}

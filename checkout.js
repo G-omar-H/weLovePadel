@@ -234,14 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+                        const navbar = document.querySelector('.navbar');
+                        const navHeight = navbar ? navbar.offsetHeight : 60;
+
+                        // Show sticky when the top of the original element is overlapped by the header
+                        // entry.boundingClientRect.top is distance of element top to viewport top
+                        // If element top is less than navHeight, it's sliding under the header
+                        if (entry.boundingClientRect.top < navHeight) {
                             stickyProgress.classList.add('visible');
                             updateStickyPosition(); // Set initial position
                         } else {
                             stickyProgress.classList.remove('visible');
                         }
                     });
-                }, { threshold: 0 });
+                }, { threshold: [0, 1], rootMargin: `-${document.querySelector('.navbar')?.offsetHeight || 60}px 0px 0px 0px` });
 
                 observer.observe(originalProgress);
 
