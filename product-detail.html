@@ -310,9 +310,7 @@
 
                     // Show confirmation
                     const currentLang = localStorage.getItem('language') || 'en';
-                    let msg = "All items for this product removed";
-                    if (currentLang === 'fr') msg = "Tous les articles de ce produit ont été retirés";
-                    if (currentLang === 'ar') msg = "تمت إزالة جميع العناصر لهذا المنتج";
+                    const msg = getTranslation('productDetail.itemsRemoved', currentLang) || 'All items for this product removed';
 
                     // Use existing notification system if available, or alert
                     if (typeof showSizeAddedNotification === 'function') {
@@ -952,7 +950,8 @@
                     // NEW UX DECISION (User Request): Reset Quantity to 1 after adding to cart
                     if (quantityInput) quantityInput.value = 1;
 
-                    showSizeAddedNotification(`${quantity}x Added to cart!`);
+                    const addedDesc = getTranslation('productDetail.addedToCart', currentLang) || '{quantity}x Added to cart!';
+                    showSizeAddedNotification(addedDesc.replace('{quantity}', quantity));
                 }
 
                 // Update Badges IMMEDIATELY

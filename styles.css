@@ -7802,7 +7802,7 @@ html[dir="rtl"] .checkout-item-details p {
     margin: 0 0 var(--spacing-md) 0;
     color: var(--text-dark);
     font-weight: 700;
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 50%, var(--primary-color) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -7952,7 +7952,7 @@ html[dir="rtl"] .checkout-item-details p {
     margin-top: var(--spacing-md);
     text-align: center;
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 50%, var(--primary-color) 100%);
     border-radius: 10px;
     color: white;
     font-weight: 700;
@@ -7989,7 +7989,7 @@ html[dir="rtl"] .checkout-item-details p {
 .step-number {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     color: white;
     border-radius: 50%;
     font-weight: 700;

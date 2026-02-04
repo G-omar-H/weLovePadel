@@ -436,6 +436,13 @@ window.translations = {
         shipping: {
             express: "Express Delivery",
             standard: "Standard Delivery"
+        },
+        productDetail: {
+            sizeAdded: "{quantity}x Size {size} added to cart!",
+            addedToCart: "{quantity}x Added to cart!",
+            itemsRemoved: "All items for this product removed",
+            sizeRequired: "Please select a size",
+            sizeRequiredCheckout: "Please select a size before checking out"
         }
     },
     fr: {
@@ -869,6 +876,13 @@ window.translations = {
         shipping: {
             express: "Livraison Express",
             standard: "Livraison Standard"
+        },
+        productDetail: {
+            sizeAdded: "{quantity}x Taille {size} ajoutée au panier !",
+            addedToCart: "{quantity}x Ajouté au panier !",
+            itemsRemoved: "Tous les articles de ce produit ont été retirés",
+            sizeRequired: "Veuillez sélectionner une taille",
+            sizeRequiredCheckout: "Veuillez sélectionner une taille avant de passer commande"
         }
     },
     ar: {
@@ -1305,6 +1319,13 @@ window.translations = {
         shipping: {
             express: "توصيل سريع",
             standard: "توصيل قياسي"
+        },
+        productDetail: {
+            sizeAdded: "تم إضافة {quantity}x مقاس {size} إلى السلة!",
+            addedToCart: "تم إضافة {quantity}x إلى السلة!",
+            itemsRemoved: "تمت إزالة جميع العناصر لهذا المنتج",
+            sizeRequired: "يرجى اختيار المقاس",
+            sizeRequiredCheckout: "يرجى اختيار المقاس قبل إتمام الطلب"
         }
     }
 };
