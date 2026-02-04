@@ -14498,19 +14498,18 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
     }
 
     .checkout-progress-sticky .step-number {
-        width: 28px !important;
-        height: 28px !important;
-        font-size: 0.8rem !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.85rem !important;
         border-width: 2px !important;
-        line-height: 0 !important;
-        /* Force no strut */
+        line-height: 1 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         padding: 0 !important;
         margin: 0 !important;
         border-radius: 50% !important;
-        /* Ensure circle */
+        box-sizing: border-box !important;
     }
 
     html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
