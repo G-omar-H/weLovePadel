@@ -224,10 +224,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.appendChild(stickyProgress);
 
                 // Observer to toggle sticky visibility
+                const updateStickyPosition = () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (navbar && stickyProgress.classList.contains('visible')) {
+                        const navHeight = navbar.offsetHeight;
+                        stickyProgress.style.top = `${navHeight}px`;
+                    }
+                };
+
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
                             stickyProgress.classList.add('visible');
+                            updateStickyPosition(); // Set initial position
                         } else {
                             stickyProgress.classList.remove('visible');
                         }
@@ -235,6 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, { threshold: 0 });
 
                 observer.observe(originalProgress);
+
+                // Update on resize
+                window.addEventListener('resize', updateStickyPosition);
+                // Optional: Update on scroll to catch any transition-based height changes
+                window.addEventListener('scroll', () => {
+                    if (stickyProgress.classList.contains('visible')) {
+                        updateStickyPosition();
+                    }
+                }, { passive: true });
             }
         }
 
