@@ -445,7 +445,9 @@
             const product = products[productId];
             const currentLang = localStorage.getItem('language') || 'en';
             const name = product.name[currentLang] || product.name.en;
+            const name = product.name[currentLang] || product.name.en;
             const description = product.description[currentLang] || product.description.en;
+            const backText = (typeof getTranslation === 'function') ? (getTranslation('productDetail.back', currentLang) || 'Back to Products') : 'Back to Products';
 
             // Handle variations - get selected variation from URL, or default
             let selectedVariationId = null;
@@ -664,7 +666,7 @@
                                 Add to Cart
                             </button>
                             `}
-                            <a href="products.html" class="btn btn-outline" data-i18n="productDetail.back">Back to Products</a>
+                            <a href="products.html" class="btn btn-outline" data-i18n="productDetail.back">${backText}</a>
                             
                             <!-- Shipping Information (Standard - for non-Atlas Star products) -->
                             ${productId !== 'atlas-star-cap' ? `
