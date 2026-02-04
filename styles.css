@@ -14329,10 +14329,12 @@ html[dir="rtl"] .stars-display {
     background-clip: border-box !important;
     -webkit-background-clip: border-box !important;
 }
+
 /* Sticky Checkout Progress */
 .checkout-progress-sticky {
     position: fixed;
-    top: 60px; /* Navbar height when scrolled */
+    top: 60px;
+    /* Navbar height when scrolled */
     left: 0;
     width: 100%;
     z-index: 999;
@@ -14346,7 +14348,7 @@ html[dir="rtl"] .stars-display {
     display: flex;
     justify-content: center;
     gap: 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .checkout-progress-sticky.visible {
@@ -14377,29 +14379,36 @@ html[dir="rtl"] .stars-display {
 }
 
 /* Enhanced Sticky Progress UX */
+/* Enhanced Sticky Progress UX - Vertical Layout */
 .checkout-progress-sticky .progress-step.active {
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     width: auto;
     max-width: none;
     padding: 0 10px;
+    height: auto;
 }
 
 .checkout-progress-sticky .progress-step.active .step-label {
     display: block;
-    margin-left: 10px;
-    font-size: 0.9rem;
-    font-weight: 700;
+    margin-left: 0;
+    margin-top: 4px;
+    /* Below the number */
+    font-size: 0.75rem;
+    /* Smaller font */
+    font-weight: 600;
     color: var(--primary-dark);
     white-space: nowrap;
     animation: fadeIn 0.3s ease;
+    text-align: center;
+    line-height: 1.2;
 }
 
-/* Hide "Step X:" part if possible or just keep it small. 
-   Since we can't easily remove text with CSS, we'll keep it as is but styled well. */
-   
+/* Hide "Step X:" part visually if needed, but styling small is effectively good enough */
+
 html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
     margin-left: 0;
-    margin-right: 10px;
+    margin-right: 0;
 }
 
 /* Responsive adjustments for sticky banner */
