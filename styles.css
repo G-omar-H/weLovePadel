@@ -14338,17 +14338,22 @@ html[dir="rtl"] .stars-display {
     left: 0;
     width: 100%;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 10px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.98);
+    /* Higher opacity for contrast */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 0;
+    /* Increased padding */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    /* Stronger shadow */
     transform: translateY(-150%);
     transition: transform 0.3s ease;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    gap: 30px;
+    /* Increased gap */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    /* Distinct border */
 }
 
 .checkout-progress-sticky.visible {
@@ -14374,8 +14379,8 @@ html[dir="rtl"] .stars-display {
 }
 
 .checkout-progress-sticky .progress-line {
-    max-width: 40px;
-    margin: 0 5px;
+    display: none;
+    /* Hide lines for cleaner look */
 }
 
 /* Enhanced Sticky Progress UX */
@@ -14414,18 +14419,19 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
 /* Responsive adjustments for sticky banner */
 @media (max-width: 480px) {
     .checkout-progress-sticky {
-        gap: 10px;
-        padding: 8px 0;
+        gap: 15px;
+        padding: 10px 0;
     }
 
     .checkout-progress-sticky .progress-step.active {
-        padding: 0 5px;
+        padding: 0 8px;
     }
 
     .checkout-progress-sticky .progress-step.active .step-label {
-        font-size: 0.8rem;
-        margin-left: 6px;
-        max-width: 120px;
+        font-size: 0.7rem;
+        margin-left: 0;
+        margin-top: 3px;
+        max-width: 100px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -14438,6 +14444,6 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
 
     html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
         margin-left: 0;
-        margin-right: 6px;
+        margin-right: 0;
     }
 }
