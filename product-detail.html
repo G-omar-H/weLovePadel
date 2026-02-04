@@ -445,7 +445,7 @@
             const product = products[productId];
             const currentLang = localStorage.getItem('language') || 'en';
             const name = product.name[currentLang] || product.name.en;
-            const name = product.name[currentLang] || product.name.en;
+
             const description = product.description[currentLang] || product.description.en;
             const backText = (typeof getTranslation === 'function') ? (getTranslation('productDetail.back', currentLang) || 'Back to Products') : 'Back to Products';
 
