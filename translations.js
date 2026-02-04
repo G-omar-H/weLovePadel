@@ -315,9 +315,8 @@ window.translations = {
             subtitle: "Professional Equipment for Padel Addicts",
             filter: {
                 all: "All Products",
-                classic: "Rackets",
-                heritage: "Accessories",
-                modern: "Gear"
+                rackets: "Rackets",
+                accessories: "Accessories"
             },
             badge: {
                 bestseller: "Bestseller",
@@ -761,9 +760,8 @@ window.translations = {
             subtitle: "Équipement Professionnel pour les Passionnés de Padel",
             filter: {
                 all: "Tous les Produits",
-                classic: "Raquettes",
-                heritage: "Accessoires",
-                modern: "Équipement"
+                rackets: "Raquettes",
+                accessories: "Accessoires"
             },
             badge: {
                 bestseller: "Meilleure Vente",
@@ -1212,9 +1210,8 @@ window.translations = {
             variations: "النسخ",
             filter: {
                 all: "كل المنتجات",
-                classic: "مضارب",
-                heritage: "إكسسوارات",
-                modern: "معدات"
+                rackets: "مضارب",
+                accessories: "إكسسوارات"
             },
             badge: {
                 bestseller: "الأكثر مبيعاً",
