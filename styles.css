@@ -14403,24 +14403,31 @@ html[dir="rtl"] .stars-display {
 
 /* Enhanced Sticky Progress UX */
 /* Enhanced Sticky Progress UX - Vertical Layout */
+/* Enhanced Sticky Progress UX - Vertical Layout */
 .checkout-progress-sticky .progress-step.active {
     flex-direction: column;
     justify-content: center;
     width: auto;
     max-width: none;
     padding: 0 15px;
-    /* Same as others */
     height: auto;
+    position: relative;
+    /* Anchor for absolute label */
 }
 
 .checkout-progress-sticky .progress-step.active .step-label {
     display: block;
+    position: absolute;
+    top: 100%;
+    /* Position below the step number */
+    left: 50%;
+    transform: translateX(-50%);
     margin-left: 0;
     margin-top: 8px;
     /* Bigger gap */
-    /* Below the number */
+    width: max-content;
+    /* Ensure text doesn't wrap awkwardly */
     font-size: 0.75rem;
-    /* Smaller font */
     font-weight: 600;
     color: var(--primary-dark);
     white-space: nowrap;
