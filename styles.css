@@ -5714,7 +5714,7 @@ html[dir="rtl"] .product-detail-features li::before {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     color: white;
     padding: var(--spacing-md) var(--spacing-xl);
     border-radius: 12px;
@@ -7742,7 +7742,7 @@ html[dir="rtl"] .checkout-item-details p {
     /* Larger icon */
     height: 120px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 50%, var(--primary-color) 100%);
     color: white;
     display: flex;
     align-items: center;
