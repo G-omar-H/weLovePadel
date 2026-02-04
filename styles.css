@@ -8209,7 +8209,7 @@ html[dir="rtl"] .checkout-item-details p {
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-dark) 100%);
     color: white;
     border-radius: 50%;
     font-weight: 700;
