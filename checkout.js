@@ -153,10 +153,33 @@ document.addEventListener('DOMContentLoaded', () => {
             // Step 3: Payment (always active when we reach payment section)
             const step3 = step1 && step2;
 
+            // Helper to enforce styles
+            const setActiveStyle = (el) => {
+                if (!el) return;
+                el.classList.add('active');
+                const num = el.querySelector('.step-number');
+                if (num) {
+                    num.style.setProperty('color', '#000000', 'important');
+                    num.style.setProperty('-webkit-text-fill-color', '#000000', 'important');
+                    num.style.setProperty('background-clip', 'border-box', 'important');
+                }
+            };
+
+            const removeActiveStyle = (el) => {
+                if (!el) return;
+                el.classList.remove('active');
+                const num = el.querySelector('.step-number');
+                if (num) {
+                    num.style.removeProperty('color');
+                    num.style.removeProperty('-webkit-text-fill-color');
+                    num.style.removeProperty('background-clip');
+                }
+            };
+
             // Update step 1 - Always active as start point
             const step1El = document.querySelector('.progress-step[data-step="1"]');
             if (step1El) {
-                step1El.classList.add('active'); // Always active
+                setActiveStyle(step1El); // Always active
                 if (step1) {
                     step1El.classList.add('completed');
                 }
@@ -166,9 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const step2El = document.querySelector('.progress-step[data-step="2"]');
             if (step2El) {
                 if (step1) {
-                    step2El.classList.add('active');
+                    setActiveStyle(step2El);
                 } else {
-                    step2El.classList.remove('active');
+                    removeActiveStyle(step2El);
                 }
             }
 
@@ -176,9 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const step3El = document.querySelector('.progress-step[data-step="3"]');
             if (step3El) {
                 if (step2) {
-                    step3El.classList.add('active');
+                    setActiveStyle(step3El);
                 } else {
-                    step3El.classList.remove('active');
+                    removeActiveStyle(step3El);
                 }
             }
         }
