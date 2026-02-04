@@ -14447,7 +14447,8 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
 @media (max-width: 480px) {
     .checkout-progress-sticky {
         gap: 0;
-        padding: 10px 0;
+        padding: 10px 0 30px 0;
+        /* Bottom padding for label on mobile */
     }
 
     .checkout-progress-sticky .progress-step {
