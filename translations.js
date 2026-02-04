@@ -446,7 +446,9 @@ window.translations = {
             shippingInfo: {
                 free: "Free Shipping",
                 deliveryTime: "1-2 Days"
-            }
+            },
+            buyNow: "Order Now",
+            cashOnDelivery: "💵 Pay on Delivery"
         }
     },
     fr: {
@@ -890,7 +892,9 @@ window.translations = {
             shippingInfo: {
                 free: "Livraison Gratuite",
                 deliveryTime: "1-2 Jours"
-            }
+            },
+            buyNow: "Commander Maintenant",
+            cashOnDelivery: "💵 Paiement à la Livraison"
         }
     },
     ar: {
@@ -1337,7 +1341,9 @@ window.translations = {
             shippingInfo: {
                 free: "توصيل مجاني",
                 deliveryTime: "1-2 أيام"
-            }
+            },
+            buyNow: "اطلب الآن",
+            cashOnDelivery: "💵 الدفع عند الاستلام"
         }
     }
 };
