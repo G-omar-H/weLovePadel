@@ -8158,7 +8158,7 @@ html[dir="rtl"] .checkout-item-details p {
 .delivery-total {
     text-align: center;
     padding: var(--spacing-sm);
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
     border-radius: 8px;
     color: white;
     font-weight: 700;
