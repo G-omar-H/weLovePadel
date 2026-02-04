@@ -14375,3 +14375,29 @@ html[dir="rtl"] .stars-display {
     max-width: 40px;
     margin: 0 5px;
 }
+
+/* Enhanced Sticky Progress UX */
+.checkout-progress-sticky .progress-step.active {
+    flex-direction: row;
+    width: auto;
+    max-width: none;
+    padding: 0 10px;
+}
+
+.checkout-progress-sticky .progress-step.active .step-label {
+    display: block;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    white-space: nowrap;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Hide "Step X:" part if possible or just keep it small. 
+   Since we can't easily remove text with CSS, we'll keep it as is but styled well. */
+   
+html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
+    margin-left: 0;
+    margin-right: 10px;
+}
