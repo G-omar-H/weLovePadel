@@ -7738,19 +7738,21 @@ html[dir="rtl"] .checkout-item-details p {
 }
 
 .confirmation-icon {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    /* Larger icon */
+    height: 120px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, var(--accent-color) 100%);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 700;
     margin: 0 auto var(--spacing-lg);
     animation: scaleInBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 8px rgba(0, 0, 0, 0.05);
+    /* Softer outer ring */
     position: relative;
 }
 
@@ -7976,9 +7978,12 @@ html[dir="rtl"] .checkout-item-details p {
 }
 
 .next-step-item:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: white;
     border-left-color: var(--primary-color);
-    transform: translateX(4px);
+    transform: translateY(-3px);
+    /* Lift up */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    /* Add shadow */
 }
 
 .step-number {
