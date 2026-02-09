@@ -14519,3 +14519,13 @@ html[dir="rtl"] .checkout-progress-sticky .progress-step.active .step-label {
         margin-right: 0;
     }
 }
+/* RTL Hero Overlay Fix */
+html[dir="rtl"] .hero::after {
+    display: none !important;
+    content: none !important;
+}
+
+html[dir="rtl"] .hero::before {
+    filter: none !important;
+    opacity: 1 !important;
+}
