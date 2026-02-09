@@ -14529,3 +14529,9 @@ html[dir="rtl"] .hero::before {
     filter: none !important;
     opacity: 1 !important;
 }
+
+/* Fix Add to Cart Button Hover Text Color */
+.product-detail-actions .btn-secondary:hover,
+.btn-secondary:hover {
+    color: var(--primary-dark) !important;
+}
