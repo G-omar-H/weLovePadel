@@ -478,7 +478,7 @@
 
                 imageGalleryHTML = `
                     <div class="product-image-gallery" id="productImageGallery">
-                        <div class="product-main-image" onclick="openImageZoom('${product.images[0].path}', '${product.images[0].extension}')">
+                        <div class="product-main-image" onclick="openImageZoom('${formatProductImageUrl(mainImage.path, mainImage.extension).src}', '${formatProductImageUrl(mainImage.path, mainImage.extension).webp}')">
                             <picture>
                                 <source srcset="${formatProductImageUrl(mainImage.path, mainImage.extension).webp}" type="image/webp">
                                 <img id="mainProductImage" src="${formatProductImageUrl(mainImage.path, mainImage.extension).src}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -515,7 +515,7 @@
                 const mainImage = productImages[0];
                 const mainImageAlt = mainImage.alt ? (mainImage.alt[currentLang] || mainImage.alt.en || name) : name;
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${mainImage.path}', '${mainImage.extension}')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${formatProductImageUrl(mainImage.path, mainImage.extension).src}', '${formatProductImageUrl(mainImage.path, mainImage.extension).webp}')">
                         <picture>
                             <source srcset="${formatProductImageUrl(mainImage.path, mainImage.extension).webp}" type="image/webp">
                             <img src="${formatProductImageUrl(mainImage.path, mainImage.extension).src}" alt="${mainImageAlt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -535,7 +535,7 @@
             } else {
                 // Single image fallback
                 imageGalleryHTML = `
-                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${product.image}', '${product.imageExtension || 'jpeg'}')">
+                    <div class="product-detail-image" id="productImageGallery" onclick="openImageZoom('${formatProductImageUrl(product.image, product.imageExtension).src}', '${formatProductImageUrl(product.image, product.imageExtension).webp}')">
                         <picture>
                             <source srcset="${formatProductImageUrl(product.image, product.imageExtension).webp}" type="image/webp">
                             <img src="${formatProductImageUrl(product.image, product.imageExtension).src}" alt="${name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
