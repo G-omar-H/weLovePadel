@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Analytics Dashboard - StoreName</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -235,8 +238,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
         }
 
         .auto-refresh-indicator {
@@ -422,11 +434,11 @@
                 text-align: center;
                 gap: 12px;
             }
-            
+
             .logs-link-arrow {
                 transform: rotate(90deg);
             }
-            
+
             .logs-link-card:hover .logs-link-arrow {
                 transform: rotate(90deg) translateX(4px);
             }
@@ -552,7 +564,8 @@
         /* Tables */
         .data-table {
             width: 100%;
-            min-width: 400px; /* Ensures table can scroll on small screens */
+            min-width: 400px;
+            /* Ensures table can scroll on small screens */
             border-collapse: collapse;
         }
 
@@ -612,12 +625,29 @@
             transition: width 0.3s ease;
         }
 
-        .progress-bar.blue { background: var(--accent-blue); }
-        .progress-bar.green { background: var(--accent-green); }
-        .progress-bar.yellow { background: var(--accent-yellow); }
-        .progress-bar.purple { background: var(--accent-purple); }
-        .progress-bar.cyan { background: var(--accent-cyan); }
-        .progress-bar.red { background: var(--accent-primary); }
+        .progress-bar.blue {
+            background: var(--accent-blue);
+        }
+
+        .progress-bar.green {
+            background: var(--accent-green);
+        }
+
+        .progress-bar.yellow {
+            background: var(--accent-yellow);
+        }
+
+        .progress-bar.purple {
+            background: var(--accent-purple);
+        }
+
+        .progress-bar.cyan {
+            background: var(--accent-cyan);
+        }
+
+        .progress-bar.red {
+            background: var(--accent-primary);
+        }
 
         .progress-value {
             width: 50px;
@@ -641,7 +671,8 @@
             gap: 4px;
             height: 120px;
             padding: 0 10px;
-            min-width: 500px; /* Ensures chart can scroll on small screens */
+            min-width: 500px;
+            /* Ensures chart can scroll on small screens */
         }
 
         .hourly-bar {
@@ -803,10 +834,25 @@
             text-align: center;
         }
 
-        .log-method.GET { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
-        .log-method.POST { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
-        .log-method.PUT { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
-        .log-method.DELETE { background: rgba(200, 16, 46, 0.2); color: var(--accent-primary); }
+        .log-method.GET {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+        }
+
+        .log-method.POST {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .log-method.PUT {
+            background: rgba(234, 179, 8, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .log-method.DELETE {
+            background: rgba(200, 16, 46, 0.2);
+            color: var(--accent-primary);
+        }
 
         .log-path {
             color: var(--text-primary);
@@ -822,9 +868,20 @@
             text-align: center;
         }
 
-        .log-status.success { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
-        .log-status.redirect { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
-        .log-status.error { background: rgba(200, 16, 46, 0.2); color: var(--accent-primary); }
+        .log-status.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+        }
+
+        .log-status.redirect {
+            background: rgba(234, 179, 8, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .log-status.error {
+            background: rgba(200, 16, 46, 0.2);
+            color: var(--accent-primary);
+        }
 
         .log-time {
             color: var(--text-secondary);
@@ -943,7 +1000,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* ============================================
@@ -955,7 +1014,7 @@
             .main-content {
                 padding: 32px 48px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(6, 1fr);
             }
@@ -973,7 +1032,7 @@
             .content-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -984,100 +1043,101 @@
             .header {
                 padding: 12px 16px;
             }
-            
+
             .header-content {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 12px;
             }
-            
+
             .header-title h1 {
                 font-size: 1.1rem;
             }
-            
+
             .header-controls {
                 flex-wrap: wrap;
                 justify-content: space-between;
             }
-            
+
             .live-indicator {
                 order: -1;
                 flex: 1;
             }
-            
-            .period-select, .refresh-btn {
+
+            .period-select,
+            .refresh-btn {
                 flex: 1;
                 min-width: 120px;
             }
-            
+
             .main-content {
                 padding: 16px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
-            
+
             .stat-card {
                 padding: 16px;
             }
-            
+
             .stat-value {
                 font-size: 1.5rem;
             }
-            
+
             .stat-label {
                 font-size: 0.75rem;
             }
-            
+
             .card-header {
                 padding: 12px 16px;
             }
-            
+
             .card-body {
                 padding: 16px;
             }
-            
+
             .card-title {
                 font-size: 0.9rem;
             }
-            
+
             .hourly-chart {
                 height: 100px;
                 padding: 0 5px;
             }
-            
+
             .hourly-bar::after {
                 display: none;
             }
-            
+
             .hourly-bar:nth-child(6n)::after {
                 display: block;
                 font-size: 0.55rem;
             }
-            
+
             .log-entry {
                 grid-template-columns: 80px 50px 1fr 60px 70px 60px;
                 gap: 8px;
                 padding: 8px 12px;
                 font-size: 0.75rem;
             }
-            
+
             .logs-filters {
                 padding: 12px 16px;
             }
-            
+
             .filter-input {
                 flex: 1;
                 min-width: 100px;
             }
-            
+
             .tabs {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
             }
-            
+
             .tab {
                 padding: 10px 16px;
                 font-size: 0.85rem;
@@ -1091,106 +1151,107 @@
                 padding: 24px;
                 margin: 16px;
             }
-            
+
             .login-card h1 {
                 font-size: 1.25rem;
             }
-            
+
             .login-input {
                 padding: 12px 14px;
             }
-            
+
             .header-title {
                 justify-content: center;
             }
-            
+
             .header-controls {
                 justify-content: center;
                 gap: 8px;
             }
-            
+
             .live-indicator {
                 flex: 0 0 auto;
                 padding: 6px 12px;
                 font-size: 0.8rem;
             }
-            
-            .period-select, .refresh-btn {
+
+            .period-select,
+            .refresh-btn {
                 flex: 0 0 auto;
                 padding: 8px 12px;
                 font-size: 0.85rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
-            
+
             .stat-card {
                 padding: 14px;
             }
-            
+
             .stat-value {
                 font-size: 1.35rem;
             }
-            
+
             .stat-change {
                 font-size: 0.7rem;
             }
-            
+
             .content-grid {
                 gap: 16px;
             }
-            
+
             .card {
                 margin-bottom: 16px !important;
             }
-            
+
             .hourly-chart {
                 height: 80px;
                 gap: 2px;
             }
-            
+
             .data-table th,
             .data-table td {
                 padding: 10px 12px;
                 font-size: 0.8rem;
             }
-            
+
             .online-item {
                 padding: 10px;
                 gap: 10px;
             }
-            
+
             .online-avatar {
                 width: 32px;
                 height: 32px;
                 font-size: 0.8rem;
             }
-            
+
             .online-page {
                 font-size: 0.8rem;
                 max-width: 150px;
             }
-            
+
             .online-meta {
                 font-size: 0.7rem;
             }
-            
+
             .online-duration {
                 font-size: 0.75rem;
             }
-            
+
             .progress-label {
                 width: 80px;
                 font-size: 0.75rem;
             }
-            
+
             .progress-value {
                 width: 40px;
                 font-size: 0.75rem;
             }
-            
+
             .log-entry {
                 display: flex;
                 flex-direction: column;
@@ -1198,41 +1259,59 @@
                 padding: 12px;
                 border-left: 3px solid var(--accent-blue);
             }
-            
-            .log-entry > div {
+
+            .log-entry>div {
                 display: flex;
                 align-items: center;
             }
-            
-            .log-entry > div::before {
+
+            .log-entry>div::before {
                 content: attr(data-label);
                 width: 70px;
                 font-size: 0.65rem;
                 color: var(--text-muted);
                 text-transform: uppercase;
             }
-            
-            .log-timestamp { order: 1; }
-            .log-method { order: 2; width: auto; }
-            .log-path { 
-                order: 3; 
-                white-space: normal; 
+
+            .log-timestamp {
+                order: 1;
+            }
+
+            .log-method {
+                order: 2;
+                width: auto;
+            }
+
+            .log-path {
+                order: 3;
+                white-space: normal;
                 word-break: break-all;
             }
-            .log-status { order: 4; width: auto; }
-            .log-time { order: 5; text-align: left; }
-            .log-browser { order: 6; }
-            
+
+            .log-status {
+                order: 4;
+                width: auto;
+            }
+
+            .log-time {
+                order: 5;
+                text-align: left;
+            }
+
+            .log-browser {
+                order: 6;
+            }
+
             /* Hide log header on mobile */
             .log-entry[style*="font-weight: 600"] {
                 display: none;
             }
-            
+
             .pagination {
                 flex-wrap: wrap;
                 gap: 8px;
             }
-            
+
             .pagination-btn {
                 padding: 10px 14px;
                 font-size: 0.8rem;
@@ -1244,84 +1323,84 @@
             body {
                 font-size: 14px;
             }
-            
+
             .login-card {
                 padding: 20px;
                 border-radius: 8px;
             }
-            
+
             .login-card h1 {
                 font-size: 1.15rem;
             }
-            
+
             .login-card p {
                 font-size: 0.85rem;
             }
-            
+
             .header {
                 padding: 10px 12px;
             }
-            
+
             .header-title .logo {
                 width: 28px;
                 height: 28px;
                 font-size: 1rem;
             }
-            
+
             .header-title h1 {
                 font-size: 1rem;
             }
-            
+
             .main-content {
                 padding: 12px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
             }
-            
+
             .stat-card {
                 padding: 12px;
                 border-radius: 8px;
             }
-            
+
             .stat-label {
                 font-size: 0.7rem;
                 gap: 4px;
             }
-            
+
             .stat-value {
                 font-size: 1.2rem;
             }
-            
+
             .stat-change {
                 font-size: 0.65rem;
             }
-            
+
             .card {
                 border-radius: 8px;
             }
-            
+
             .card-header {
                 padding: 10px 12px;
             }
-            
+
             .card-title {
                 font-size: 0.85rem;
                 gap: 6px;
             }
-            
+
             .card-body {
                 padding: 12px;
             }
-            
+
             /* Scroll containers with hints - only in active dashboard */
             .dashboard.active .chart-scroll-container,
             .dashboard.active .table-scroll-container {
                 position: relative;
             }
-            
+
             .dashboard.active .chart-scroll-container::before,
             .dashboard.active .table-scroll-container::before {
                 content: '← Scroll horizontally →';
@@ -1333,100 +1412,100 @@
                 font-size: 0.7rem;
                 border-bottom: 1px solid var(--border-color);
             }
-            
+
             .hourly-chart {
                 height: 60px;
                 gap: 1px;
                 padding: 0;
             }
-            
+
             .hourly-bar {
                 border-radius: 2px 2px 0 0;
             }
-            
+
             .data-table th,
             .data-table td {
                 padding: 8px 10px;
                 font-size: 0.75rem;
             }
-            
+
             .data-table td[style*="max-width"] {
                 max-width: 120px !important;
             }
-            
+
             .online-list {
                 max-height: 200px;
             }
-            
+
             .online-item {
                 padding: 8px;
                 gap: 8px;
             }
-            
+
             .online-avatar {
                 width: 28px;
                 height: 28px;
                 font-size: 0.7rem;
             }
-            
+
             .online-page {
                 font-size: 0.75rem;
                 max-width: 100px;
             }
-            
+
             .tabs {
                 gap: 0;
             }
-            
+
             .tab {
                 padding: 8px 12px;
                 font-size: 0.8rem;
             }
-            
+
             .progress-row {
                 padding: 6px 0;
                 gap: 8px;
             }
-            
+
             .progress-label {
                 width: 60px;
                 font-size: 0.7rem;
             }
-            
+
             .progress-bar-container {
                 height: 6px;
             }
-            
+
             .progress-value {
                 width: 35px;
                 font-size: 0.7rem;
             }
-            
+
             .logs-filters {
                 padding: 10px 12px;
                 gap: 8px;
             }
-            
+
             .filter-input {
                 padding: 8px 10px;
                 font-size: 0.8rem;
                 min-width: 0;
                 flex: 1 1 calc(50% - 4px);
             }
-            
+
             .log-entry {
                 padding: 10px;
                 font-size: 0.7rem;
             }
-            
+
             .empty-state {
                 padding: 24px 16px;
             }
-            
+
             .empty-state-icon {
                 font-size: 2rem;
             }
-            
+
             /* Pages list mobile */
             .page-item {
                 flex-direction: column;
@@ -1434,37 +1513,37 @@
                 gap: 8px;
                 padding: 10px 12px;
             }
-            
+
             .page-name {
                 font-size: 0.8rem;
             }
-            
+
             .page-meta {
                 font-size: 0.7rem;
                 gap: 6px 10px;
             }
-            
+
             .page-views {
                 width: 100%;
                 justify-content: space-between;
             }
-            
+
             .page-views .count {
                 font-size: 0.85rem;
             }
-            
+
             .pages-pagination {
                 flex-wrap: wrap;
                 gap: 8px;
             }
-            
+
             .pages-pagination .pagination-btn {
                 flex: 1;
                 min-width: 70px;
                 padding: 8px 10px;
                 font-size: 0.75rem;
             }
-            
+
             /* Logs link card */
             .logs-link-card {
                 flex-direction: column;
@@ -1472,15 +1551,15 @@
                 padding: 16px;
                 gap: 12px;
             }
-            
+
             .logs-link-icon {
                 font-size: 2rem;
             }
-            
+
             .logs-link-content h3 {
                 font-size: 1rem;
             }
-            
+
             .logs-link-content p {
                 font-size: 0.8rem;
             }
@@ -1491,136 +1570,137 @@
             .login-screen {
                 padding: 12px;
             }
-            
+
             .login-card {
                 padding: 16px;
             }
-            
+
             .login-card h1 {
                 font-size: 1.1rem;
             }
-            
+
             .login-input {
                 padding: 10px 12px;
                 font-size: 0.9rem;
             }
-            
+
             .login-btn {
                 padding: 12px;
                 font-size: 0.9rem;
             }
-            
+
             .header-title h1 {
                 font-size: 0.9rem;
             }
-            
+
             .live-indicator {
                 padding: 5px 10px;
                 font-size: 0.75rem;
             }
-            
+
             .live-dot {
                 width: 6px;
                 height: 6px;
             }
-            
-            .period-select, .refresh-btn {
+
+            .period-select,
+            .refresh-btn {
                 padding: 6px 10px;
                 font-size: 0.8rem;
             }
-            
+
             .stats-grid {
                 gap: 6px;
             }
-            
+
             .stat-card {
                 padding: 10px;
             }
-            
+
             .stat-label {
                 font-size: 0.65rem;
                 margin-bottom: 4px;
             }
-            
+
             .stat-value {
                 font-size: 1rem;
             }
-            
+
             .stat-change {
                 margin-top: 4px;
                 font-size: 0.6rem;
             }
-            
+
             .card-header {
                 padding: 8px 10px;
             }
-            
+
             .card-title {
                 font-size: 0.8rem;
             }
-            
+
             .card-body {
                 padding: 10px;
             }
-            
+
             .hourly-chart {
                 height: 50px;
             }
-            
+
             .data-table th,
             .data-table td {
                 padding: 6px 8px;
                 font-size: 0.7rem;
             }
-            
+
             .data-table td[style*="max-width"] {
                 max-width: 80px !important;
             }
-            
+
             .online-avatar {
                 width: 24px;
                 height: 24px;
                 font-size: 0.6rem;
             }
-            
+
             .online-page {
                 max-width: 80px;
                 font-size: 0.7rem;
             }
-            
+
             .online-meta {
                 font-size: 0.6rem;
             }
-            
+
             .online-duration {
                 font-size: 0.65rem;
             }
-            
+
             .tab {
                 padding: 6px 10px;
                 font-size: 0.75rem;
             }
-            
+
             .progress-label {
                 width: 50px;
                 font-size: 0.65rem;
             }
-            
+
             .progress-value {
                 width: 30px;
                 font-size: 0.65rem;
             }
-            
+
             .filter-input {
                 padding: 6px 8px;
                 font-size: 0.75rem;
             }
-            
+
             .pagination-btn {
                 padding: 8px 12px;
                 font-size: 0.75rem;
             }
-            
+
             #logsInfo {
                 font-size: 0.7rem;
             }
@@ -1631,27 +1711,29 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .stat-card {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 padding: 8px 12px;
             }
-            
+
             .stat-value {
                 font-size: 1.1rem;
             }
-            
+
             .stat-change {
                 display: none;
             }
-            
+
             .header-controls {
                 flex-direction: column;
             }
-            
-            .live-indicator, .period-select, .refresh-btn {
+
+            .live-indicator,
+            .period-select,
+            .refresh-btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -1662,29 +1744,29 @@
             .stat-card:hover {
                 transform: none;
             }
-            
+
             .hourly-bar:hover {
                 background: var(--accent-blue);
             }
-            
+
             .log-entry:hover {
                 background: transparent;
             }
-            
+
             .online-item:hover {
                 background: transparent;
             }
-            
+
             /* Larger touch targets */
             .tab {
                 min-height: 44px;
             }
-            
+
             .pagination-btn {
                 min-height: 44px;
                 min-width: 44px;
             }
-            
+
             .filter-input {
                 min-height: 40px;
             }
@@ -1695,38 +1777,39 @@
             .login-screen {
                 padding: 10px;
             }
-            
+
             .login-card {
                 padding: 16px 24px;
             }
-            
+
             .header {
                 padding: 8px 16px;
             }
-            
+
             .main-content {
                 padding: 12px 16px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(6, 1fr);
             }
-            
+
             .stat-card {
                 padding: 8px;
             }
-            
+
             .stat-value {
                 font-size: 1rem;
             }
-            
+
             .hourly-chart {
                 height: 60px;
             }
         }
 
         /* High DPI / Retina Display */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) {
             .hourly-bar {
                 border-radius: 2px 2px 0 0;
             }
@@ -1737,14 +1820,14 @@
             .live-dot {
                 animation: none;
             }
-            
+
             .stat-card,
             .hourly-bar,
             .progress-bar,
             .login-btn {
                 transition: none;
             }
-            
+
             .loading-spinner {
                 animation: none;
                 opacity: 0.5;
@@ -1761,7 +1844,7 @@
             .header {
                 position: relative;
             }
-            
+
             .refresh-btn,
             .period-select,
             .logs-filters,
@@ -1769,11 +1852,11 @@
             .live-indicator {
                 display: none;
             }
-            
+
             .card {
                 break-inside: avoid;
             }
-            
+
             body {
                 background: white;
                 color: black;
@@ -1781,6 +1864,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
@@ -1960,7 +2044,8 @@
 
             <!-- Orders Dashboard Link -->
             <div class="card logs-link-section" style="margin-top: 16px;">
-                <a href="orders-dashboard.html" class="logs-link-card" style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.1) 100%);">
+                <a href="orders-dashboard.html" class="logs-link-card"
+                    style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.1) 100%);">
                     <div class="logs-link-icon">📦</div>
                     <div class="logs-link-content">
                         <h3>Orders Dashboard</h3>
@@ -1972,11 +2057,25 @@
 
             <!-- Business Insights Link -->
             <div class="card logs-link-section" style="margin-top: 16px;">
-                <a href="business-insights.html" class="logs-link-card" style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 175, 55, 0.1) 100%);">
+                <a href="business-insights.html" class="logs-link-card"
+                    style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 175, 55, 0.1) 100%);">
                     <div class="logs-link-icon">📈</div>
                     <div class="logs-link-content">
                         <h3>Business Insights</h3>
                         <p>Comprehensive KPIs, revenue analytics, conversion funnels, and customer insights</p>
+                    </div>
+                    <div class="logs-link-arrow">→</div>
+                </a>
+            </div>
+
+            <!-- Reviews Dashboard Link -->
+            <div class="card logs-link-section" style="margin-top: 16px;">
+                <a href="reviews-dashboard.html" class="logs-link-card"
+                    style="background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 215, 0, 0.1) 100%);">
+                    <div class="logs-link-icon">⭐</div>
+                    <div class="logs-link-content">
+                        <h3>Reviews Dashboard</h3>
+                        <p>Manage customer reviews, ratings, and feedback moderation</p>
                     </div>
                     <div class="logs-link-arrow">→</div>
                 </a>
@@ -2067,7 +2166,7 @@
         // Load Summary Data
         async function loadSummary() {
             const data = await apiRequest('/analytics/summary', { period: currentPeriod });
-            
+
             // Update stats
             document.getElementById('statOnline').textContent = data.realtime.online;
             document.getElementById('onlineCount').textContent = data.realtime.online;
@@ -2113,7 +2212,7 @@
             const container = document.getElementById('hourlyChart');
             const max = Math.max(...hourlyViews, 1);
             const currentHour = new Date().getHours();
-            
+
             container.innerHTML = hourlyViews.map((views, hour) => {
                 const height = (views / max) * 100;
                 const isCurrentHour = hour === currentHour;
@@ -2124,10 +2223,10 @@
         // Convert URL path to readable page name
         function getPageName(path) {
             if (!path || path === '/') return '🏠 Home';
-            
+
             // Remove query parameters
             const cleanPath = path.split('?')[0];
-            
+
             // Map known pages to friendly names
             const pageNames = {
                 '/': '🏠 Home',
@@ -2142,39 +2241,39 @@
                 '/terms.html': '📜 Terms & Conditions',
                 '/analytics-dashboard.html': '📊 Analytics Dashboard'
             };
-            
+
             // Check for exact match
             if (pageNames[cleanPath]) {
                 return pageNames[cleanPath];
             }
-            
+
             // Extract page name from path (remove .html and format)
             let pageName = cleanPath.replace(/^\//, '').replace(/\.html$/, '');
-            
+
             // Convert kebab-case to Title Case
             pageName = pageName
                 .split('-')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ');
-            
+
             return pageName || '🏠 Home';
         }
 
         function renderAllPages() {
             const container = document.getElementById('allPagesList');
             const pageCountEl = document.getElementById('pageCount');
-            
+
             if (allPagesData.length === 0) {
                 container.innerHTML = '<div class="empty-state">No pages visited yet</div>';
                 pageCountEl.textContent = '0 pages';
                 document.getElementById('pagesPagination').style.display = 'none';
                 return;
             }
-            
+
             // Group pages by clean path name (aggregate same pages with different query params)
             const aggregatedPages = {};
             const pageTimestamps = {};
-            
+
             allPagesData.forEach(page => {
                 const pageName = getPageName(page.path);
                 if (aggregatedPages[pageName]) {
@@ -2184,21 +2283,21 @@
                     pageTimestamps[pageName] = page.timestamp || new Date().toISOString();
                 }
             });
-            
+
             // Convert to array and sort by views (most recent first)
             const sortedPages = Object.entries(aggregatedPages)
                 .map(([name, views]) => ({ name, views, timestamp: pageTimestamps[name] }))
                 .sort((a, b) => b.views - a.views);
-            
+
             const totalPages = sortedPages.length;
             pageCountEl.textContent = `${totalPages} page${totalPages !== 1 ? 's' : ''}`;
-            
+
             // Pagination
             const totalPagesCount = Math.ceil(totalPages / PAGES_PER_PAGE);
             const start = pagesPage * PAGES_PER_PAGE;
             const end = start + PAGES_PER_PAGE;
             const paginatedPages = sortedPages.slice(start, end);
-            
+
             container.innerHTML = paginatedPages.map((page, index) => `
                 <div class="page-item">
                     <div class="page-info">
@@ -2213,7 +2312,7 @@
                     </div>
                 </div>
             `).join('');
-            
+
             // Update pagination
             const paginationEl = document.getElementById('pagesPagination');
             if (totalPagesCount > 1) {
@@ -2225,7 +2324,7 @@
                 paginationEl.style.display = 'none';
             }
         }
-        
+
         // Pages Pagination Event Listeners
         document.getElementById('prevPages').addEventListener('click', () => {
             if (pagesPage > 0) {
@@ -2233,7 +2332,7 @@
                 renderAllPages();
             }
         });
-        
+
         document.getElementById('nextPages').addEventListener('click', () => {
             const totalPagesCount = Math.ceil(allPagesData.length / PAGES_PER_PAGE);
             if (pagesPage < totalPagesCount - 1) {
@@ -2345,10 +2444,10 @@
             // Clear any existing intervals
             if (refreshInterval) clearInterval(refreshInterval);
             if (countdownInterval) clearInterval(countdownInterval);
-            
+
             countdown = 30;
             updateCountdown();
-            
+
             // Countdown timer
             countdownInterval = setInterval(() => {
                 countdown--;
@@ -2357,20 +2456,20 @@
                 }
                 updateCountdown();
             }, 1000);
-            
+
             // Full data refresh every 5 seconds
             refreshInterval = setInterval(() => {
                 loadAllData();
             }, REFRESH_INTERVAL);
         }
-        
+
         function updateCountdown() {
             const countdownEl = document.getElementById('refreshCountdown');
             if (countdownEl) {
                 countdownEl.textContent = countdown;
             }
         }
-        
+
         function stopAutoRefresh() {
             if (refreshInterval) clearInterval(refreshInterval);
             if (countdownInterval) clearInterval(countdownInterval);
@@ -2392,5 +2491,5 @@
         }
     </script>
 </body>
-</html>
 
+</html>

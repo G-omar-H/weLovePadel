@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Server Logs - StoreName</title>
     <link rel="icon" type="image/png" href="./assets/icons/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -219,8 +222,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
         }
 
         .refresh-btn {
@@ -270,11 +282,25 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .stat-mini-value.success { color: var(--accent-green); }
-        .stat-mini-value.redirect { color: var(--accent-yellow); }
-        .stat-mini-value.client-error { color: var(--accent-orange); }
-        .stat-mini-value.server-error { color: var(--accent-red); }
-        .stat-mini-value.total { color: var(--accent-blue); }
+        .stat-mini-value.success {
+            color: var(--accent-green);
+        }
+
+        .stat-mini-value.redirect {
+            color: var(--accent-yellow);
+        }
+
+        .stat-mini-value.client-error {
+            color: var(--accent-orange);
+        }
+
+        .stat-mini-value.server-error {
+            color: var(--accent-red);
+        }
+
+        .stat-mini-value.total {
+            color: var(--accent-blue);
+        }
 
         .stat-mini-label {
             font-size: 0.75rem;
@@ -363,7 +389,8 @@
 
         .logs-table {
             width: 100%;
-            min-width: 900px; /* Ensure table has minimum width for horizontal scroll */
+            min-width: 900px;
+            /* Ensure table has minimum width for horizontal scroll */
             border-collapse: collapse;
         }
 
@@ -416,10 +443,25 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .status-badge.s2xx { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
-        .status-badge.s3xx { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
-        .status-badge.s4xx { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
-        .status-badge.s5xx { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .status-badge.s2xx {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        .status-badge.s3xx {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .status-badge.s4xx {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .status-badge.s5xx {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
 
         /* Method Badge */
         .method-badge {
@@ -431,12 +473,35 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .method-badge.GET { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
-        .method-badge.POST { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
-        .method-badge.PUT { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
-        .method-badge.DELETE { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
-        .method-badge.OPTIONS { background: rgba(139, 92, 246, 0.15); color: var(--accent-primary); }
-        .method-badge.HEAD { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .method-badge.GET {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .method-badge.POST {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        .method-badge.PUT {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .method-badge.DELETE {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        .method-badge.OPTIONS {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .method-badge.HEAD {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+        }
 
         /* Path Cell */
         .path-cell {
@@ -485,9 +550,17 @@
             font-size: 0.8rem;
         }
 
-        .response-time.fast { color: var(--accent-green); }
-        .response-time.medium { color: var(--accent-yellow); }
-        .response-time.slow { color: var(--accent-red); }
+        .response-time.fast {
+            color: var(--accent-green);
+        }
+
+        .response-time.medium {
+            color: var(--accent-yellow);
+        }
+
+        .response-time.slow {
+            color: var(--accent-red);
+        }
 
         /* Pagination */
         .pagination {
@@ -763,7 +836,7 @@
         }
 
         /* Responsive - Mobile First Approach */
-        
+
         /* Large screens */
         @media (max-width: 1200px) {
             .path-cell {
@@ -1126,6 +1199,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
@@ -1152,6 +1226,7 @@
                     <a href="server-logs.html" class="nav-link active">📋 Logs</a>
                     <a href="orders-dashboard.html" class="nav-link">📦 Orders</a>
                     <a href="business-insights.html" class="nav-link">📈 Insights</a>
+                    <a href="reviews-dashboard.html" class="nav-link">⭐ Reviews</a>
                 </nav>
                 <div class="header-controls">
                     <div class="live-indicator">
@@ -1200,7 +1275,8 @@
                 <div class="filters-row">
                     <div class="filter-group">
                         <span class="filter-label">Search Path</span>
-                        <input type="text" class="filter-input search" id="filterPath" placeholder="e.g., /api, /checkout, .js">
+                        <input type="text" class="filter-input search" id="filterPath"
+                            placeholder="e.g., /api, /checkout, .js">
                     </div>
                     <div class="filter-group">
                         <span class="filter-label">Method</span>
@@ -1318,7 +1394,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Toast notification -->
     <div class="toast" id="toast">Copied to clipboard!</div>
 
@@ -1393,9 +1469,9 @@
                 const data = await apiRequest('/analytics/logs', { limit: 5000, offset: 0 });
                 allLogs = data.logs || [];
                 totalLogs = data.total || allLogs.length;
-                
+
                 document.getElementById('totalLogs').textContent = formatNumber(totalLogs);
-                
+
                 applyFiltersAndSort();
                 updateStats();
             } catch (error) {
@@ -1422,10 +1498,10 @@
             filteredLogs = allLogs.filter(log => {
                 // Path filter
                 if (pathFilter && !log.path.toLowerCase().includes(pathFilter)) return false;
-                
+
                 // Method filter
                 if (methodFilter && log.method !== methodFilter) return false;
-                
+
                 // Status filter
                 if (statusFilter) {
                     if (statusFilter === '2xx' && (log.statusCode < 200 || log.statusCode >= 300)) return false;
@@ -1434,7 +1510,7 @@
                     if (statusFilter === '5xx' && log.statusCode < 500) return false;
                     if (!isNaN(parseInt(statusFilter)) && log.statusCode !== parseInt(statusFilter)) return false;
                 }
-                
+
                 // Time filter
                 if (timeFilter) {
                     const rt = log.responseTime || 0;
@@ -1442,10 +1518,10 @@
                     if (timeFilter === 'medium' && (rt < 100 || rt > 500)) return false;
                     if (timeFilter === 'slow' && rt <= 500) return false;
                 }
-                
+
                 // Browser filter
                 if (browserFilter && log.browser !== browserFilter) return false;
-                
+
                 return true;
             });
 
@@ -1453,12 +1529,12 @@
             filteredLogs.sort((a, b) => {
                 let aVal = a[sortField];
                 let bVal = b[sortField];
-                
+
                 if (sortField === 'timestamp') {
                     aVal = new Date(aVal).getTime();
                     bVal = new Date(bVal).getTime();
                 }
-                
+
                 if (sortOrder === 'desc') {
                     return bVal > aVal ? 1 : -1;
                 } else {
@@ -1495,8 +1571,8 @@
             document.getElementById('stat3xx').textContent = formatNumber(stats.s3xx);
             document.getElementById('stat4xx').textContent = formatNumber(stats.s4xx);
             document.getElementById('stat5xx').textContent = formatNumber(stats.s5xx);
-            document.getElementById('statAvgTime').textContent = stats.total > 0 
-                ? Math.round(stats.totalTime / stats.total) + 'ms' 
+            document.getElementById('statAvgTime').textContent = stats.total > 0
+                ? Math.round(stats.totalTime / stats.total) + 'ms'
                 : '0ms';
         }
 
@@ -1523,13 +1599,13 @@
                     if (log.countryCode) locationParts.push(log.countryCode);
                     const locationText = locationParts.length > 0 ? locationParts.join(', ') : (log.ip || 'Unknown');
                     const locationTitle = [log.city, log.region, log.country, log.isp].filter(Boolean).join(' • ') || log.ip;
-                    
+
                     return `
                     <tr onclick="showLogDetail('${log.id}')">
                         <td class="time-cell">${formatTimestamp(log.timestamp)}</td>
                         <td><span class="method-badge ${log.method}">${log.method}</span></td>
                         <td class="path-cell" title="${escapeHtml(log.path)}">${escapeHtml(log.path)}</td>
-                        <td><span class="status-badge s${Math.floor(log.statusCode/100)}xx">${log.statusCode}</span></td>
+                        <td><span class="status-badge s${Math.floor(log.statusCode / 100)}xx">${log.statusCode}</span></td>
                         <td class="response-time ${getResponseClass(log.responseTime)}">${log.responseTime}ms</td>
                         <td class="location-cell" title="${escapeHtml(locationTitle)}">
                             ${log.countryCode ? `<span class="country-flag">${getCountryFlag(log.countryCode)}</span>` : ''}
@@ -1538,13 +1614,14 @@
                         <td>${log.browser || 'Unknown'}</td>
                         <td>${log.device || 'Unknown'}</td>
                     </tr>
-                `;}).join('');
+                `;
+                }).join('');
             }
 
             // Update pagination
-            document.getElementById('paginationInfo').textContent = 
+            document.getElementById('paginationInfo').textContent =
                 `Showing ${start + 1}-${end} of ${formatNumber(filteredLogs.length)} logs`;
-            
+
             document.getElementById('firstPage').disabled = currentPage === 0;
             document.getElementById('prevPage').disabled = currentPage === 0;
             document.getElementById('nextPage').disabled = end >= filteredLogs.length;
@@ -1565,7 +1642,7 @@
             document.getElementById('modalMethod').className = `method-badge ${log.method}`;
             document.getElementById('modalMethod').textContent = log.method;
             document.getElementById('modalPath').textContent = log.path;
-            
+
             // Reset copy button
             const copyBtn = document.getElementById('copyLogBtn');
             copyBtn.classList.remove('copied');
@@ -1586,7 +1663,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-item-label">Status Code</div>
-                            <div class="detail-item-value"><span class="status-badge s${Math.floor(log.statusCode/100)}xx">${log.statusCode} ${getStatusText(log.statusCode)}</span></div>
+                            <div class="detail-item-value"><span class="status-badge s${Math.floor(log.statusCode / 100)}xx">${log.statusCode} ${getStatusText(log.statusCode)}</span></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-item-label">Response Time</div>
@@ -1713,14 +1790,14 @@
             const date = new Date(ts);
             const today = new Date();
             const isToday = date.toDateString() === today.toDateString();
-            
+
             if (isToday) {
                 return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             }
-            return date.toLocaleString('en-US', { 
-                month: 'short', 
+            return date.toLocaleString('en-US', {
+                month: 'short',
                 day: 'numeric',
-                hour: '2-digit', 
+                hour: '2-digit',
                 minute: '2-digit'
             });
         }
@@ -1765,12 +1842,12 @@
         function formatLogForCopy(log) {
             const lines = [];
             const divider = '─'.repeat(60);
-            
+
             lines.push('╔' + '═'.repeat(60) + '╗');
             lines.push('║  SERVER LOG DETAILS');
             lines.push('╚' + '═'.repeat(60) + '╝');
             lines.push('');
-            
+
             // Request Overview
             lines.push('📋 REQUEST OVERVIEW');
             lines.push(divider);
@@ -1780,14 +1857,14 @@
             lines.push(`Response Time: ${log.responseTime}ms`);
             lines.push(`Source:        ${log.source || 'api'}`);
             lines.push('');
-            
+
             // URL
             lines.push('🌐 URL');
             lines.push(divider);
             const fullUrl = log.fullUrl || log.path;
             lines.push(fullUrl);
             lines.push('');
-            
+
             // Query Parameters
             if (log.query && Object.keys(log.query).length > 0) {
                 lines.push('🔍 QUERY PARAMETERS');
@@ -1797,7 +1874,7 @@
                 });
                 lines.push('');
             }
-            
+
             // Location
             lines.push('📍 LOCATION');
             lines.push(divider);
@@ -1806,7 +1883,7 @@
             lines.push(`ISP/Network:   ${log.isp || 'Unknown'}`);
             lines.push(`IP Address:    ${log.ip || 'Unknown'}`);
             lines.push('');
-            
+
             // Client Information
             lines.push('👤 CLIENT INFORMATION');
             lines.push(divider);
@@ -1816,13 +1893,13 @@
             lines.push(`Visitor ID:    ${log.visitorId || 'Unknown'}`);
             lines.push(`Referer:       ${log.referer || 'Direct'}`);
             lines.push('');
-            
+
             // User Agent
             lines.push('📱 USER AGENT');
             lines.push(divider);
             lines.push(log.userAgent || 'Unknown');
             lines.push('');
-            
+
             // Request Headers
             if (log.requestHeaders && Object.keys(log.requestHeaders).length > 0) {
                 lines.push('📨 REQUEST HEADERS');
@@ -1832,7 +1909,7 @@
                 });
                 lines.push('');
             }
-            
+
             // Request Body
             if (log.requestBody) {
                 lines.push('📦 REQUEST BODY');
@@ -1844,7 +1921,7 @@
                 }
                 lines.push('');
             }
-            
+
             // Error
             if (log.error) {
                 lines.push('❌ ERROR');
@@ -1852,51 +1929,51 @@
                 lines.push(log.error);
                 lines.push('');
             }
-            
+
             // Log ID
             lines.push('🔑 LOG ID');
             lines.push(divider);
             lines.push(log.id);
             lines.push('');
-            
+
             // JSON (for technical use)
             lines.push('📄 RAW JSON');
             lines.push(divider);
             lines.push(JSON.stringify(log, null, 2));
-            
+
             return lines.join('\n');
         }
 
         // Copy log to clipboard
         async function copyLogToClipboard() {
             if (!currentLogData) return;
-            
+
             const text = formatLogForCopy(currentLogData);
             const copyBtn = document.getElementById('copyLogBtn');
             const toast = document.getElementById('toast');
-            
+
             try {
                 await navigator.clipboard.writeText(text);
-                
+
                 // Update button
                 copyBtn.classList.add('copied');
                 copyBtn.querySelector('.copy-icon').textContent = '✓';
                 copyBtn.querySelector('.copy-text').textContent = 'Copied!';
-                
+
                 // Show toast
                 toast.classList.add('show');
-                
+
                 // Reset after 2 seconds
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 2000);
-                
+
                 setTimeout(() => {
                     copyBtn.classList.remove('copied');
                     copyBtn.querySelector('.copy-icon').textContent = '📋';
                     copyBtn.querySelector('.copy-text').textContent = 'Copy';
                 }, 3000);
-                
+
             } catch (err) {
                 console.error('Failed to copy:', err);
                 // Fallback for older browsers
@@ -1908,11 +1985,11 @@
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                
+
                 copyBtn.classList.add('copied');
                 copyBtn.querySelector('.copy-text').textContent = 'Copied!';
                 toast.classList.add('show');
-                
+
                 setTimeout(() => {
                     toast.classList.remove('show');
                     copyBtn.classList.remove('copied');
@@ -2007,5 +2084,5 @@
         });
     </script>
 </body>
-</html>
 
+</html>
